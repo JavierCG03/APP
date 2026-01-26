@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CarslineApp.Views.Buscador.ClientesPage"
+             x:Name="RootPage"
+             Title="Clientes"
+             NavigationPage.HasBackButton="True"
+             NavigationPage.HasNavigationBar="True"
+             BackgroundColor="#F8F9FA">
+
+    <Grid RowDefinitions="*,Auto">
+
+        <ScrollView Grid.Row="0">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <!-- HEADER CLIENTE -->
+                <Frame BackgroundColor="White"
+                       Padding="20"
+                       CornerRadius="15"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="15">
+
+                        <!-- Placas (Modo Normal) -->
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Spacing="2" Grid.Column="0">
+                                <Label Text="{Binding Cliente.NombreCompleto}"
+                                      FontSize="22"
+                                      FontAttributes="Bold"
+                                      TextColor="#1A1A1A"/>
+                                <Label Text="Cliente"
+                                       FontSize="14"
+                                       TextColor="#666"/>
+                            </VerticalStackLayout>
+                            
+                            <ImageButton Grid.Column="1"
+                                        Command="{Binding EditarClienteCommand}"
+                                        IsVisible="{Binding MostrarBotonEditar}"
+                                        Source="editar.png"
+                                        BackgroundColor="Transparent"
+                                        WidthRequest="40"
+                                        HeightRequest="40"/>
+                        </Grid>
+
+                        <BoxView HeightRequest="2" BackgroundColor="#E9ECEF"/>
+
+                        <!-- INFORMACIÓN PERSONAL -->
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="📋 INFORMACIÓN PERSONAL"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#D60000"/>
+
+                            <!-- RFC -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="RFC"
+                                       FontSize="12"
+                                       TextColor="#666"/>
+                                <Entry Text="{Binding RFC}"
+                                       IsEnabled="{Binding ModoEdicion}"
+                                       FontSize="14"
+                                       BackgroundColor="#F8F9FA"
+                                       TextColor="#1A1A1A"/>
+                            </VerticalStackLayout>
+
+                            <!-- Teléfono Móvil -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Teléfono Móvil *"
+                                       FontSize="12"
+                                       TextColor="#666"/>
+                                <Entry Text="{Binding TelefonoMovil}"
+                                       IsEnabled="{Binding ModoEdicion}"
+                                       Keyboard="Telephone"
+                                       FontSize="14"
+                                       BackgroundColor="#F8F9FA"
+                                       TextColor="#1A1A1A"/>
+                            </VerticalStackLayout>
+
+                            <!-- Teléfono Casa -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Teléfono Casa"
+                                       FontSize="12"
+                                       TextColor="#666"/>
+                                <Entry Text="{Binding TelefonoCasa}"
+                                       IsEnabled="{Binding ModoEdicion}"
+                                       Keyboard="Telephone"
+                                       FontSize="14"
+                                       BackgroundColor="#F8F9FA"
+                                       TextColor="#1A1A1A"/>
+                            </VerticalStackLayout>
+
+                            <!-- Correo Electrónico -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Correo Electrónico"
+                                       FontSize="12"
+                                       TextColor="#666"/>
+                                <Entry Text="{Binding CorreoElectronico}"
+                                       IsEnabled="{Binding ModoEdicion}"
+                                       Keyboard="Email"
+                                       FontSize="14"
+                                       BackgroundColor="#F8F9FA"
+                                       TextColor="#1A1A1A"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+
+                        <BoxView HeightRequest="2" BackgroundColor="#E9ECEF"/>
+
+                        <!-- DIRECCIÓN -->
+                        <VerticalStackLayout Spacing="15">
+                            <Label Text="📍 DIRECCIÓN"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#D60000"/>
+
+                            <!-- Calle y Número -->
+                            <Grid ColumnDefinitions="2*,*" ColumnSpacing="10">
+                                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                    <Label Text="Calle"
+                                           FontSize="12"
+                                           TextColor="#666"/>
+                                    <Entry Text="{Binding Calle}"
+                                           IsEnabled="{Binding ModoEdicion}"
+                                           FontSize="14"
+                                           BackgroundColor="#F8F9FA"
+                                           TextColor="#1A1A1A"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Label Text="No. Ext"
+                                           FontSize="12"
+                                           TextColor="#666"/>
+                                    <Entry Text="{Binding NumeroExterior}"
+                                           IsEnabled="{Binding ModoEdicion}"
+                                           FontSize="14"
+                                           BackgroundColor="#F8F9FA"
+                                           TextColor="#1A1A1A"/>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Colonia -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Colonia"
+                                       FontSize="12"
+                                       TextColor="#666"/>
+                                <Entry Text="{Binding Colonia}"
+                                       IsEnabled="{Binding ModoEdicion}"
+                                       FontSize="14"
+                                       BackgroundColor="#F8F9FA"
+                                       TextColor="#1A1A1A"/>
+                            </VerticalStackLayout>
+
+                            <!-- Municipio y CP -->
+                            <Grid ColumnDefinitions="2*,*" ColumnSpacing="10">
+                                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                                    <Label Text="Municipio"
+                                           FontSize="12"
+                                           TextColor="#666"/>
+                                    <Entry Text="{Binding Municipio}"
+                                           IsEnabled="{Binding ModoEdicion}"
+                                           FontSize="14"
+                                           BackgroundColor="#F8F9FA"
+                                           TextColor="#1A1A1A"/>
+                                </VerticalStackLayout>
+
+                                <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                    <Label Text="C.P."
+                                           FontSize="12"
+                                           TextColor="#666"/>
+                                    <Entry Text="{Binding CodigoPostal}"
+                                           IsEnabled="{Binding ModoEdicion}"
+                                           Keyboard="Numeric"
+                                           FontSize="14"
+                                           BackgroundColor="#F8F9FA"
+                                           TextColor="#1A1A1A"/>
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Estado -->
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="Estado"
+                                       FontSize="12"
+                                       TextColor="#666"/>
+                                <Entry Text="{Binding Estado}"
+                                       IsEnabled="{Binding ModoEdicion}"
+                                       FontSize="14"
+                                       BackgroundColor="#F8F9FA"
+                                       TextColor="#1A1A1A"/>
+                            </VerticalStackLayout>
+                        </VerticalStackLayout>
+
+                        <!-- Botones de Edición -->
+                        <Grid ColumnDefinitions="*,*"
+                              ColumnSpacing="10"
+                              IsVisible="{Binding MostrarBotonesEdicion}">
+                            <Button Grid.Column="0"
+                                   Text="💾 Guardar"
+                                   Command="{Binding GuardarCambiosCommand}"
+                                   BackgroundColor="#4CAF50"
+                                   TextColor="White"
+                                   CornerRadius="8"/>
+                            <Button Grid.Column="1"
+                                   Text="❌ Cancelar"
+                                   Command="{Binding CancelarEdicionCommand}"
+                                   BackgroundColor="#757575"
+                                   TextColor="White"
+                                   CornerRadius="8"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- VEHÍCULOS DEL CLIENTE -->
+                <Frame BackgroundColor="White"
+                       Padding="20"
+                       CornerRadius="15"
+                       HasShadow="True">
+                    <VerticalStackLayout Spacing="15">
+                        <Label Text="🚗 VEHÍCULOS"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#1A1A1A"/>
+
+                        <BoxView HeightRequest="2" BackgroundColor="#E9ECEF"/>
+
+                        <!-- Lista de Vehículos -->
+                        <VerticalStackLayout BindableLayout.ItemsSource="{Binding VehiculosCliente}"
+                                            Spacing="10">
+                            <BindableLayout.EmptyView>
+                                <Label Text="📭 No hay vehículos registrados para este cliente"
+                                       TextColor="#999"
+                                       FontSize="14"
+                                       HorizontalOptions="Center"
+                                       Margin="0,20"/>
+                            </BindableLayout.EmptyView>
+
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="#F8F9FA"
+                                           Padding="15"
+                                           CornerRadius="10"
+                                           HasShadow="False"
+                                           BorderColor="#E9ECEF">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer 
+                                                Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.VerVehiculoCommand}"
+                                                CommandParameter="{Binding Id}"/>
+                                        </Frame.GestureRecognizers>
+
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                                            <Frame Grid.Column="0"
+                                                   BackgroundColor="#2196F3"
+                                                   Padding="10"
+                                                   CornerRadius="8"
+                                                   HasShadow="False"
+                                                   WidthRequest="50"
+                                                   HeightRequest="50">
+                                                <Label Text="🚗"
+                                                       FontSize="24"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Frame>
+
+                                            <VerticalStackLayout Grid.Column="1" Spacing="5">
+                                                <Label Text="{Binding VehiculoCompleto}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold"
+                                                       TextColor="#1A1A1A"/>
+                                                <Label FontSize="12"
+                                                       TextColor="#666">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Placas: "/>
+                                                            <Span Text="{Binding Placas}"
+                                                                  FontAttributes="Bold"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label FontSize="11"
+                                                       TextColor="#999">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="VIN: ..."/>
+                                                            <Span Text="{Binding Ultimos4VIN}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </VerticalStackLayout>
+
+                                            <Label Grid.Column="2"
+                                                   Text="→"
+                                                   FontSize="20"
+                                                   TextColor="#2196F3"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Loading Overlay -->
+        <Frame Grid.Row="0"
+               IsVisible="{Binding IsLoading}"
+               BackgroundColor="#80000000"
+               Padding="40"
+               CornerRadius="20"
+               HorizontalOptions="Center"
+               VerticalOptions="Center">
+            <VerticalStackLayout Spacing="15">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   Color="White"
+                                   WidthRequest="50"
+                                   HeightRequest="50"/>
+                <Label Text="Cargando..."
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Error Message -->
+        <Frame Grid.Row="1"
+               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+               BackgroundColor="#FFF3CD"
+               BorderColor="#FFC107"
+               Padding="15"
+               Margin="20,0,20,20"
+               CornerRadius="10">
+            <Label Text="{Binding ErrorMessage}"
+                   TextColor="#856404"
+                   FontSize="14"/>
+        </Frame>
+    </Grid>
+</ContentPage>

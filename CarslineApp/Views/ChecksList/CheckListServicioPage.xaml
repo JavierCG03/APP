@@ -1,0 +1,2155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CarslineApp.Views.CheckListServicioPage"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto,*">
+
+
+        <Frame Grid.Row="0" BackgroundColor="#C62828" CornerRadius="5">
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Grid.Column="0"
+                        Text="{Binding Trabajo}"                     
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        TextColor="White"/>
+                <Label Grid.Column="1"
+                        Text="{Binding Orden, StringFormat='📋 {0}'}"
+                        FontSize="15"
+                        HorizontalOptions="End"
+                        TextColor="White"/>
+            </Grid>
+        </Frame>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <Label Text="Checklist de Servicio"
+                       FontSize="20"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+                
+                <Grid ColumnDefinitions="93,*">
+                    <Label Text="Vehiculo:"
+                       TextColor="#C62828"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+                    <Label Grid.Column="1"
+                       Text="{Binding Vehiculo}"
+                       FontSize="15"
+                       VerticalOptions="End"
+                       HorizontalOptions="Start"/>
+
+                </Grid>
+
+                <Grid ColumnDefinitions="42,*">
+                    <Label Text="VIN:"
+                       TextColor="#C62828"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+                    <Label Grid.Column="1"
+                       Text="{Binding VehiculoVIN}"
+                       FontSize="15"
+                       VerticalOptions="End"
+                       HorizontalOptions="Start"/>
+
+                </Grid>
+                
+                <!--Sistema de Direccion-->
+                <Frame Padding="10"
+                   BackgroundColor="White"
+                   BorderColor="#C62828"
+                   HasShadow="True"
+                   CornerRadius="10">
+
+                    <VerticalStackLayout Spacing="10">
+                        <Border BackgroundColor="#C62828"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="8">
+                            <Label Text="⚙️ Sistema de Dirección"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White"/>
+                        </Border>
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Buen estado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="Vida media"
+                               FontAttributes="Bold"
+                               TextColor="#FFA000"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="3"
+                               Text="Atención urgente"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+                    
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Bieletas"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="Bieletas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="Bieletas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="Bieletas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+                    
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Terminales"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="Terminales"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="Terminales"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="Terminales"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+                    
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Caja de Direccion"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="CajaDireccion"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="CajaDireccion"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="CajaDireccion"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Volante"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="Volante"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="Volante"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="Volante"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Frame
+                            BackgroundColor="#FFEBEE"
+                            Padding="8"
+                            HasShadow="False"
+                            BorderColor="#D32F2F" 
+                            CornerRadius="6">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💬 Comentarios sobre el estado de la Direccion del Vehiculo"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="#C62828"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 6">
+                                    <Editor Text="{Binding ComentariosDireccion}"
+                                        Placeholder="Ej... El vehiculo tiene una fuga de aceite en la caja de direccion.."
+                                        FontSize="13"
+                                        TextColor="#404040"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+                <!--Sistema de Suspension-->
+                <Frame Padding="10"
+                   BorderColor="#C62828"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   CornerRadius="10">
+
+                    <VerticalStackLayout Spacing="10">
+                        
+                        <Border BackgroundColor="#C62828"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="8">
+                            <Label Text="⚙️ Sistema de Suspension"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White"/>
+                        </Border>
+
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Buen estado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="Vida media"
+                               FontAttributes="Bold"
+                               TextColor="#FFA000"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="3"
+                               Text="Atención urgente"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Amortiguadores Delanteros"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="AmortiguadoresDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="AmortiguadoresDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="AmortiguadoresDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Amortiguadores Traseros"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="AmortiguadoresTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="AmortiguadoresTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="AmortiguadoresTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Barra Estabilizadora"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="BarraEstabilizadora"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="BarraEstabilizadora"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="BarraEstabilizadora"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Horquillas"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="Horquillas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="Horquillas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="Horquillas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+                        
+                        <Frame
+                            BackgroundColor="#FFEBEE"
+                            Padding="8"
+                            HasShadow="False"
+                            BorderColor="#D32F2F" 
+                            CornerRadius="6">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💬 Comentarios sobre el estado de la Suspencion del Vehiculo"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="#C62828"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 6">
+                                    <Editor Text="{Binding ComentariosSuspension}"
+                                        Placeholder="Ej... El amortiguador delantero derecho tiene fuga de aceite .."
+                                        FontSize="13"
+                                        TextColor="#404040"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+                <!--Sistema de Frenado-->
+                <Frame Padding="10"
+                   BorderColor="#C62828"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   CornerRadius="10">
+
+                    <VerticalStackLayout Spacing="10">
+                        <Border BackgroundColor="#C62828"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="8">
+                            <Label Text="⚙️ Sistema de Frenado"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White"/>
+                        </Border>
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Buen estado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="Vida media"
+                               FontAttributes="Bold"
+                               TextColor="#FFA000"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="3"
+                               Text="Atención urgente"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Discos/Tambores Delanteros"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="DiscosTamboresDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="DiscosTamboresDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="DiscosTamboresDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Discos/Tambores Traseros"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="DiscosTamboresTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="DiscosTamboresTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="DiscosTamboresTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Label Grid.Column="0"
+                               Text="Vida Util de Balatas"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Mas de 8mm"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        
+                            <Label Grid.Column="2"
+                               Text="(5mm-7mm)"
+                               FontAttributes="Bold"
+                               TextColor="#FFA000"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="3"
+                               Text="(3mm-4mm)"
+                               FontAttributes="Bold"
+                               TextColor="#FFA000"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="4"
+                               Text="(1mm-2mm)"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+                        <!-- Selector de Balatas Delanteras -->
+                        <Grid ColumnDefinitions="*,*,*,*,*" VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   Text="Balatas Delanteras"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"/>
+                            <RadioButton Grid.Column="1"
+                                         Value="Mas de 8mm"
+                                         GroupName="BalatasDelanteras"
+                                         CheckedChanged="BalatasDelanteras_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="2"
+                                         Value="5mm-7mm"
+                                         GroupName="BalatasDelanteras"
+                                         CheckedChanged="BalatasDelanteras_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="3"
+                                         Value="3mm-4mm"
+                                         GroupName="BalatasDelanteras"
+                                         CheckedChanged="BalatasDelanteras_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="4"
+                                         Value="1mm-2mm"
+                                         GroupName="BalatasDelanteras"
+                                         CheckedChanged="BalatasDelanteras_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                        </Grid>
+                        <!-- ✅ SECCIÓN DE EVIDENCIA DE BALATAS DELANTERAS -->
+                        <Frame BackgroundColor="#FFEBEE"
+                               Padding="12"
+                               HasShadow="False"
+                               BorderColor="#C62828"
+                               CornerRadius="8"
+                               IsVisible="{Binding MostrarEvidenciaBalatasDelanteras}">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📸 Evidencia del Estado de Balatas Delanteras"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#C62828"
+                                       HorizontalOptions="Center"/>
+
+                                <CollectionView ItemsSource="{Binding EvidenciasBalatasDelanteras}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Margin="0,5"
+                                                   Padding="10"
+                                                   BackgroundColor="White"
+                                                   BorderColor="#C62828"
+                                                   CornerRadius="8">
+                                                <Grid RowDefinitions="Auto,Auto"
+                                                      ColumnDefinitions="*,Auto,Auto"
+                                                      ColumnSpacing="10"
+                                                      RowSpacing="10">
+
+                                                    <!-- Descripción de la evidencia -->
+                                                    <Label Grid.Row="0" Grid.Column="0"
+                                                           Text="{Binding Descripcion}"
+                                                           FontSize="13"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center"/>
+
+                                                    <!-- Botón Cámara -->
+                                                    <ImageButton Grid.Row="0" Grid.Column="1"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TomarFotoCommand}"
+                                                                 CommandParameter="BalatasDelanteras"
+                                                                 Source="camara.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+
+                                                    <!-- Botón Galería -->
+                                                    <ImageButton Grid.Row="0" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SeleccionarImagenCommand}"
+                                                                 CommandParameter="BalatasDelanteras"
+                                                                 Source="importar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+ 
+                                                     <!-- Preview de la imagen -->
+                                                    <Frame Grid.Row="1" Grid.ColumnSpan="2"
+                                                       Margin="0,5,0,0"
+                                                       Padding="0"
+                                                       BackgroundColor="Transparent"
+                                                       IsVisible="{Binding TieneImagen}"
+                                                       CornerRadius="8"
+                                                       BorderColor="#E0E0E0">
+                                                    <Image Source="{Binding ImagenPreview}"
+                                                           Aspect="AspectFit"
+                                                           HeightRequest="150">
+                                                        <Image.GestureRecognizers>
+                                                            <!-- ✅ CORRECTO -->
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                                                  Path=BindingContext.VerImagenCommand}"
+                                                                CommandParameter="{Binding ImagenPreview}" />
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
+                                                </Frame>
+
+                                                    <!-- Botón Eliminar (solo se muestra si hay imagen) -->
+                                                    <ImageButton Grid.Row="1" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarEvidenciaCommand}"
+                                                                 CommandParameter="{Binding .}"
+                                                                 IsVisible="{Binding TieneImagen}"
+                                                                 Source="borrar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"
+                                                                 VerticalOptions="End"/>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Frame>
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*,*,*" VerticalOptions="Center" IsVisible="{Binding MostrarEvidenciaBalatasDelanteras}">
+
+                            <Label Grid.Column="1"
+                               Text="Mas de 8mm"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="(5mm-7mm)"
+                               FontAttributes="Bold"
+                               TextColor="#FFA000"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="3"
+                               Text="(3mm-4mm)"
+                               FontAttributes="Bold"
+                               TextColor="#FFA000"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="4"
+                               Text="(1mm-2mm)"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+
+                        <!-- Selector de Balatas Traseras -->
+                        <Grid ColumnDefinitions="*,*,*,*,*" VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   Text="Balatas Traseras"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   VerticalOptions="Center"/>
+                            <RadioButton Grid.Column="1"
+                                         Value="Mas de 8mm"
+                                         GroupName="BalatasTraseras"
+                                         CheckedChanged="BalatasTraseras_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="2"
+                                         Value="5mm-7mm"
+                                         GroupName="BalatasTraseras"
+                                         CheckedChanged="BalatasTraseras_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="3"
+                                         Value="3mm-4mm"
+                                         GroupName="BalatasTraseras"
+                                         CheckedChanged="BalatasTraseras_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="4"
+                                         Value="1mm-2mm"
+                                         GroupName="BalatasTraseras"
+                                         CheckedChanged="BalatasTraseras_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <!-- ✅ SECCIÓN DE EVIDENCIA DE BALATAS -->
+                        <!-- Se muestra automáticamente cuando MostrarEvidenciaBalatas = true -->
+                        <Frame BackgroundColor="#FFEBEE"
+                               Padding="12"
+                               HasShadow="False"
+                               BorderColor="#C62828"
+                               CornerRadius="8"
+                               IsVisible="{Binding MostrarEvidenciaBalatasTraseras}">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📸 Evidencia del Estado de Balatas Traseras"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#C62828"
+                                       HorizontalOptions="Center"/>
+        
+                                <CollectionView ItemsSource="{Binding EvidenciasBalatasTraseras}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Margin="0,5"
+                                                   Padding="10"
+                                                   BackgroundColor="White"
+                                                   BorderColor="#C62828"
+                                                   CornerRadius="8">
+                                                <Grid RowDefinitions="Auto,Auto"
+                                                      ColumnDefinitions="*,Auto,Auto"
+                                                      ColumnSpacing="10"
+                                                      RowSpacing="10">
+                            
+                                                    <!-- Descripción de la evidencia -->
+                                                    <Label Grid.Row="0" Grid.Column="0"
+                                                           Text="{Binding Descripcion}"
+                                                           FontSize="13"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center"/>
+                            
+                                                    <!-- Botón Cámara -->
+                                                    <ImageButton Grid.Row="0" Grid.Column="1"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TomarFotoCommand}"
+                                                                 CommandParameter="BalatasTraseras"
+                                                                 Source="camara.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+                            
+                                                    <!-- Botón Galería -->
+                                                    <ImageButton Grid.Row="0" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SeleccionarImagenCommand}"
+                                                                 CommandParameter="BalatasTraseras"
+                                                                 Source="importar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+
+                                                    <!-- Preview de la imagen -->
+                                                    <Frame Grid.Row="1" Grid.ColumnSpan="2"
+                                                       Margin="0,5,0,0"
+                                                       Padding="0"
+                                                       BackgroundColor="Transparent"
+                                                       IsVisible="{Binding TieneImagen}"
+                                                       CornerRadius="8"
+                                                       BorderColor="#E0E0E0">
+                                                    <Image Source="{Binding ImagenPreview}"
+                                                           Aspect="AspectFit"
+                                                           HeightRequest="150">
+                                                        <Image.GestureRecognizers>
+                                                            <!-- ✅ CORRECTO -->
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                                                  Path=BindingContext.VerImagenCommand}"
+                                                                CommandParameter="{Binding ImagenPreview}" />
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
+                                                </Frame>
+
+
+                                                    <!-- Botón Eliminar (solo se muestra si hay imagen) -->
+                                                    <ImageButton Grid.Row="1" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarEvidenciaCommand}"
+                                                                 CommandParameter="{Binding .}"
+                                                                 IsVisible="{Binding TieneImagen}"
+                                                                 Source="borrar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"
+                                                                 VerticalOptions="End"/>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <Frame
+                            BackgroundColor="#FFEBEE"
+                            Padding="8"
+                            HasShadow="False"
+                            BorderColor="#D32F2F" 
+                            CornerRadius="6">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💬 Comentarios sobre el sistema de frenado del Vehiculo"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="#C62828"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 6">
+                                    <Editor Text="{Binding ComentariosFrenado}"
+                                        Placeholder="Ej... Los discos de freno estan muy desgastados requieren ser remplazados"
+                                        FontSize="13"
+                                        TextColor="#404040"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+                <!--Neumaticos-->
+                <Frame Padding="10"
+                   BorderColor="#C62828"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   CornerRadius="10">
+
+                    <VerticalStackLayout Spacing="10">
+                        <Border BackgroundColor="#C62828"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="8">
+                            <Label Text="⚙️ Neumaticos"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White"/>
+                        </Border>
+
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Buen estado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="Vida media"
+                               FontAttributes="Bold"
+                               TextColor="#FFA000"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="3"
+                               Text="Atención urgente"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Neumaticos Delanteros"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="NeumaticosDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="NeumaticosDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="NeumaticosDelanteros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Neumaticos Traseros"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="NeumaticosTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="NeumaticosTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="NeumaticosTraseros"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Balanceo"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="Balanceo"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="Balanceo"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="Balanceo"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Alineacion"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Bueno"
+                                 GroupName="Alineacion"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Regular"
+                                 GroupName="Alineacion"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="3"
+                                 Value="Malo"
+                                 GroupName="Alineacion"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Frame
+                            BackgroundColor="#FFEBEE"
+                            Padding="8"
+                            HasShadow="False"
+                            BorderColor="#D32F2F" 
+                            CornerRadius="6">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💬 Comentarios sobre los neumaticos del vehiculo"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="#C62828"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 6">
+                                    <Editor Text="{Binding ComentariosNeumaticos}"
+                                        Placeholder="Ej... El neumatico frontal derecho tiene protuberancias se necesita el remplazo"
+                                        FontSize="13"
+                                        TextColor="#404040"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+                <!--Luces-->
+                <Frame Padding="10"
+                   BorderColor="#C62828"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   CornerRadius="10">
+
+                    <VerticalStackLayout Spacing="10">
+                        <Border BackgroundColor="#C62828"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="8">
+                            <Label Text="Luces del Vehiculo"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White"/>
+                        </Border>
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Buen estado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="Presenta Falla"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Luces Altas"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Buen Estado"
+                                 GroupName="LucesAltas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Presenta Falla"
+                                 GroupName="LucesAltas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Luces Bajas"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Buen Estado"
+                                 GroupName="LucesBajas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Presenta Falla"
+                                 GroupName="LucesBajas"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Luces de Reversa "
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Buen Estado"
+                                 GroupName="LucesReversa"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Presenta Falla"
+                                 GroupName="LucesReversa"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Direccionales"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Buen Estado"
+                                 GroupName="LucesDireccionales"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Presenta Falla"
+                                 GroupName="LucesDireccionales"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Intermitentes"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Buen Estado"
+                                 GroupName="LucesIntermitentes"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Presenta Falla"
+                                 GroupName="LucesIntermitentes"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+
+                            <!-- Pregunta -->
+                            <Label Grid.Column="0"
+                               Text="Neblineros"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"/>
+
+                            <RadioButton Grid.Column="1"
+                                 Value="Buen Estado"
+                                 GroupName="LucesAntiniebla"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="Presenta Falla"
+                                 GroupName="LucesAntiniebla"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+                        <Frame
+                            BackgroundColor="#FFEBEE"
+                            Padding="8"
+                            HasShadow="False"
+                            BorderColor="#D32F2F" 
+                            CornerRadius="6">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💬 Comentarios sobre las luces del vehiculo"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="#C62828"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 6">
+                                    <Editor  Text="{Binding ComentariosLuces}"
+                                        Placeholder="Ej... Las luces direccionales presentan una falla urge revision"
+                                        FontSize="13"
+                                        TextColor="#404040"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!--Componetes Remplazados del Vehiculo-->
+                <Frame Padding="10"
+                   BorderColor="#C62828"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   CornerRadius="10">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Border BackgroundColor="#C62828"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="8">
+                            <Label Text="Componetes Reemplazados"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White"/>
+                        </Border>
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Reemplazado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="No Aplica"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+                        
+                        <!-- Selector de reemplazo -->
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   Text="Aceite de Motor"
+                                   TextColor="Black"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="Center"
+                                   FontSize="12"/>
+                            <RadioButton Grid.Column="1"
+                                         GroupName="ReemplazoAceiteMotor"
+                                         Value="true"
+                                         CheckedChanged="ReemplazoAceiteMotor_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="2"
+                                         Value="false"
+                                         GroupName="ReemplazoAceiteMotor"
+                                         CheckedChanged="ReemplazoAceiteMotor_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                        </Grid>
+   
+                        <Frame BackgroundColor="#FFEBEE"
+                               Padding="12"
+                               HasShadow="False"
+                               BorderColor="#C62828"
+                               CornerRadius="8"
+                               IsVisible="{Binding MostrarEvidenciaAceiteMotor}">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📸 Evidencia de Cambio de Aceite"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#C62828"
+                                       HorizontalOptions="Center"/>
+        
+                                <CollectionView ItemsSource="{Binding EvidenciasAceiteMotor}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Margin="0,5"
+                                                   Padding="10"
+                                                   BackgroundColor="White"
+                                                   BorderColor="#C62828"
+                                                   CornerRadius="8">
+                                                <Grid RowDefinitions="Auto,Auto"
+                                                      ColumnDefinitions="*,Auto,Auto"
+                                                      ColumnSpacing="10"
+                                                      RowSpacing="10">
+                            
+                                                    <Label Grid.Row="0" Grid.Column="0"
+                                                           Text="{Binding Descripcion}"
+                                                           FontSize="13"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center"/>
+                            
+                                                    <!-- Botón Cámara -->
+                                                    <ImageButton Grid.Row="0" Grid.Column="1"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TomarFotoCommand}"
+                                                                 CommandParameter="AceiteMotor"
+                                                                 Source="camara.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+                            
+                                                    <!-- Botón Galería -->
+                                                    <ImageButton Grid.Row="0" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SeleccionarImagenCommand}"
+                                                                 CommandParameter="AceiteMotor"
+                                                                 Source="importar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+                            
+                                                    <!-- Preview de imagen -->
+                                                    <Frame Grid.Row="1" Grid.ColumnSpan="2"
+                                                       Margin="0,5,0,0"
+                                                       Padding="0"
+                                                       BackgroundColor="Transparent"
+                                                       IsVisible="{Binding TieneImagen}"
+                                                       CornerRadius="8"
+                                                       BorderColor="#E0E0E0">
+                                                    <Image Source="{Binding ImagenPreview}"
+                                                           Aspect="AspectFit"
+                                                           HeightRequest="150">
+                                                        <Image.GestureRecognizers>
+                                                            <!-- ✅ CORRECTO -->
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                                                  Path=BindingContext.VerImagenCommand}"
+                                                                CommandParameter="{Binding ImagenPreview}" />
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
+                                                </Frame>
+                            
+                                                    <!-- Botón Eliminar -->
+                                                    <ImageButton Grid.Row="1" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarEvidenciaCommand}"
+                                                                 CommandParameter="{Binding .}"
+                                                                 IsVisible="{Binding TieneImagen}"
+                                                                 Source="borrar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"
+                                                                 VerticalOptions="End"/>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Frame>
+                        
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" IsVisible="{Binding MostrarEvidenciaAceiteMotor}">
+
+                            <Label Grid.Column="1"
+                               Text="Reemplazado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="No Aplica"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+
+                        <!-- Selector de reemplazo -->
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   Text="Filtro de Aceite"
+                                   TextColor="Black"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="Center"
+                                   FontSize="12"/>
+                            <RadioButton Grid.Column="1"
+                                         GroupName="ReemplazoFiltroAceite"
+                                         Value="true"
+                                         CheckedChanged="ReemplazoFiltroAceite_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="2"
+                                         Value="false"
+                                         GroupName="ReemplazoFiltroAceite"
+                                         CheckedChanged="ReemplazoFiltroAceite_CheckedChanged"
+                                         HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <!-- ✅ SECCIÓN DE EVIDENCIA DE FILTRO DE ACEITE -->
+                        <Frame BackgroundColor="#FFEBEE"
+                               Padding="12"
+                               HasShadow="False"
+                               BorderColor="#C62828"
+                               CornerRadius="8"
+                               IsVisible="{Binding MostrarEvidenciaFiltroAceite}">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📸 Evidencia de Filtro de Aceite"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#C62828"
+                                       HorizontalOptions="Center"/>
+        
+                                <CollectionView ItemsSource="{Binding EvidenciasFiltroAceite}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Margin="0,5"
+                                                   Padding="10"
+                                                   BackgroundColor="White"
+                                                   BorderColor="#C62828"
+                                                   CornerRadius="8">
+                                                <Grid RowDefinitions="Auto,Auto"
+                                                      ColumnDefinitions="*,Auto,Auto"
+                                                      ColumnSpacing="10"
+                                                      RowSpacing="10">
+                            
+                                                    <Label Grid.Row="0" Grid.Column="0"
+                                                           Text="{Binding Descripcion}"
+                                                           FontSize="13"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center"/>
+                            
+                                                    <ImageButton Grid.Row="0" Grid.Column="1"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TomarFotoCommand}"
+                                                                 CommandParameter="FiltroAceite"
+                                                                 Source="camara.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+                            
+                                                    <ImageButton Grid.Row="0" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SeleccionarImagenCommand}"
+                                                                 CommandParameter="FiltroAceite"
+                                                                 Source="importar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+
+                                                    <!-- Preview de la imagen -->
+                                                    <Frame Grid.Row="1" Grid.ColumnSpan="2"
+                                                           Margin="0,5,0,0"
+                                                           Padding="0"
+                                                           BackgroundColor="Transparent"
+                                                           IsVisible="{Binding TieneImagen}"
+                                                           CornerRadius="8"
+                                                           BorderColor="#E0E0E0">
+                                                        <Image Source="{Binding ImagenPreview}"
+                                                               Aspect="AspectFit"
+                                                               HeightRequest="150">
+                                                            <Image.GestureRecognizers>
+                                                                <!-- ✅ CORRECTO -->
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                                                      Path=BindingContext.VerImagenCommand}"
+                                                                    CommandParameter="{Binding ImagenPreview}" />
+                                                            </Image.GestureRecognizers>
+                                                        </Image>
+                                                    </Frame>
+
+                                                    <ImageButton Grid.Row="1" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarEvidenciaCommand}"
+                                                                 CommandParameter="{Binding .}"
+                                                                 IsVisible="{Binding TieneImagen}"
+                                                                 Source="borrar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"
+                                                                 VerticalOptions="End"/>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Frame>
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" IsVisible="{Binding MostrarEvidenciaFiltroAceite}">
+
+                            <Label Grid.Column="1"
+                               Text="Reemplazado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="No Aplica"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Filtro Aire de Motor"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <RadioButton Grid.Column="1"
+                                 GroupName="ReemplazoFiltroAireMotor"
+                                 Value="true"
+                                 CheckedChanged="ReemplazoFiltroAireMotor_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="false"
+                                 GroupName="ReemplazoFiltroAireMotor"
+                                 CheckedChanged="ReemplazoFiltroAireMotor_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                        </Grid>
+                        
+                        <!-- ✅ SECCIÓN DE EVIDENCIA DE FILTRO DE AIRE DE MOTOR -->
+                        <Frame BackgroundColor="#FFEBEE"
+                               Padding="12"
+                               HasShadow="False"
+                               BorderColor="#C62828"
+                               CornerRadius="8"
+                               IsVisible="{Binding MostrarEvidenciaFiltroAireMotor}">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="📸 Evidencia de Filtro de Aire de Motor"
+                                       FontSize="14"
+                                       FontAttributes="Bold"
+                                       TextColor="#C62828"
+                                       HorizontalOptions="Center"/>
+
+                                <CollectionView ItemsSource="{Binding EvidenciasFiltroAireMotor}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Frame Margin="0,5"
+                                                   Padding="10"
+                                                   BackgroundColor="White"
+                                                   BorderColor="#C62828"
+                                                   CornerRadius="8">
+                                                <Grid RowDefinitions="Auto,Auto"
+                                                      ColumnDefinitions="*,Auto,Auto"
+                                                      ColumnSpacing="10"
+                                                      RowSpacing="10">
+
+                                                    <Label Grid.Row="0" Grid.Column="0"
+                                                           Text="{Binding Descripcion}"
+                                                           FontSize="13"
+                                                           FontAttributes="Bold"
+                                                           VerticalOptions="Center"/>
+
+                                                    <ImageButton Grid.Row="0" Grid.Column="1"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TomarFotoCommand}"
+                                                                 CommandParameter="FiltroAireMotor"
+                                                                 Source="camara.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+
+                                                    <ImageButton Grid.Row="0" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SeleccionarImagenCommand}"
+                                                                 CommandParameter="FiltroAireMotor"
+                                                                 Source="importar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"/>
+
+                                                    <!-- Preview de la imagen -->
+                                                    <Frame Grid.Row="1" Grid.ColumnSpan="2"
+                                                           Margin="0,5,0,0"
+                                                           Padding="0"
+                                                           BackgroundColor="Transparent"
+                                                           IsVisible="{Binding TieneImagen}"
+                                                           CornerRadius="8"
+                                                           BorderColor="#E0E0E0">
+                                                        <Image Source="{Binding ImagenPreview}"
+                                                               Aspect="AspectFit"
+                                                               HeightRequest="150">
+                                                            <Image.GestureRecognizers>
+                                                                <!-- ✅ CORRECTO -->
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                                                      Path=BindingContext.VerImagenCommand}"
+                                                                    CommandParameter="{Binding ImagenPreview}" />
+                                                            </Image.GestureRecognizers>
+                                                        </Image>
+                                                    </Frame>
+
+                                                    <ImageButton Grid.Row="1" Grid.Column="2"
+                                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarEvidenciaCommand}"
+                                                                 CommandParameter="{Binding .}"
+                                                                 IsVisible="{Binding TieneImagen}"
+                                                                 Source="borrar.png"
+                                                                 BackgroundColor="Transparent"
+                                                                 WidthRequest="35"
+                                                                 HeightRequest="35"
+                                                                 VerticalOptions="End"/>
+                                                </Grid>
+                                            </Frame>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Frame>
+                        
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" IsVisible="{Binding MostrarEvidenciaFiltroAireMotor}">
+
+                            <Label Grid.Column="1"
+                               Text="Reemplazado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <Label Grid.Column="2"
+                               Text="No Aplica"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Filtro de aire Polen"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <RadioButton Grid.Column="1"
+                                 GroupName="ReemplazoFiltroAirePolen"
+                                 Value="true"
+                                 CheckedChanged="ReemplazoFiltroAirePolen_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                            <RadioButton Grid.Column="2"
+                                 Value="false"
+                                 GroupName="ReemplazoFiltroAirePolen"
+                                 CheckedChanged="ReemplazoFiltroAirePolen_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                        </Grid>
+                         <!-- ✅ SECCIÓN DE EVIDENCIA DE FILTRO DE AIRE POLEN -->
+                         <Frame BackgroundColor="#FFEBEE"
+                                Padding="12"
+                                HasShadow="False"
+                                BorderColor="#C62828"
+                                CornerRadius="8"
+                                IsVisible="{Binding MostrarEvidenciaFiltroAirePolen}">
+                             <VerticalStackLayout Spacing="10">
+                                <Label Text="📸 Evidencia Filtro de Aire Polen"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="#C62828"
+                                        HorizontalOptions="Center"/>
+
+                                 <CollectionView ItemsSource="{Binding EvidenciasFiltroAirePolen}">
+                                     <CollectionView.ItemTemplate>
+                                         <DataTemplate>
+                                             <Frame Margin="0,5"
+                                                    Padding="10"
+                                                    BackgroundColor="White"
+                                                    BorderColor="#C62828"
+                                                    CornerRadius="8">
+                                                 <Grid RowDefinitions="Auto,Auto"
+                                                       ColumnDefinitions="*,Auto,Auto"
+                                                       ColumnSpacing="10"
+                                                       RowSpacing="10">
+
+                                                     <Label Grid.Row="0" Grid.Column="0"
+                                                            Text="{Binding Descripcion}"
+                                                            FontSize="13"
+                                                            FontAttributes="Bold"
+                                                            VerticalOptions="Center"/>
+
+                                                     <ImageButton Grid.Row="0" Grid.Column="1"
+                                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.TomarFotoCommand}"
+                                                                  CommandParameter="FiltroAirePolen"
+                                                                  Source="camara.png"
+                                                                  BackgroundColor="Transparent"
+                                                                  WidthRequest="35"
+                                                                  HeightRequest="35"/>
+
+                                                     <ImageButton Grid.Row="0" Grid.Column="2"
+                                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SeleccionarImagenCommand}"
+                                                                  CommandParameter="FiltroAirePolen"
+                                                                  Source="importar.png"
+                                                                  BackgroundColor="Transparent"
+                                                                  WidthRequest="35"
+                                                                  HeightRequest="35"/>
+                                                     
+                                                    <!-- Preview de la imagen -->
+                                                    <Frame Grid.Row="1" Grid.ColumnSpan="2"
+                                                           Margin="0,5,0,0"
+                                                           Padding="0"
+                                                           BackgroundColor="Transparent"
+                                                           IsVisible="{Binding TieneImagen}"
+                                                           CornerRadius="8"
+                                                           BorderColor="#E0E0E0">
+                                                        <Image Source="{Binding ImagenPreview}"
+                                                               Aspect="AspectFit"
+                                                               HeightRequest="150">
+                                                            <Image.GestureRecognizers>
+                                                                <!-- ✅ CORRECTO -->
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, 
+                                                                                      Path=BindingContext.VerImagenCommand}"
+                                                                    CommandParameter="{Binding ImagenPreview}" />
+                                                            </Image.GestureRecognizers>
+                                                        </Image>
+                                                    </Frame>
+
+
+                                                    <ImageButton Grid.Row="1" Grid.Column="2"
+                                                                  Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarEvidenciaCommand}"
+                                                                  CommandParameter="{Binding .}"
+                                                                  IsVisible="{Binding TieneImagen}"
+                                                                  Source="borrar.png"
+                                                                  BackgroundColor="Transparent"
+                                                                  WidthRequest="35"
+                                                                  HeightRequest="35"
+                                                                  VerticalOptions="End"/>
+                                                 </Grid>
+                                             </Frame>
+                                         </DataTemplate>
+                                     </CollectionView.ItemTemplate>
+                                 </CollectionView>
+                             </VerticalStackLayout>
+                         </Frame>
+
+                        <Frame
+                            BackgroundColor="#FFEBEE"
+                            Padding="8"
+                            HasShadow="False"
+                            BorderColor="#D32F2F" 
+                            CornerRadius="6">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💬 Comentarios sobre las piezas remplazadas del vehiculo"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="#C62828"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 6">
+                                    <Editor Text="{Binding ComentariosRefacciones}"
+                                        Placeholder="Ej... Al drenar el aceite este presentaba filtracion de agua necesita revision"
+                                        FontSize="13"
+                                        TextColor="#404040"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+                <!-- Revision de Niveles-->
+                <Frame Padding="10"
+                   BorderColor="#C62828"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   CornerRadius="10">
+
+                    <VerticalStackLayout Spacing="10">
+                        <!-- TÍTULO -->
+                        <Border BackgroundColor="#C62828"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="8">
+                            <Label Text="Revision de Niveles"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White"/>
+                        </Border>
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Nivel Optimo"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+                        <!--Pregunta-->
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Aceite de Motor"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                            <RadioButton Grid.Column="1"
+                                 GroupName="NivelAceiteMotor"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Liquido de Frenos"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <RadioButton Grid.Column="1"
+                                 GroupName="NivelLiquidoFrenos"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Anticongelante"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <RadioButton Grid.Column="1"
+                                 GroupName="NivelAnticongelante"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Deposito de Limpiaparabrisas"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                            <RadioButton Grid.Column="1"
+                                 GroupName="NivelDepositoLimpiaparabrisas"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+                        
+                        <Frame
+                            BackgroundColor="#FFEBEE"
+                            Padding="8"
+                            HasShadow="False"
+                            BorderColor="#D32F2F" 
+                            CornerRadius="6">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💬 Comentarios sobre Niveles del vehiculo"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    TextColor="#C62828"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness="1"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 6">
+                                    <Editor Text="{Binding ComentariosNiveles}"
+                                        Placeholder="Ej... Al drenar el aceite, este presentaba filtracion de agua necesita revision"
+                                        FontSize="13"
+                                        TextColor="#404040"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                    </VerticalStackLayout>
+                </Frame>
+                <!-- Trabajos realizados al vehiculo-->
+                <Frame Padding="10"
+                   BorderColor="#C62828"
+                   HasShadow="True"
+                   BackgroundColor="White"
+                   CornerRadius="10">
+
+                    <VerticalStackLayout Spacing="10">
+                        <!-- TÍTULO -->
+                        <Border BackgroundColor="#C62828"
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 8"
+                            Padding="8">
+                            <Label Text="Trabajos realizados"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               TextColor="White"/>
+                        </Border>
+                        
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Realizado"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                        </Grid>
+
+                        <!--Pregunta-->
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Descristalizacion de Discos/Tambores"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <RadioButton Grid.Column="1"
+                                 GroupName="DescristalizacionTamboresDiscos"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Ajuste de Frenos"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+
+                            <RadioButton Grid.Column="1"
+                                 GroupName="AjusteFrenos"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Calibracion Presion de Neumaticos"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                            <RadioButton Grid.Column="1"
+                                 GroupName="CalibracionPresionNeumaticos"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Torqueado de Neumaticos"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                            <RadioButton Grid.Column="1"
+                                 GroupName="TorqueNeumaticos"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+                        
+                        <!-- ENCABEZADOS -->
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="1"
+                               Text="Si"
+                               FontAttributes="Bold"
+                               TextColor="Green"
+                               HorizontalOptions="Center"
+                               FontSize="12"/>
+                            
+                            <Label Grid.Column="2"
+                               Text="NO"
+                               FontAttributes="Bold"
+                               TextColor="Red"
+                               HorizontalOptions="Center"
+                               FontSize="12"/>
+                        </Grid>
+                        
+                        <Grid ColumnDefinitions="*,*,*" VerticalOptions="Center" >
+
+                            <Label Grid.Column="0"
+                               Text="Rotacion de Neumaticos"
+                               TextColor="Black"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               FontSize="12"/>
+                            <RadioButton Grid.Column="1"
+                                 GroupName="RotacionNeumaticos"
+                                 Value="true"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                            <RadioButton Grid.Column="2"
+                                 GroupName="RotacionNeumaticos"
+                                 Value="false"
+                                 CheckedChanged="Radio_CheckedChanged"
+                                 HorizontalOptions="Center"/>
+                        </Grid>
+
+
+                        <Frame
+                             BackgroundColor="#FFEBEE"
+                             Padding="8"
+                             HasShadow="False"
+                             BorderColor="#D32F2F" 
+                             CornerRadius="6">
+                            <VerticalStackLayout Spacing="5">
+                                <Label Text="💬 Comentarios sobre Trabajos Realizados al vehiculo"
+                                     FontSize="12"
+                                     FontAttributes="Bold"
+                                     TextColor="#C62828"/>
+                                <Border BackgroundColor="White"
+                                     StrokeThickness="1"
+                                     Stroke="#BDBDBD"
+                                     Padding="8"
+                                     StrokeShape="RoundRectangle 6">
+                                    <Editor Text="{Binding ComentariosTrabajos}"
+                                         Placeholder="Ej...Faltaban 2 birlos de la rueda frontal derecha"
+                                         FontSize="13"
+                                         TextColor="#404040"/>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <Frame
+                             BackgroundColor="#E8F5E9"
+                             Padding="8"
+                             HasShadow="False"
+                             BorderColor="DarkGreen" 
+                             CornerRadius="6">
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="💬 Comentarios Generales sobre el vehiculo"
+                                     FontSize="12"
+                                     FontAttributes="Bold"
+                                     TextColor="DarkGreen" />
+                        <Border BackgroundColor="White"
+                                     StrokeThickness="1"
+                                     Stroke="#BDBDBD"
+                                     Padding="8"
+                                     StrokeShape="RoundRectangle 6">
+                            <Editor  Text="{Binding ComentariosGenerales}"
+                                         Placeholder="Ej... Servicio concluido con exito vehiculo en exelente estado"
+                                         FontSize="13"
+                                         TextColor="#404040"/>
+                        </Border>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <BoxView HeightRequest="2" BackgroundColor="#333" Margin="20,10"/>
+
+                <Grid ColumnDefinitions="140,*">
+
+                    <!-- Botón Pausar -->
+                    <Frame Grid.Column="0"
+                       Padding="0"
+                       HorizontalOptions="FillAndExpand"
+                       HeightRequest="60"
+                       WidthRequest="140"
+                       Margin="0,0,0,8"
+                       CornerRadius="12"
+                       HasShadow="False"
+                       BackgroundColor="DarkOrange">
+
+                        <Button Text="Pausar"
+                            Command="{Binding PausarCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            ImageSource="pausa.png"
+                            ContentLayout="right,10"/>
+                    </Frame>
+
+                    <!-- Botón Finalizar -->
+                    <Frame Grid.Column="1"
+                       Padding="0"
+                       HorizontalOptions="FillAndExpand"
+                       HeightRequest="60"
+                       Margin="0,0,0,8"
+                       CornerRadius="12"
+                       HasShadow="False"
+                       BackgroundColor="DarkGreen">
+
+                        <Button Text="Finalizar"
+                            Command="{Binding GuardarCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="White"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            ImageSource="finalizar.png"
+                            ContentLayout="right,10"/>
+                    </Frame>
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <!-- Indicador de carga -->
+        <Frame IsVisible="{Binding IsLoading}"
+           BackgroundColor="#80000000"
+           Padding="20"
+           CornerRadius="10"
+           HorizontalOptions="Center"
+           VerticalOptions="Center">
+            <VerticalStackLayout Spacing="15">
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                             Color="White"
+                             HeightRequest="50"
+                             WidthRequest="50"/>
+                <Label Text="Guardando checklist..."
+                   TextColor="White"
+                   FontSize="16"
+                   HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+    </Grid>
+
+</ContentPage>

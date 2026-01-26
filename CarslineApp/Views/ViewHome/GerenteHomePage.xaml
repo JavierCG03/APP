@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CarslineApp.Views.GerenteHomePage"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             Title="Gerente">
+    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
+        <Label Text="GERENTE"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#512BD4"/>
+        <Label x:Name="NombreLabel"
+               FontSize="18"
+               HorizontalOptions="Center"
+               TextColor="#404040"/>
+        <Frame BackgroundColor="#E1E1E1" Padding="20" Margin="0,20,0,0">
+            <Label Text="Modulo de Gestion y Reportes en desarrollo..."
+                   HorizontalOptions="Center"
+                   TextColor="#404040"/>
+        </Frame>
+        <Button Text="CERRAR SESION"
+                Clicked="OnLogoutClicked"
+                BackgroundColor="#404040"
+                TextColor="White"
+                HeightRequest="50"
+                Margin="0,30,0,0"/>
+    </VerticalStackLayout>
+</ContentPage>

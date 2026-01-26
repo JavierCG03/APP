@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CarslineApp.Views.Buscador.BuscadorPage"
+             x:Name="RootPage"
+             Title="Buscador"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False"          
+             BackgroundColor="#F8F9FA">
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ============================================ -->
+        <!-- HEADER CON BARRA DE BÚSQUEDA FLOTANTE -->
+        <!-- ============================================ -->
+        <Frame Grid.Row="0"
+               BackgroundColor="Black"
+               CornerRadius="0"
+               HasShadow="True"
+               Padding="20,15,20,20"
+               Margin="0">
+            <VerticalStackLayout Spacing="15">
+                <!-- Barra de Búsqueda Moderna -->
+                <Border BackgroundColor="#F8F9FA"
+                        Stroke="#E9ECEF"
+                        StrokeThickness="2"
+                        StrokeShape="RoundRectangle 25">
+                    <Grid ColumnDefinitions="50,*,50,50"
+                          HeightRequest="50"
+                          Padding="5">
+
+                        <!-- Icono Lupa -->
+                        <Label Grid.Column="0"
+                               Text="🔍"
+                               FontSize="22"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"/>
+
+                        <!-- Entry -->
+                        <Entry Grid.Column="1"
+                               x:Name="SearchEntry"
+                               Text="{Binding TerminoBusqueda}"
+                               Placeholder="Buscar..."
+                               FontSize="16"
+                               TextColor="#1A1A1A"
+                               PlaceholderColor="#ADB5BD"
+                               BackgroundColor="Transparent"
+                               VerticalOptions="Center"
+                               ReturnCommand="{Binding BuscarCommand}"/>
+
+                        <!-- Botón Limpiar -->
+                        <ImageButton Grid.Column="2"
+                                    Command="{Binding LimpiarBusquedaCommand}"
+                                    IsVisible="{Binding TerminoBusqueda, Converter={StaticResource StringToBoolConverter}}"
+                                    BackgroundColor="Transparent"
+                                    Source="https://img.icons8.com/material-rounded/96/000000/multiply.png"
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Opacity="0.6"/>
+                        
+                        <ImageButton Grid.Column="3"
+                                   Command="{Binding BuscarCommand}"
+                                    BackgroundColor="Transparent"
+                                    Source="buscar.png"
+                                    WidthRequest="24"
+                                    HeightRequest="24"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Opacity="0.6"/>
+
+                    </Grid>
+                </Border>
+
+                <!-- Chips de Filtros Rápidos -->
+                <ScrollView Orientation="Horizontal"
+                            HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="10">
+                        <Frame BackgroundColor="#E3F2FD"
+                               Padding="12,6"
+                               CornerRadius="15"
+                               HasShadow="False">
+                            <Label Text="👤 Clientes"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#1976D2"/>
+                        </Frame>
+                        <Frame BackgroundColor="#FFF3E0"
+                               Padding="12,6"
+                               CornerRadius="15"
+                               HasShadow="False">
+                            <Label Text="🚗 Vehículos"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#F57C00"/>
+                        </Frame>
+                        <Frame BackgroundColor="#F3E5F5"
+                               Padding="12,6"
+                               CornerRadius="15"
+                               HasShadow="False">
+                            <Label Text="📋 Órdenes"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#7B1FA2"/>
+                        </Frame>
+                    </HorizontalStackLayout>
+                </ScrollView>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- ============================================ -->
+        <!-- CONTENIDO PRINCIPAL -->
+        <!-- ============================================ -->
+        <Grid Grid.Row="1">
+
+            <!-- Loading Overlay -->
+            <Frame IsVisible="{Binding IsLoading}"
+                   BackgroundColor="#80000000"
+                   Padding="40"
+                   CornerRadius="20"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+                <VerticalStackLayout Spacing="15">
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       Color="White"
+                                       WidthRequest="50"
+                                       HeightRequest="50"/>
+                    <Label Text="Buscando..."
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- RESULTADOS -->
+            <ScrollView IsVisible="{Binding MostrarResultados}">
+                <VerticalStackLayout Padding="20" Spacing="15">
+
+                    <!-- Header Resultados -->
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#1A1A1A">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Resultados "/>
+                                    <Span Text="{Binding Resultados.Count, StringFormat='({0})'}"
+                                          TextColor="#6C757D"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Label Grid.Column="1"
+                               Text="✨"
+                               FontSize="20"/>
+                    </Grid>
+
+                    <!-- Lista de Resultados -->
+                    <CollectionView ItemsSource="{Binding Resultados}"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Margin="0,0,0,12"
+                                        BackgroundColor="White"
+                                        Stroke="#E9ECEF"
+                                        StrokeThickness="1"
+                                        StrokeShape="RoundRectangle 16">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#20000000"
+                                                Offset="0,2"
+                                                Radius="8"
+                                                Opacity="0.1"/>
+                                    </Border.Shadow>
+
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer 
+                                            Command="{Binding Source={x:Reference RootPage}, Path=BindingContext.SeleccionarResultadoCommand}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Border.GestureRecognizers>
+
+                                    <Grid Padding="15"
+                                          ColumnDefinitions="*,Auto"
+                                          RowDefinitions="Auto,Auto,Auto,Auto"
+                                          ColumnSpacing="12"
+                                          RowSpacing="8">
+
+                                        <!-- Badge Tipo -->
+                                        <Frame Grid.Column="0"
+                                               Grid.Row="0"
+                                               BackgroundColor="{Binding IconoColor}"
+                                               Padding="8,4"
+                                               CornerRadius="6"
+                                               HasShadow="False"
+                                               HorizontalOptions="Start"
+                                               Opacity="0.8">
+                                            <Label Text="{Binding TipoTexto}"
+                                                   FontSize="10"
+                                                   FontAttributes="Bold"
+                                                   TextColor="White"/>
+                                        </Frame>
+
+                                        <!-- Título -->
+                                        <Label Grid.Column="0"
+                                               Grid.Row="1"
+                                               Text="{Binding TituloPrincipal}"
+                                               FontSize="16"
+                                               FontAttributes="Bold"
+                                               TextColor="#1A1A1A"
+                                               LineBreakMode="TailTruncation"/>
+
+                                        <!-- Subtítulo -->
+                                        <Label Grid.Column="0"
+                                               Grid.Row="2"
+                                               Text="{Binding Subtitulo}"
+                                               FontSize="13"
+                                               TextColor="#6C757D"
+                                               LineBreakMode="TailTruncation"/>
+
+                                        <!-- Detalle -->
+                                        <Label Grid.Column="0"
+                                               Grid.Row="3"
+                                               Grid.RowSpan="2"
+                                               Text="{Binding Detalle}"
+                                               FontSize="11"
+                                               TextColor="#ADB5BD"
+                                               LineBreakMode="WordWrap"
+                                               MaxLines="2"
+                                               HorizontalTextAlignment="End"
+                                               VerticalTextAlignment="Center"/>
+
+                                        <!-- Icono Flecha -->
+                                        <Label Grid.Column="2"
+                                               Grid.Row="0"
+                                               Text="→"
+                                               FontSize="20"
+                                               TextColor="{Binding IconoColor}"
+                                               HorizontalOptions="End"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <!-- ESTADO VACÍO -->
+            <VerticalStackLayout IsVisible="{Binding MostrarResultados, Converter={StaticResource InverseBoolConverter}}"
+                                 Spacing="20"
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center">
+
+                <Frame BackgroundColor="#F8F9FA"
+                       CornerRadius="100"
+                       WidthRequest="120"
+                       HeightRequest="120"
+                       Padding="0"
+                       HasShadow="False"
+                       HorizontalOptions="Center">
+                    <Label Text="🔍"
+                           FontSize="64"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Frame>
+
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Comienza tu búsqueda"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#1A1A1A"
+                           HorizontalTextAlignment="Center"/>
+                    <Label Text="Escribe al menos 3 caracteres para encontrar lo que necesitas"
+                           FontSize="14"
+                           TextColor="#6C757D"
+                           HorizontalTextAlignment="Center"
+                           LineBreakMode="WordWrap"
+                           MaxLines="2"/>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout Spacing="12"
+                                     Margin="0,20,0,0">
+                    <Label Text="💡 Puedes buscar:"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           TextColor="#495057"
+                           HorizontalTextAlignment="Center"/>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Frame BackgroundColor="White"
+                               Padding="12,8"
+                               CornerRadius="10"
+                               HasShadow="False"
+                               BorderColor="#E9ECEF">
+                            <Label TextColor="#6C757D"
+                                   FontSize="12"
+                                   HorizontalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="👤 " FontSize="14"/>
+                                        <Span Text="Nombre del cliente"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Frame>
+
+                        <Frame BackgroundColor="White"
+                               Padding="12,8"
+                               CornerRadius="10"
+                               HasShadow="False"
+                               BorderColor="#E9ECEF">
+                            <Label TextColor="#6C757D"
+                                   FontSize="12"
+                                   HorizontalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="🚗 " FontSize="14"/>
+                                        <Span Text="Últimos 4 dígitos del VIN"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Frame>
+
+                        <Frame BackgroundColor="White"
+                               Padding="12,8"
+                               CornerRadius="10"
+                               HasShadow="False"
+                               BorderColor="#E9ECEF">
+                            <Label TextColor="#6C757D"
+                                   FontSize="12"
+                                   HorizontalTextAlignment="Center">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="📋 " FontSize="14"/>
+                                        <Span Text="Número de orden"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Frame>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+
+            <!-- MENSAJE DE ERROR -->
+            <Frame IsVisible="{Binding MensajeError, Converter={StaticResource StringToBoolConverter}}"
+                   BackgroundColor="#FFF3CD"
+                   BorderColor="#FFC107"
+                   CornerRadius="12"
+                   Padding="15"
+                   Margin="20"
+                   VerticalOptions="Start">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Label Grid.Column="0"
+                           Text="⚠️"
+                           FontSize="24"
+                           VerticalOptions="Center"
+                           Margin="0,0,10,0"/>
+                    <Label Grid.Column="1"
+                           Text="{Binding MensajeError}"
+                           TextColor="#856404"
+                           FontSize="14"
+                           VerticalOptions="Center"
+                           LineBreakMode="WordWrap"/>
+                </Grid>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

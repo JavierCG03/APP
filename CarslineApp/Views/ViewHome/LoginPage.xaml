@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewmodels="clr-namespace:CarslineApp.ViewModels.ViewModelsHome"
+    x:Class="CarslineApp.Views.LoginPage"
+    Shell.NavBarIsVisible="False"
+    NavigationPage.HasNavigationBar="False"
+    BackgroundColor="#000000">
+
+    <ContentPage.BindingContext>
+        <viewmodels:LoginViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="25">
+
+            <!-- LOGO -->
+            <Image 
+                x:Name="LogoImage"
+                Source="logo_cars.png"
+                Aspect="AspectFit"
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                Opacity="0"/>
+
+            <!-- TARJETA LOGIN -->
+            <Frame BackgroundColor="#FFFFFF"
+                   CornerRadius="25"
+                   Padding="30"
+                   Opacity="0"
+                   x:Name="LoginCard"
+                   HasShadow="True">
+
+                <VerticalStackLayout Spacing="20">
+
+                    <Label Text="INICIAR SESION"
+                           FontSize="26"
+                           FontAttributes="Italic"
+                           HorizontalOptions="Center"
+                           TextColor="#D60000"/>
+                    
+                    <!-- Usuario -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Usuario"
+                              FontAttributes="Bold"
+                               FontSize="15"
+                               TextColor="#333333"/>
+
+                        <Frame BackgroundColor="#F5F5F5"
+                               CornerRadius="10"
+                               Padding="10">
+                            <Entry Text="{Binding NombreUsuario}"
+                                   Placeholder="Ingresa tu usuario"
+                                   TextColor="Black"
+                                   PlaceholderColor="#757575"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Contraseña -->
+                    <VerticalStackLayout Spacing="6">
+
+                        <Label Text="Contraseña"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#333333"/>
+
+                        <Frame BackgroundColor="#F5F5F5"
+                               CornerRadius="14"
+                               Padding="0"
+                               HasShadow="False">
+
+                            <Grid ColumnDefinitions="*,Auto"
+                                  HeightRequest="52"
+                                  Padding="14,0">
+
+                                <Entry x:Name="PasswordEntry"
+                                       Text="{Binding Password}"
+                                       Placeholder="Ingresa tu contraseña"
+                                       IsPassword="True"
+                                       TextColor="Black"
+                                       BackgroundColor="Transparent"
+                                       VerticalOptions="Center"
+                                       ReturnCommand="{Binding LoginCommand}"
+                                       PlaceholderColor="#757575"/>
+
+                                <ImageButton x:Name="TogglePasswordButton"
+                                             Grid.Column="1"
+                                             Source="eye.png"
+                                             BackgroundColor="Transparent"
+                                             WidthRequest="24"
+                                             HeightRequest="24"
+                                             VerticalOptions="Center"/>
+                            </Grid>
+
+                        </Frame>
+
+                    </VerticalStackLayout>
+
+                    <!-- ERROR -->
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="Red"
+                           FontSize="12"
+                           HorizontalOptions="Center"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"/>
+                    <Button x:Name="LoginButton"
+                            Text="INGRESAR"
+                            Command="{Binding LoginCommand}"
+                            BackgroundColor="#D60000"
+                            TextColor="White"
+                            CornerRadius="16"
+                            FontAttributes="Bold"
+                            HeightRequest="56">
+
+                        <Button.Shadow>
+                            <Shadow Brush="#40000000"
+                                    Offset="0,8"
+                                    Radius="16"
+                                    Opacity="0.8"/>
+                        </Button.Shadow>
+
+                    </Button>
+
+
+                    <!-- Loading -->
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       IsVisible="{Binding IsLoading}"
+                                       Color="#D60000"
+                                       HorizontalOptions="Center"/>
+
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Footer -->
+            <Label 
+                    x:Name="FooterText"
+                    Text="CARSLINE © 2026"
+                    FontSize="13"
+                    HorizontalOptions="Center"
+                    TextColor="#999999"
+                    Margin="0,25,0,25"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

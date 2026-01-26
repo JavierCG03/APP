@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CarslineApp.ViewModels"
+             x:Class="CarslineApp.Views.EvidenciasOrdenPage"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             Title="Evidencias de Recepción">
+
+    <ContentPage.BindingContext>
+        <vm:EvidenciaOrdenViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,25,*,Auto">
+
+        <!-- Header FIJO -->
+        <Frame Grid.Row="0" 
+               BackgroundColor="Red" 
+               CornerRadius="5" 
+               Padding="15"
+               Margin="0,0,0,5">
+            <VerticalStackLayout Spacing="5">
+                <Grid ColumnDefinitions="Auto,*">
+                    <!-- Botón Atrás -->
+                    <ImageButton Grid.Column="0"
+                                 Source="back.png"
+                                 BackgroundColor="Transparent"
+                                 HeightRequest="35"
+                                 WidthRequest="40"
+                                 Command="{Binding BackCommand}"
+                                 Padding="5"
+                                 CornerRadius="25" />
+                    <Label Grid.Column="1"
+                           Text="Captura de Evidencias" 
+                           TextColor="White" 
+                           FontSize="20" 
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Grid>
+                
+                <Label Text="{Binding VehiculoCompleto}" 
+                       TextColor="White" 
+                       FontSize="16"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+        </Frame>
+        <!-- Mensaje de estado -->
+        <Label Grid.Row="1"
+               Text="{Binding MensajeEstado}" 
+                       TextColor="Red"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       IsVisible="{Binding MensajeEstado, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+        <!-- ScrollView SOLO para la lista de evidencias -->
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Padding="20,0,20,10" Spacing="15">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" RowDefinitions="*,*,*">
+                    <Label Grid.Column="0" Grid.Row="0"
+                           Text="Orden:"
+                           TextColor="#DC143C"
+                            FontAttributes="Bold"
+                            FontSize="14"/>
+                    <Label Grid.Column="1" Grid.Row="0"
+                       Text="{Binding NumeroOrden}"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       HorizontalOptions="Start"/>
+                    <Label Grid.Column="0" Grid.Row="1"
+                           Text="Vehiculo:"
+                           TextColor="#DC143C"
+                            FontAttributes="Bold"
+                            FontSize="14"/>
+                    <Label Grid.Column="1" Grid.Row="1"
+                       Text="{Binding VehiculoCompleto}"
+                       FontSize="14"
+                       HorizontalOptions="Start"/>
+                    <Label Grid.Column="0" Grid.Row="2"
+                           Text="VIN:"
+                           TextColor="#DC143C"
+                            FontAttributes="Bold"
+                            FontSize="14"/>
+                    <Label Grid.Column="1" Grid.Row="2"
+                       Text="{Binding VIN}"
+                       FontSize="14"
+                       HorizontalOptions="Start"/>
+                </Grid>
+
+                <!-- Lista de evidencias -->
+                <VerticalStackLayout BindableLayout.ItemsSource="{Binding Evidencias}" Spacing="10">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="0,5" 
+                                   Padding="15" 
+                                   BackgroundColor="White"
+                                   BorderColor="Red"
+                                   CornerRadius="10">
+                                <Grid RowDefinitions="Auto,Auto" 
+                                      ColumnDefinitions="*,Auto,Auto" 
+                                      ColumnSpacing="10"
+                                      RowSpacing="10">
+
+                                    <!-- Título de la evidencia -->
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Descripcion}" 
+                                           FontSize="16" 
+                                           FontAttributes="Bold"
+                                           TextColor="#333"
+                                           VerticalOptions="Center"/>
+
+                                    <!-- Botón Cámara -->
+                                    <ImageButton Grid.Row="0" Grid.Column="1"
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EvidenciaOrdenViewModel}}, Path=TomarFotoCommand}"
+                                                 CommandParameter="{Binding Descripcion}"
+                                                 Source="camara.png"
+                                                 BackgroundColor="Transparent"
+                                                 WidthRequest="40"
+                                                 HeightRequest="40"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"/>
+
+                                    <!-- Botón Galería -->
+                                    <ImageButton Grid.Row="0" Grid.Column="2"
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EvidenciaOrdenViewModel}}, Path=SeleccionarImagenCommand}"
+                                                 CommandParameter="{Binding Descripcion}"
+                                                 Source="importar.png"
+                                                 BackgroundColor="Transparent"
+                                                 WidthRequest="40"
+                                                 HeightRequest="40"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="Center"/>
+
+                                    <!-- Preview de la imagen -->
+                                    <Frame Grid.Row="1" Grid.ColumnSpan="2"
+                                           Margin="0,5,0,0"
+                                           Padding="0"
+                                           BackgroundColor="Transparent"
+                                           IsVisible="{Binding TieneImagen}"
+                                           CornerRadius="8"
+                                           BorderColor="#E0E0E0">
+                                        <Image Source="{Binding ImagenPreview}"
+                                               Aspect="AspectFit"
+                                               HeightRequest="150">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EvidenciaOrdenViewModel}}, 
+                                                                      Path=VerImagenCommand}"
+                                                    CommandParameter="{Binding ImagenPreview}" />
+                                            </Image.GestureRecognizers>
+                                        </Image>
+                                    </Frame>
+
+                                    <!-- Botón Eliminar -->
+                                    <ImageButton Grid.Row="1" Grid.Column="2"
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EvidenciaOrdenViewModel}}, Path=EliminarEvidenciaCommand}"
+                                                 CommandParameter="{Binding .}"
+                                                 IsVisible="{Binding TieneImagen}"
+                                                 Source="borrar.png"
+                                                 BackgroundColor="Transparent"
+                                                 WidthRequest="40"
+                                                 HeightRequest="40"
+                                                 HorizontalOptions="Center"
+                                                 VerticalOptions="End"
+                                                 Margin="0,10,0,0"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Botón guardar FIJO al final -->
+        <Button Grid.Row="3"
+                Text="💾 Guardar Evidencias"
+                BackgroundColor="#FF9800"
+                TextColor="White"
+                FontSize="18"
+                FontAttributes="Bold"
+                HeightRequest="55"
+                CornerRadius="10"
+                Margin="20,10,20,10"
+                Command="{Binding GuardarEvidenciasCommand}"/>
+
+        <!-- Loading Overlay (cubre toda la pantalla) -->
+        <Frame Grid.RowSpan="4"
+               IsVisible="{Binding IsLoading}"
+               BackgroundColor="#80000000"
+               Padding="0"
+               HasShadow="False"
+               CornerRadius="0">
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                               Color="White"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center"
+                               HeightRequest="50"
+                               WidthRequest="50"/>
+        </Frame>
+    </Grid>
+</ContentPage>

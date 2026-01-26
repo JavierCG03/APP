@@ -1,0 +1,1819 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CarslineApp.Views.CrearOrdenPage"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             Title="Crear Orden">
+
+    <Grid RowDefinitions="Auto,*,Auto" Padding="0">
+
+        <!-- HEADER CON TÍTULO DEL PASO -->
+        <Frame Grid.Row="0" BackgroundColor="#D60000" Padding="20" Margin="0" CornerRadius="0" HasShadow="True">
+            <Label Text="{Binding TituloPaso}"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+        </Frame>
+
+        <!-- CONTENIDO CON SCROLL -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <!-- ====================================== -->
+                <!-- PASO 1: DATOS DEL CLIENTE -->
+                <!-- ====================================== -->
+                <VerticalStackLayout Spacing="15" IsVisible="{Binding MostrarPaso1}">
+
+                    <Label Text="🔍 Buscar Cliente por Nombre"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <Frame Grid.Column="0" BorderColor="Black" BackgroundColor="Transparent">
+                        </Frame>
+                        <Entry 
+                               Text="{Binding NombreBusquedaCliente}"
+                               Placeholder="Ej: Sebastian Aldama"
+                               MaxLength="100"
+                               ReturnCommand="{Binding BuscarClienteCommand}"/>
+                        
+                        <ImageButton Grid.Column="1"
+                                         Command="{Binding BuscarClienteCommand}"
+                                         Source="buscar.png"
+                                         BackgroundColor="Transparent"
+                                         WidthRequest="50"
+                                         HeightRequest="50"
+                                         VerticalOptions="Center"/>
+                    </Grid>
+                    
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="red"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                           HorizontalOptions="Center"
+                           Margin="0,10"/>
+
+                    <!-- ✅ NUEVO: LISTA DE CLIENTES ENCONTRADOS -->
+                    <Frame IsVisible="{Binding MostrarListaClientes}"
+                           BackgroundColor="#E3F2FD"
+                           Padding="10"
+                           HasShadow="False"
+                           BorderColor="#2196F3">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Selecciona el cliente correcto:"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   TextColor="#1976D2"/>
+
+                            <CollectionView ItemsSource="{Binding ClientesEncontrados}"
+                                            SelectionMode="None"
+                                            MaximumHeightRequest="300">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame BackgroundColor="White"
+                                               Padding="12"
+                                               Margin="0,5"
+                                               HasShadow="False"
+                                               BorderColor="#BDBDBD">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SeleccionarClienteCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                            </Frame.GestureRecognizers>
+
+                                            <VerticalStackLayout Spacing="3">
+                                                <Label Text="{Binding NombreCompleto}"
+                                                       FontSize="15"
+                                                       FontAttributes="Bold"
+                                                       TextColor="Black"/>
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                                    <Label Grid.Column="0" 
+                                                           Text="Tel:"
+                                                           FontSize="12"
+                                                           TextColor="#666"/>
+                                                    <Label Grid.Column="1"
+                                                           Text="{Binding TelefonoMovil}"
+                                                           FontSize="12"
+                                                           TextColor="#404040"/>
+                                                </Grid>
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                                    <Label Grid.Column="0" 
+                                                           Text="RFC:"
+                                                           FontSize="12"
+                                                           TextColor="#666"/>
+                                                    <Label Grid.Column="1"
+                                                           Text="{Binding RFC}"
+                                                           FontSize="12"
+                                                           TextColor="#404040"/>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+
+
+                    <Label Text="Datos del Cliente"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Nombre:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding NombreCompleto}"
+                                Placeholder="Nombre Completo *"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="RFC:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding RFC}"
+                                MaxLength="13"
+                                Placeholder="RFC *"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Teléfono Celular:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding TelefonoMovil}"
+                                MaxLength="10"
+                                Keyboard="Numeric"
+                                Placeholder="Número Celular *"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Teléfono Casa:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding TelefonoCasa}"
+                                MaxLength="10"
+                                Keyboard="Numeric"
+                                Placeholder="Teléfono Casa (opcional)"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Email:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding CorreoElectronico}"
+                                Placeholder="Correo Electrónico (opcional)"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Label Text="Dirección"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"
+                           Margin="0,10,0,0"/>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Estado:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding Estado}"
+                                Placeholder="Estado"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Municipio:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding Municipio}"
+                                Placeholder="Municipio"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Colonia:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding Colonia}"
+                                Placeholder="Colonia"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Calle:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding Calle}"
+                                Placeholder="Calle"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="10">
+                        <Label Grid.Column="2"
+                                Text="CP:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="3"
+                                Text="{Binding CodigoPostal}"
+                                Keyboard="Numeric"
+                                MaxLength="5"
+                                Placeholder="#####"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                        <Label Grid.Column="0"
+                                Text="Num. Ext:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding NumeroExterior}"
+                                Keyboard="Numeric"
+                                MaxLength="5"
+                                Placeholder="#Ext"
+                                IsReadOnly="{Binding CamposClienteBloqueados}"/>
+                    </Grid>
+                    
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="Red"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                           HorizontalOptions="Center"
+                           Margin="0,10"/>
+
+                    <Button Text="{Binding TextoBotonCliente}"
+                            Command="{Binding EditarGuardarClienteCommand}"
+                            IsVisible="{Binding MostrarBotonEditarCliente}"
+                            BackgroundColor="{Binding ColorBotonCliente}"
+                            TextColor="White"
+                            Margin="0,10,0,0"
+                            HeightRequest="45"
+                            FontAttributes="Bold"
+                            CornerRadius="10"/>
+
+                    <!-- BOTONES DE NAVEGACIÓN (SIN CAMBIOS) -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="0" Padding="0">
+
+                        <Button Grid.Column="0"
+                    Text="◀ ANTERIOR"
+                    Command="{Binding AnteriorCommand}"
+                    IsVisible="{Binding PasoActual, Converter={StaticResource GreaterThanOneConverter}}"
+                    BackgroundColor="#757575"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="55"
+                    FontAttributes="Bold"/>
+
+                        <Button Grid.Column="1"
+                    Text="SIGUIENTE ▶"
+                    Command="{Binding SiguienteCommand}"
+                    IsVisible="{Binding MostrarBotonSiguiente}"
+                    BackgroundColor="#D60000"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="55"
+                    FontAttributes="Bold"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+
+                <!-- ====================================== -->
+                <!-- PASO 2: DATOS DEL VEHÍCULO -->
+                <!-- ====================================== -->
+                <VerticalStackLayout Spacing="15" IsVisible="{Binding MostrarPaso2}">
+
+                    <Label Text="🔍 Buscar Vehículo por VIN"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+
+                    <Label Text="Ingresa los últimos 4 caracteres del VIN:"
+                           FontSize="13"
+                           TextColor="#666"
+                           Margin="0,-10,0,0"/>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <Frame Grid.Column="0" BorderColor="Black" BackgroundColor="Transparent">
+                        </Frame>
+                        <Entry 
+                               Grid.Column="0"
+                               Text="{Binding Ultimos4VIN}"
+                               Placeholder="Ej: AB12"
+                               MaxLength="4"
+                               ReturnCommand="{Binding BuscarVehiculoCommand}"/>
+                        <ImageButton Grid.Column="1"
+                                         Command="{Binding BuscarVehiculoCommand}"
+                                         Source="buscar.png"
+                                         BackgroundColor="Transparent"
+                                         WidthRequest="50"
+                                         HeightRequest="50"
+                                         VerticalOptions="Center"/>
+
+                    </Grid>
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="Red"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                           HorizontalOptions="Center"
+                           Margin="0,10"/>
+                    <!-- ✅ NUEVO: LISTA DE VEHÍCULOS ENCONTRADOS -->
+                    <Frame IsVisible="{Binding MostrarListaVehiculos}"
+                           BackgroundColor="#E3F2FD"
+                           Padding="10"
+                           HasShadow="False"
+                           BorderColor="#2196F3">
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Selecciona el vehículo correcto:"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   TextColor="#1976D2"/>
+
+                            <CollectionView ItemsSource="{Binding VehiculosEncontrados}"
+                                            SelectionMode="None"
+                                            MaximumHeightRequest="300">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame BackgroundColor="White"
+                                               Padding="12"
+                                               Margin="0,5"
+                                               HasShadow="False"
+                                               BorderColor="#BDBDBD">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer 
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.SeleccionarVehiculoCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                            </Frame.GestureRecognizers>
+
+                                            <VerticalStackLayout Spacing="3">
+                                                <Label Text="{Binding VehiculoCompleto}"
+                                                       FontSize="15"
+                                                       FontAttributes="Bold"
+                                                       TextColor="Black"/>
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                                    <Label Grid.Column="0" 
+                                                           Text="VIN:"
+                                                           FontSize="12"
+                                                           TextColor="#666"/>
+                                                    <Label Grid.Column="1"
+                                                           Text="{Binding VIN}"
+                                                           FontSize="11"
+                                                           TextColor="#404040"/>
+                                                </Grid>
+                                                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                                    <Label Grid.Column="0" 
+                                                           Text="Cliente:"
+                                                           FontSize="12"
+                                                           TextColor="#666"/>
+                                                    <Label Grid.Column="1"
+                                                           Text="{Binding NombreCliente}"
+                                                           FontSize="12"
+                                                           TextColor="#404040"/>
+                                                </Grid>
+                                            </VerticalStackLayout>
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+                    <Label Text="Datos del Vehículo"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="VIN Completo:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding VIN}"
+                                Placeholder="17 caracteres"
+                                MaxLength="17"
+                                IsReadOnly="{Binding CamposVehiculoBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Marca:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding Marca}"
+                                Placeholder="Marca del vehículo"
+                                IsReadOnly="{Binding CamposVehiculoBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Modelo:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding Modelo}"
+                                Placeholder="Modelo del vehículo"
+                                IsReadOnly="{Binding CamposVehiculoBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Version:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding Version}"
+                                Placeholder="Version del vehiculo"
+                                IsReadOnly="{Binding CamposVehiculoBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Color:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding Color}"
+                                Placeholder="Color del vehículo"
+                                IsReadOnly="{Binding CamposVehiculoBloqueados}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,Auto,Auto,Auto" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Año:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                               Text="{Binding Anio}"
+                               Placeholder="Año"
+                               Keyboard="Numeric"
+                               MaxLength="4"
+                               IsReadOnly="{Binding CamposVehiculoBloqueados}"/>
+                        <Label Grid.Column="2"
+                                Text="Placa:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="3"
+                               Text="{Binding Placas}"
+                               Placeholder="Placa"
+                               MaxLength="7"
+                               IsReadOnly="{Binding CampoPlacasBloqueado}"/>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Grid.Column="0"
+                                Text="Km Inicial:"
+                                FontSize="14"
+                                FontAttributes="Italic"
+                                VerticalOptions="Center"
+                                TextColor="Red"/>
+                        <Entry Grid.Column="1"
+                                Text="{Binding KilometrajeInicial}"
+                                Placeholder="Kilometraje"
+                                IsReadOnly="{Binding CamposVehiculoBloqueados}"/>
+                    </Grid>
+
+                    <Border
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="6"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <Label  Grid.Column="0"
+                                Text="Kilometraje ACTUAL:"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                TextColor="Black"/>
+                            <Entry Grid.Column="1"
+                                Text="{Binding KilometrajeActual}"
+                                Placeholder="Kilometraje"
+                                ReturnCommand="{Binding SiguienteCommand}"/>
+                        </Grid>
+
+                    </Border>
+
+                    <Button Text="{Binding TextoBotonVehiculo}"
+                            Command="{Binding EditarGuardarVehiculoCommand}"
+                            IsVisible="{Binding MostrarBotonEditarVehiculo}"
+                            BackgroundColor="{Binding ColorBotonVehiculo}"
+                            TextColor="White"
+                            Margin="0,10,0,0"
+                            HeightRequest="45"
+                            FontAttributes="Bold"
+                            CornerRadius="5"/>
+                    <Label Text="{Binding ErrorMessage}"
+                           TextColor="Red"
+                           FontSize="13"
+                           FontAttributes="Bold"
+                           IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                           HorizontalOptions="Center"
+                           Margin="0,10"/>
+
+                    <!-- BOTONES DE NAVEGACIÓN (SIN CAMBIOS) -->
+                    <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="0" Padding="0">
+
+                        <Button Grid.Column="0"
+                    Text="◀ ANTERIOR"
+                    Command="{Binding AnteriorCommand}"
+                    IsVisible="{Binding PasoActual, Converter={StaticResource GreaterThanOneConverter}}"
+                    BackgroundColor="#757575"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="55"
+                    FontAttributes="Bold"/>
+
+                        <Button Grid.Column="1"
+                    Text="SIGUIENTE ▶"
+                    Command="{Binding SiguienteCommand}"
+                    IsVisible="{Binding MostrarBotonSiguiente}"
+                    BackgroundColor="#D60000"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="55"
+                    FontAttributes="Bold"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+                <!-- ====================================== -->
+                <!-- PASO 3: ORDEN DE SERVICIO CON HISTORIAL -->
+                <!-- ====================================== -->
+                <VerticalStackLayout Spacing="15" IsVisible="{Binding MostrarPaso3}">
+
+                    <!-- ========== VISTA PARA SERVICIO ========== -->
+                    <VerticalStackLayout Spacing="15" IsVisible="{Binding EsServicio}">
+                        <VerticalStackLayout Spacing="10">
+                            <Frame BackgroundColor="#FFF8E1"
+                               Padding="15"
+                               HasShadow="True"
+                               BorderColor="#FFB74D"
+                               CornerRadius="10"
+                               Margin="10,0">
+
+                                <VerticalStackLayout Spacing="10">
+
+                                    <!-- Header -->
+                                    <Label Text="📋 Historial de Servicios- Ultimo Año  " 
+                                       HorizontalOptions="Center"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#E65100"/>
+
+                                    <!-- Loading Indicator -->
+                                    <ActivityIndicator IsRunning="{Binding IsLoadingHistorial}"
+                                                  IsVisible="{Binding IsLoadingHistorial}"
+                                                  Color="#FF9800"
+                                                  HeightRequest="30"/>
+
+                                    <!-- Resumen cuando HAY historial -->
+                                    <Frame IsVisible="{Binding TieneHistorial}"
+                                       BackgroundColor="White"
+                                       Padding="10"
+                                       HasShadow="False"
+                                       BorderColor="#FFB74D"
+                                       Margin="0,5,0,0">
+                                        <Label Text="{Binding ResumenHistorial}"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#E65100"
+                                           HorizontalOptions="Center"/>
+                                    </Frame>
+
+                                    <!-- Mensaje cuando NO hay historial -->
+                                    <Frame IsVisible="{Binding TieneHistorial, Converter={StaticResource InverseBoolConverter}}"
+                                       BackgroundColor="White"
+                                       Padding="15"
+                                       HasShadow="False"
+                                       BorderColor="#FFB74D"
+                                       Margin="0,5,0,0">
+                                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                                            <Label Text="ℹ️"
+                                               FontSize="32"
+                                               HorizontalOptions="Center"/>
+                                            <Label Text="{Binding ResumenHistorial}"
+                                               FontSize="13"
+                                               TextColor="#666"
+                                               HorizontalTextAlignment="Center"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+
+                                    <!-- Lista de Servicios Previos -->
+                                    <CollectionView ItemsSource="{Binding HistorialServicios}"
+                                               IsVisible="{Binding TieneHistorial}"
+                                               MaximumHeightRequest="400">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Frame BackgroundColor="White"
+                                                   Padding="12"
+                                                   Margin="0,5"
+                                                   HasShadow="False"
+                                                   BorderColor="#E0E0E0"
+                                                   CornerRadius="8">
+
+                                                    <Grid RowDefinitions="Auto,Auto,Auto" 
+                                                      ColumnDefinitions="*,Auto"
+                                                      RowSpacing="8">
+
+                                                        <!-- Fecha -->
+                                                        <Label Grid.Row="0" Grid.Column="0"
+                                                           FontSize="13"
+                                                           TextColor="#666">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="📅 " FontSize="14"/>
+                                                                    <Span Text="{Binding FechaFormateada}" 
+                                                                      FontAttributes="Bold"/>
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+
+                                                        <!-- Número de Orden -->
+                                                        <Frame Grid.Row="0" Grid.Column="1"
+                                                           BackgroundColor="#F5F5F5"
+                                                           Padding="6,3"
+                                                           HasShadow="False"
+                                                           CornerRadius="4"
+                                                           VerticalOptions="Center">
+                                                            <Label Text="{Binding NumeroOrden}"
+                                                               FontSize="10"
+                                                               FontAttributes="Bold"
+                                                               TextColor="#666"/>
+                                                        </Frame>
+
+                                                        <!-- Tipo de Servicio -->
+                                                        <Label Grid.Row="1" Grid.ColumnSpan="2"
+                                                           Text="{Binding TipoServicio}"
+                                                           FontSize="15"
+                                                           FontAttributes="Bold"
+                                                           TextColor="#E65100"/>
+
+                                                        <!-- Kilometraje -->
+                                                        <Frame Grid.Row="2" Grid.ColumnSpan="2"
+                                                           BackgroundColor="#E3F2FD"
+                                                           Padding="8,5"
+                                                           HasShadow="False"
+                                                           CornerRadius="6">
+                                                            <Label FontSize="12"
+                                                               TextColor="#1565C0">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="📏 Kilometraje: " 
+                                                                          FontAttributes="Bold"/>
+                                                                        <Span Text="{Binding KilometrajeRegistrado, StringFormat='{0:N0} km'}"
+                                                                          FontAttributes="Bold"
+                                                                          FontSize="13"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                        </Frame>
+
+                                                    </Grid>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                    <!-- ✅ SERVICIO SUGERIDO -->
+                                    <Frame BackgroundColor="{Binding ColorServicioSugerido}"
+                                       Padding="15"
+                                       HasShadow="True"
+                                       BorderColor="{Binding ColorServicioSugerido}"
+                                       CornerRadius="10"
+                                       Margin="10,10,10,0"
+                                       IsVisible="{Binding ServicioSugerido, Converter={StaticResource StringNotEmptyConverter}}">
+
+                                        <VerticalStackLayout Spacing="8">
+
+                                            <!-- Título del Servicio Sugerido -->
+                                            <Label Text="🎯 SERVICIO SUGERIDO"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="White"
+                                               HorizontalOptions="Center"/>
+
+                                            <!-- Tipo de Servicio -->
+                                            <Label Text="{Binding ServicioSugerido}"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               TextColor="White"
+                                               HorizontalOptions="Center"/>
+
+                                            <!-- Separador -->
+                                            <BoxView HeightRequest="1" 
+                                                 BackgroundColor="White" 
+                                                 Opacity="0.5"
+                                                 Margin="10,5"/>
+
+                                            <!-- Mensaje Explicativo -->
+                                            <Label Text="{Binding MensajeServicioSugerido}"
+                                               FontSize="13"
+                                               TextColor="White"
+                                               HorizontalTextAlignment="Center"
+                                               LineBreakMode="WordWrap"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+
+                                    <!-- Separador -->
+                                    <BoxView HeightRequest="2" 
+                                         BackgroundColor="#E0E0E0" 
+                                         Margin="0,15,0,10"/>
+
+                                </VerticalStackLayout>
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12" Padding="6">
+
+                            <Label  
+                                Grid.Column="0"
+                                Text="Tipo de Servicio"
+                                VerticalOptions="Center"
+                                FontSize="18"
+                                FontAttributes="Bold"
+                                TextColor="Black" />
+
+                            <Border 
+                                Grid.Column="1"
+                                BackgroundColor="#FFEBEE"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="6"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+
+                                <Picker
+                                    ItemsSource="{Binding TiposServicio}"
+                                    ItemDisplayBinding="{Binding Nombre}"
+                                    SelectedItem="{Binding TipoServicioSeleccionado}"
+                                    FontSize="14"
+                                    TextColor="#404040"
+                                    BackgroundColor="Transparent"/>
+                            </Border>
+                        </Grid>
+
+
+                        <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+                        <Label Text="Servicios Extra (Opcionales)"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#404040"/>
+
+                        <CollectionView ItemsSource="{Binding ServiciosExtra}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White" 
+                                           Padding="12" 
+                                           Margin="0,5"
+                                           HasShadow="False"
+                                           BorderColor="RED"
+                                           CornerRadius="8">
+                                        <VerticalStackLayout Spacing="10">
+
+                                            <!-- Fila superior: Checkbox, Nombre y Precio -->
+                                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                                <CheckBox Grid.Column="0"
+                                                          IsChecked="{Binding Seleccionado}"
+                                                          CheckedChanged="OnServicioExtraChanged"
+                                                          VerticalOptions="Center"/>
+
+                                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                    <Label Text="{Binding Nombre}"
+                                                           FontSize="14"
+                                                           FontAttributes="Bold"
+                                                           TextColor="Black"/>
+                                                    <Label Text="{Binding Categoria}"
+                                                           FontSize="11"
+                                                           TextColor="#757575"/>
+                                                </VerticalStackLayout>
+                                            </Grid>
+
+                                            <!-- Campo de indicaciones personalizadas (se muestra solo si está seleccionado) -->
+                                            <Frame IsVisible="{Binding MostrarIndicaciones}"
+                                                   BackgroundColor="#F0F8FF"
+                                                   Padding="10"
+                                                   HasShadow="False"
+                                                   BorderColor="#2196F3"
+                                                   CornerRadius="6">
+                                                <VerticalStackLayout Spacing="5">
+                                                    <Label Text="💬 Indicaciones sobre el trabajo"
+                                                           FontSize="12"
+                                                           FontAttributes="Bold"
+                                                           TextColor="#1976D2"/>
+                                                    <Border BackgroundColor="White"
+                                                            StrokeThickness="1"
+                                                            Stroke="#BDBDBD"
+                                                            Padding="8"
+                                                            StrokeShape="RoundRectangle 6">
+                                                        <Entry Text="{Binding IndicacionesPersonalizadas}"
+                                                               Placeholder="Escribe indicaciones específicas aquí..."
+                                                               FontSize="13"
+                                                               TextColor="#404040"/>
+                                                    </Border>
+                                                </VerticalStackLayout>
+                                            </Frame>
+
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+
+                        <Label Text="Detalles de la Orden"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Promesa de Entrega"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#404040"/>
+                        </VerticalStackLayout>
+
+                        <Grid ColumnDefinitions="145,Auto" ColumnSpacing="5">
+                            <Border  Grid.Column="0"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="4"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                                <DatePicker Grid.Column="0"
+                                    Date="{Binding Fecha}"
+                                    MinimumDate="{Binding FechaMinima}"
+                                    BackgroundColor="White"/>
+                            </Border>
+                            <Border Grid.Column="1"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="4"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                                <TimePicker Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Time="{Binding Hora}"
+                                    BackgroundColor="White"/>
+                            </Border>
+                        </Grid>
+
+                        <Label Text="Observaciones"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+                        <Border                                                           Grid.Column="1"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="6"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                            <Editor Text="{Binding Observaciones}"
+                            Placeholder="Observaciones (opcional)"
+                            HeightRequest="80"
+                            BackgroundColor="White"/>
+                        </Border>
+
+                        <!-- MENSAJE DE ERROR -->
+                        <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       FontSize="13"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                       HorizontalOptions="Center"
+                       Margin="0,10"/>
+
+                        <!-- BOTONES DE NAVEGACIÓN (SIN CAMBIOS) -->
+                        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="0" Padding="0">
+
+                            <Button Grid.Column="0"
+                                Text="◀ ANTERIOR"
+                                Command="{Binding AnteriorCommand}"
+                                IsVisible="{Binding PasoActual, Converter={StaticResource GreaterThanOneConverter}}"
+                                BackgroundColor="#757575"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="55"
+                                FontAttributes="Bold"/>
+
+
+                            <Button Grid.Column="1" 
+                                Text="✓ RESUMEN"
+                                Command="{Binding CrearOrdenServicioCommand}"
+                                IsVisible="{Binding MostrarBotonCrear}"
+                                BackgroundColor="#4CAF50"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="55"
+                                FontAttributes="Bold"
+                                FontSize="16"/>
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                    <!-- ========== VISTA PARA REPARACION========== -->
+
+                    <VerticalStackLayout Spacing="15" IsVisible="{Binding EsReparacion}">
+                        <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+                        <Label Text="Reparaciones Frecuentes"
+                               HorizontalOptions="Center"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="red"/>
+
+                        <CollectionView ItemsSource="{Binding ServiciosExtra}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White" 
+                                           Padding="12" 
+                                           Margin="0,5"
+                                           HasShadow="False"
+                                           BorderColor="#800020"
+                                           CornerRadius="8">
+                                        <VerticalStackLayout Spacing="10">
+
+                                            <!-- Fila superior: Checkbox, Nombre y Precio -->
+                                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                                <CheckBox Grid.Column="0"                                                       
+                                                          IsChecked="{Binding Seleccionado}"
+                                                          CheckedChanged="OnServicioExtraChanged"
+                                                          VerticalOptions="Center"/>
+
+                                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                    <Label Text="{Binding Nombre}"
+                                                           FontSize="14"
+                                                           FontAttributes="Bold"
+                                                           TextColor="Black"/>
+                                                    <Label Text="{Binding Categoria}"
+                                                           FontSize="11"
+                                                           TextColor="#757575"/>
+                                                </VerticalStackLayout>
+
+                                            </Grid>
+
+                                            <!-- Campo de indicaciones personalizadas (se muestra solo si está seleccionado) -->
+                                            <Frame IsVisible="{Binding MostrarIndicaciones}"
+                                                   BackgroundColor="#FFF3E0"
+                                                   Padding="10"
+                                                   HasShadow="False"
+                                                   BorderColor="#FF9800"
+                                                   CornerRadius="6">
+                                                <VerticalStackLayout Spacing="5">
+                                                    <Label Text="💬 Indicaciones sobre el trabajo"
+                                                           FontSize="12"
+                                                           FontAttributes="Bold"
+                                                           TextColor="#F57C00"/>
+                                                    <Border BackgroundColor="White"
+                                                            StrokeThickness="1"
+                                                            Stroke="#BDBDBD"
+                                                            Padding="8"
+                                                            StrokeShape="RoundRectangle 6">
+                                                        <Editor Text="{Binding IndicacionesPersonalizadas}"
+                                                               Placeholder="Escribe indicaciones específicas aquí..."
+                                                               FontSize="13"
+                                                               TextColor="#404040"/>
+                                                    </Border>
+
+                                                </VerticalStackLayout>
+                                            </Frame>
+
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+                        <Label Text="Agregar Trabajos Personalizados"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#404040"/>
+                        <!-- Formulario para agregar trabajo -->
+                        <Frame BackgroundColor="#F5F5F5" 
+                               Padding="15" 
+                               Margin="0,5"
+                               HasShadow="False"
+                               BorderColor="#E0E0E0">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Nombre del Trabajo *"
+                                       FontSize="12"
+                                       TextColor="#757575"/>
+                                <Border BackgroundColor="White"
+                                        StrokeThickness=".7"
+                                        Stroke="#BDBDBD"
+                                        Padding="8"
+                                        StrokeShape="RoundRectangle 8">
+                                    <Entry Text="{Binding NombreTrabajoPersonalizado}"
+                                           Placeholder="Ej: Cambio de balatas"
+                                           FontSize="14"/>
+                                </Border>
+
+                                <Label Text="Descripción (opcional)"
+                                       FontSize="12"
+                                       TextColor="#757575"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness=".7"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 8">
+                                    <Editor Text="{Binding DescripcionTrabajoPersonalizado}"
+                                        Placeholder="Ej: Balatas delanteras originales"
+                                        FontSize="14"
+                                        AutoSize="TextChanges"
+                                        HeightRequest="120" />
+                                </Border>
+
+                                <Button Text="+ Agregar Trabajo"
+                                        Command="{Binding AgregarTrabajoPersonalizadoCommand}"
+                                        BackgroundColor="#2196F3"
+                                        TextColor="White"
+                                        CornerRadius="8"
+                                        HeightRequest="45"
+                                        FontSize="14"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Lista de trabajos personalizados agregados -->
+                        <Label Text="Trabajos Agregados"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#404040"
+                               IsVisible="{Binding TrabajosPersonalizados.Count}"
+                               Margin="0,10,0,0"/>
+
+                        <CollectionView ItemsSource="{Binding TrabajosPersonalizados}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White" 
+                                           Padding="10" 
+                                           Margin="0,5"
+                                           HasShadow="False"
+                                           BorderColor="#E0E0E0">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                                <Label Text="{Binding Trabajo}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold"
+                                                       TextColor="Black"/>
+                                                <Label Text="{Binding Indicaciones}"
+                                                       FontSize="12"
+                                                       TextColor="#757575"
+                                                       IsVisible="{Binding Descripcion, Converter={StaticResource StringNotEmptyConverter}}"/>
+                                            </VerticalStackLayout>
+
+                                            <Button Grid.Column="1"
+                                                Text="🗑️"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarTrabajoPersonalizadoCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#F44336"
+                                                TextColor="White"
+                                                CornerRadius="20"
+                                                WidthRequest="40"
+                                                HeightRequest="40"
+                                                Padding="0"
+                                                FontSize="16"
+                                                VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+
+                        <Label Text="Detalles de la Orden"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Promesa de Entrega"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#404040"/>
+                        </VerticalStackLayout>
+
+                        <Grid ColumnDefinitions="145,Auto" ColumnSpacing="5">
+                            <Border  Grid.Column="0"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="4"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                                <DatePicker Grid.Column="0"
+                                    Date="{Binding Fecha}"
+                                    MinimumDate="{Binding FechaMinima}"
+                                    BackgroundColor="White"/>
+                            </Border>
+                            <Border Grid.Column="1"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="4"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                                <TimePicker Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Time="{Binding Hora}"
+                                    BackgroundColor="White"/>
+                            </Border>
+                        </Grid>
+
+                        <Label Text="Observaciones"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+                        <Border                                                           Grid.Column="1"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="6"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                            <Editor Text="{Binding Observaciones}"
+                            Placeholder="Observaciones (opcional)"
+                            HeightRequest="80"
+                            BackgroundColor="White"/>
+                        </Border>
+
+                        <!-- MENSAJE DE ERROR -->
+                        <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       FontSize="13"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                       HorizontalOptions="Center"
+                       Margin="0,10"/>
+
+                        <!-- BOTONES DE NAVEGACIÓN (SIN CAMBIOS) -->
+                        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="0" Padding="0">
+
+                            <Button Grid.Column="0"
+                                Text="◀ ANTERIOR"
+                                Command="{Binding AnteriorCommand}"
+                                IsVisible="{Binding PasoActual, Converter={StaticResource GreaterThanOneConverter}}"
+                                BackgroundColor="#757575"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="55"
+                                FontAttributes="Bold"/>
+
+                            <Button Grid.Column="1" 
+                                Text="✓ RESUMEN"
+                                Command="{Binding CrearOrdenReparacionCommand}"
+                                IsVisible="{Binding MostrarBotonCrear}"
+                                BackgroundColor="#4CAF50"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="55"
+                                FontAttributes="Bold"
+                                FontSize="16"/>
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                    <!-- ========== VISTA PARA DIAGNOSTICO ========== -->
+                    <VerticalStackLayout Spacing="15" IsVisible="{Binding EsDiagnostico}">
+                        <!-- Formulario para agregar trabajo -->
+                        <Frame BackgroundColor="#F5F5F5" 
+                               Padding="15" 
+                               Margin="0,5"
+                               HasShadow="False"
+                               BorderColor="#E0E0E0">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Nombre del Diagnostico *"
+                                       FontSize="12"
+                                       TextColor="#757575"/>
+                                <Border BackgroundColor="White"
+                                        StrokeThickness=".7"
+                                        Stroke="#BDBDBD"
+                                        Padding="8"
+                                        StrokeShape="RoundRectangle 8">
+                                    <Entry Text="{Binding NombreTrabajoPersonalizado}"
+                                           Placeholder="Ej: Testigo Check-Engine encendido"
+                                           FontSize="14"/>
+                                </Border>
+
+                                <Label Text="Descripción (opcional)"
+                                       FontSize="12"
+                                       TextColor="#757575"/>
+                                <Border BackgroundColor="White"
+                                    StrokeThickness=".7"
+                                    Stroke="#BDBDBD"
+                                    Padding="8"
+                                    StrokeShape="RoundRectangle 8">
+                                    <Editor Text="{Binding DescripcionTrabajoPersonalizado}"
+                                        Placeholder="Ej: El testigo se encendió después de mi último viaje..."
+                                        FontSize="14"
+                                        AutoSize="TextChanges"
+                                        HeightRequest="120"/>
+                                </Border>
+
+                                <Button Text="+ Agregar Diagnostico"
+                                        Command="{Binding AgregarTrabajoPersonalizadoCommand}"
+                                        BackgroundColor="#2196F3"
+                                        TextColor="White"
+                                        CornerRadius="8"
+                                        HeightRequest="45"
+                                        FontSize="14"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Lista de trabajos personalizados agregados -->
+                        <Label Text="Diagnosticos Agregados"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#404040"
+                               IsVisible="{Binding TrabajosPersonalizados.Count}"
+                               Margin="0,10,0,0"/>
+
+                        <CollectionView ItemsSource="{Binding TrabajosPersonalizados}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White" 
+                                           Padding="10" 
+                                           Margin="0,5"
+                                           HasShadow="False"
+                                           BorderColor="#E0E0E0">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                                <Label Text="{Binding Trabajo}"
+                                                       FontSize="14"
+                                                       FontAttributes="Bold"
+                                                       TextColor="Black"/>
+                                                <Label Text="{Binding Indicaciones}"
+                                                       FontSize="12"
+                                                       TextColor="#757575"
+                                                       IsVisible="{Binding Descripcion, Converter={StaticResource StringNotEmptyConverter}}"/>
+                                            </VerticalStackLayout>
+
+                                            <Button Grid.Column="1"
+                                                Text="🗑️"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarTrabajoPersonalizadoCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#F44336"
+                                                TextColor="White"
+                                                CornerRadius="20"
+                                                WidthRequest="40"
+                                                HeightRequest="40"
+                                                Padding="0"
+                                                FontSize="16"
+                                                VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+                        <Label Text="Detalles de la Orden"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Promesa de Entrega"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#404040"/>
+                        </VerticalStackLayout>
+                        
+                        <Grid ColumnDefinitions="145,Auto" ColumnSpacing="5">
+                            <Border  Grid.Column="0"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="4"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                                <DatePicker Grid.Column="0"
+                                    Date="{Binding Fecha}"
+                                    MinimumDate="{Binding FechaMinima}"
+                                    BackgroundColor="White"/>
+                            </Border>
+                            <Border Grid.Column="1"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="4"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                                <TimePicker Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Time="{Binding Hora}"
+                                    BackgroundColor="White"/>
+                            </Border>
+                        </Grid>
+
+                        <Label Text="Observaciones"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+                        <Border Grid.Column="1"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="6"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                            <Editor Text="{Binding Observaciones}"
+                            Placeholder="Observaciones (opcional)"
+                            HeightRequest="80"
+                            BackgroundColor="White"/>
+                        </Border>
+
+                        <!-- MENSAJE DE ERROR -->
+                        <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       FontSize="13"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                       HorizontalOptions="Center"
+                       Margin="0,10"/>
+
+                        <!-- BOTONES DE NAVEGACIÓN (SIN CAMBIOS) -->
+                        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="0" Padding="0">
+
+                            <Button Grid.Column="0"
+                                Text="◀ ANTERIOR"
+                                Command="{Binding AnteriorCommand}"
+                                IsVisible="{Binding PasoActual, Converter={StaticResource GreaterThanOneConverter}}"
+                                BackgroundColor="#757575"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="55"
+                                FontAttributes="Bold"/>
+
+
+                            <Button Grid.Column="1" 
+                                Text="✓ RESUMEN"
+                                Command="{Binding CrearOrdenDiagnosticoCommand}"
+                                IsVisible="{Binding MostrarBotonCrear}"
+                                BackgroundColor="#4CAF50"
+                                TextColor="White"
+                                CornerRadius="10"
+                                HeightRequest="55"
+                                FontAttributes="Bold"
+                                FontSize="16"/>
+                        </Grid>
+
+                    </VerticalStackLayout>
+
+                    <!-- ========== VISTA PARA GARANTIA ========== -->
+                    <VerticalStackLayout Spacing="15" IsVisible="{Binding EsGarantia}">
+
+                        <VerticalStackLayout Spacing="10">
+                            <Frame BackgroundColor="#FFF8E1"
+                               Padding="15"
+                               HasShadow="True"
+                               BorderColor="#FFB74D"
+                               CornerRadius="10"
+                               Margin="10,0">
+
+                                <VerticalStackLayout Spacing="10">
+                                    <!-- Header -->
+                                    <Label Text="📋 Historial de Servicios- Ultimo Año  " 
+                                       HorizontalOptions="Center"
+                                       FontSize="16"
+                                       FontAttributes="Bold"
+                                       TextColor="#E65100"/>
+
+                                    <!-- Loading Indicator -->
+                                    <ActivityIndicator IsRunning="{Binding IsLoadingHistorial}"
+                                                  IsVisible="{Binding IsLoadingHistorial}"
+                                                  Color="#FF9800"
+                                                  HeightRequest="30"/>
+
+                                    <!-- Resumen cuando HAY historial -->
+                                    <Frame IsVisible="{Binding TieneHistorial}"
+                                       BackgroundColor="White"
+                                       Padding="10"
+                                       HasShadow="False"
+                                       BorderColor="#FFB74D"
+                                       Margin="0,5,0,0">
+                                        <Label Text="{Binding ResumenHistorial}"
+                                           FontSize="13"
+                                           FontAttributes="Bold"
+                                           TextColor="#E65100"
+                                           HorizontalOptions="Center"/>
+                                    </Frame>
+
+                                    <!-- Mensaje cuando NO hay historial -->
+                                    <Frame IsVisible="{Binding TieneHistorial, Converter={StaticResource InverseBoolConverter}}"
+                                       BackgroundColor="White"
+                                       Padding="15"
+                                       HasShadow="False"
+                                       BorderColor="#FFB74D"
+                                       Margin="0,5,0,0">
+                                        <VerticalStackLayout Spacing="5" HorizontalOptions="Center">
+                                            <Label Text="ℹ️"
+                                               FontSize="32"
+                                               HorizontalOptions="Center"/>
+                                            <Label Text="{Binding ResumenHistorial}"
+                                               FontSize="13"
+                                               TextColor="#666"
+                                               HorizontalTextAlignment="Center"/>
+                                        </VerticalStackLayout>
+                                    </Frame>
+
+                                    <!-- Lista de Servicios Previos -->
+                                    <CollectionView ItemsSource="{Binding HistorialServicios}"
+                                               IsVisible="{Binding TieneHistorial}"
+                                               MaximumHeightRequest="400">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Frame BackgroundColor="White"
+                                                   Padding="12"
+                                                   Margin="0,5"
+                                                   HasShadow="False"
+                                                   BorderColor="#E0E0E0"
+                                                   CornerRadius="8">
+
+                                                    <Grid RowDefinitions="Auto,Auto,Auto" 
+                                                      ColumnDefinitions="*,Auto"
+                                                      RowSpacing="8">
+
+                                                        <!-- Fecha -->
+                                                        <Label Grid.Row="0" Grid.Column="0"
+                                                           FontSize="13"
+                                                           TextColor="#666">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="📅 " FontSize="14"/>
+                                                                    <Span Text="{Binding FechaFormateada}" 
+                                                                      FontAttributes="Bold"/>
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+
+                                                        <!-- Número de Orden -->
+                                                        <Frame Grid.Row="0" Grid.Column="1"
+                                                           BackgroundColor="#F5F5F5"
+                                                           Padding="6,3"
+                                                           HasShadow="False"
+                                                           CornerRadius="4"
+                                                           VerticalOptions="Center">
+                                                            <Label Text="{Binding NumeroOrden}"
+                                                               FontSize="10"
+                                                               FontAttributes="Bold"
+                                                               TextColor="#666"/>
+                                                        </Frame>
+
+                                                        <!-- Tipo de Servicio -->
+                                                        <Label Grid.Row="1" Grid.ColumnSpan="2"
+                                                           Text="{Binding TipoServicio}"
+                                                           FontSize="15"
+                                                           FontAttributes="Bold"
+                                                           TextColor="#E65100"/>
+
+                                                        <!-- Kilometraje -->
+                                                        <Frame Grid.Row="2" Grid.ColumnSpan="2"
+                                                           BackgroundColor="#E3F2FD"
+                                                           Padding="8,5"
+                                                           HasShadow="False"
+                                                           CornerRadius="6">
+                                                            <Label FontSize="12"
+                                                               TextColor="#1565C0">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="📏 Kilometraje: " 
+                                                                          FontAttributes="Bold"/>
+                                                                        <Span Text="{Binding KilometrajeRegistrado, StringFormat='{0:N0} km'}"
+                                                                          FontAttributes="Bold"
+                                                                          FontSize="13"/>
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                        </Frame>
+
+                                                    </Grid>
+                                                </Frame>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+
+                                    <!-- ✅ SERVICIO SUGERIDO -->
+                                    <Frame BackgroundColor="{Binding ColorServicioSugerido}"
+                                       Padding="15"
+                                       HasShadow="True"
+                                       BorderColor="{Binding ColorServicioSugerido}"
+                                       CornerRadius="10"
+                                       Margin="10,10,10,0"
+                                       IsVisible="{Binding ServicioSugerido, Converter={StaticResource StringNotEmptyConverter}}">
+
+                                        <VerticalStackLayout Spacing="8">
+
+                                            <!-- Tipo de Servicio -->
+                                            <Label Text="{Binding ServicioSugerido}"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               TextColor="White"
+                                               HorizontalOptions="Center"/>
+
+                                            <!-- Separador -->
+                                            <BoxView HeightRequest="1" 
+                                                 BackgroundColor="White" 
+                                                 Opacity="0.5"
+                                                 Margin="10,5"/>
+
+                                            <!-- Mensaje Explicativo -->
+                                            <Label Text="{Binding MensajeServicioSugerido}"
+                                               FontSize="13"
+                                               TextColor="White"
+                                               HorizontalTextAlignment="Center"
+                                               LineBreakMode="WordWrap"/>
+
+                                        </VerticalStackLayout>
+                                    </Frame>
+
+                                    <!-- Separador -->
+                                    <BoxView HeightRequest="2" 
+                                         BackgroundColor="#E0E0E0" 
+                                         Margin="0,15,0,10"/>
+
+                                </VerticalStackLayout>
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+                        <Label Text="Reparaciones por Garantia "
+                                HorizontalOptions="Center"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="#404040"/>
+
+                        <!-- Formulario para agregar trabajo -->
+                        <Frame BackgroundColor="#F5F5F5" 
+                                Padding="15" 
+                                Margin="0,5"
+                                HasShadow="False"
+                                BorderColor="#E0E0E0">
+                            <VerticalStackLayout Spacing="10">
+                                <Label Text="Nombre del Trabajo *"
+                                        FontSize="12"
+                                        TextColor="#757575"/>
+                                <Border BackgroundColor="White"
+                                         StrokeThickness=".7"
+                                         Stroke="#BDBDBD"
+                                         Padding="8"
+                                         StrokeShape="RoundRectangle 8">
+                                    <Entry Text="{Binding NombreTrabajoPersonalizado}"
+                                            Placeholder="Ej: Reparacion de Transmision"
+                                            FontSize="14"/>
+                                </Border>
+
+                                <Label Text="Descripción (opcional)"
+                                        FontSize="12"
+                                        TextColor="#757575"/>
+                                <Border BackgroundColor="White"
+                                         StrokeThickness=".7"
+                                         Stroke="#BDBDBD"
+                                         Padding="8"
+                                         StrokeShape="RoundRectangle 8">
+                                    <Editor Text="{Binding DescripcionTrabajoPersonalizado}"
+                                        Placeholder="Ej: El vehiculo no permite hacer el cambio de velocidad..."
+                                        FontSize="14"
+                                        AutoSize="TextChanges"
+                                        HeightRequest="120" />
+                                </Border>
+
+                                <Button Text="+ Agregar Trabajo"
+                                         Command="{Binding AgregarTrabajoPersonalizadoCommand}"
+                                         BackgroundColor="#2196F3"
+                                         TextColor="White"
+                                         CornerRadius="8"
+                                         HeightRequest="45"
+                                         FontSize="14"/>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Lista de trabajos personalizados agregados -->
+                        <Label Text="Trabajos Agregados"
+                                FontSize="14"
+                                FontAttributes="Bold"
+                                TextColor="#404040"
+                                IsVisible="{Binding TrabajosPersonalizados.Count}"
+                                Margin="0,10,0,0"/>
+
+                        <CollectionView ItemsSource="{Binding TrabajosPersonalizados}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White" 
+                                            Padding="10" 
+                                            Margin="0,5"
+                                            HasShadow="False"
+                                            BorderColor="#E0E0E0">
+                                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                                <Label Text="{Binding Trabajo}"
+                                                        FontSize="14"
+                                                        FontAttributes="Bold"
+                                                        TextColor="Black"/>
+                                                <Label Text="{Binding Indicaciones}"
+                                                        FontSize="12"
+                                                        TextColor="#757575"
+                                                        IsVisible="{Binding Descripcion, Converter={StaticResource StringNotEmptyConverter}}"/>
+                                            </VerticalStackLayout>
+
+                                            <Button Grid.Column="1"
+                                                 Text="🗑️"
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EliminarTrabajoPersonalizadoCommand}"
+                                                 CommandParameter="{Binding .}"
+                                                 BackgroundColor="#F44336"
+                                                 TextColor="White"
+                                                 CornerRadius="20"
+                                                 WidthRequest="40"
+                                                 HeightRequest="40"
+                                                 Padding="0"
+                                                 FontSize="16"
+                                                 VerticalOptions="Center"/>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                        <BoxView HeightRequest="2" BackgroundColor="#E0E0E0" Margin="0,10"/>
+
+
+                        <Label Text="Detalles de la Orden"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="Promesa de Entrega"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#404040"/>
+                        </VerticalStackLayout>
+
+                        <Grid ColumnDefinitions="145,Auto" ColumnSpacing="5">
+                            <Border  Grid.Column="0"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="4"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                                <DatePicker Grid.Column="0"
+                                    Date="{Binding Fecha}"
+                                    MinimumDate="{Binding FechaMinima}"
+                                    BackgroundColor="White"/>
+                            </Border>
+                            <Border Grid.Column="1"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="4"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                                <TimePicker Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    Time="{Binding Hora}"
+                                    BackgroundColor="White"/>
+                            </Border>
+                        </Grid>
+
+                        <Label Text="Observaciones"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#404040"/>
+                        <Border                                                           Grid.Column="1"
+                                BackgroundColor="#FFF0F0"
+                                StrokeThickness=".7"
+                                Stroke="Red"
+                                Padding="6"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Center"
+                                StrokeShape="RoundRectangle 12">
+                            <Editor Text="{Binding Observaciones}"
+                            Placeholder="Observaciones (opcional)"
+                            HeightRequest="80"
+                            BackgroundColor="White"/>
+                        </Border>
+
+                        <!-- MENSAJE DE ERROR -->
+                        <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       FontSize="13"
+                       IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                       HorizontalOptions="Center"
+                       Margin="0,10"/>
+                        <!-- BOTONES DE NAVEGACIÓN (SIN CAMBIOS) -->
+                        <Grid Grid.Row="2" ColumnDefinitions="*,*" ColumnSpacing="0" Padding="0">
+
+                            <Button Grid.Column="0"
+                                 Text="◀ ANTERIOR"
+                                 Command="{Binding AnteriorCommand}"
+                                 IsVisible="{Binding PasoActual, Converter={StaticResource GreaterThanOneConverter}}"
+                                 BackgroundColor="#757575"
+                                 TextColor="White"
+                                 CornerRadius="10"
+                                 HeightRequest="55"
+                                 FontAttributes="Bold"/>
+
+
+                            <Button Grid.Column="1" 
+                                 Text="✓ Resumen"
+                                 Command="{Binding CrearOrdenGarantiaCommand}"
+                                 IsVisible="{Binding MostrarBotonCrear}"
+                                 BackgroundColor="#4CAF50"
+                                 TextColor="White"
+                                 CornerRadius="10"
+                                 HeightRequest="55"
+                                 FontAttributes="Bold"
+                                 FontSize="16"/>
+                        </Grid>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+                <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                   IsVisible="{Binding IsLoading}"
+                                   Color="#D60000"
+                                   HeightRequest="40"
+                                   HorizontalOptions="Center"/>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

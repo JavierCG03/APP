@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CarslineApp.Views.ImagePreviewPage"
+             BackgroundColor="#0F0F0F"
+             Shell.NavBarIsVisible="False">
+
+    <Grid RowDefinitions="56,*,50" ColumnDefinitions="*">
+
+        <!-- ═══ HEADER PROFESIONAL ═══ -->
+        <Grid Grid.Row="0"
+              Grid.Column="0"
+              BackgroundColor="#1A1A1A"
+              Padding="0"
+              ColumnDefinitions="50,*,50,50,50">
+
+            <!-- Botón Atrás -->
+            <Button Grid.Column="0"
+                    Text="←"
+                    FontSize="24"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    Clicked="OnBackClicked"
+                    Padding="5"
+                    CornerRadius="25" />
+
+            <!-- Título -->
+            <Label Grid.Column="1"
+                   Text="Vista Previa"
+                   TextColor="White"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+
+            <!-- Indicador Zoom -->
+            <Label Grid.Column="2"
+                   x:Name="ZoomLabel"
+                   Text="100%"
+                   TextColor="#00D4FF"
+                   FontSize="13"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center" />
+
+            <!-- Botón Zoom In -->
+            <Button Grid.Column="3"
+                    Text="+"
+                    FontSize="20"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    Clicked="OnZoomInClicked"
+                    Padding="5"
+                    CornerRadius="20" />
+
+            <!-- Botón Zoom Out -->
+            <Button Grid.Column="4"
+                    Text="−"
+                    FontSize="20"
+                    TextColor="White"
+                    BackgroundColor="Transparent"
+                    Clicked="OnZoomOutClicked"
+                    Padding="5"
+                    CornerRadius="20" />
+        </Grid> 
+
+        <!-- ═══ CONTENEDOR DE IMAGEN ═══ -->
+        <Grid x:Name="ImageContainer"
+          Grid.Row="1"
+          Grid.Column="0"
+          BackgroundColor="#0F0F0F"
+          Padding="0">
+            
+            <Image x:Name="PreviewImage"
+                   Aspect="AspectFit"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+                <Image.GestureRecognizers>
+                    <PinchGestureRecognizer PinchUpdated="OnPinchUpdated" />
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                    <TapGestureRecognizer NumberOfTapsRequired="2"
+                                         Tapped="OnDoubleTap" />
+                </Image.GestureRecognizers>
+            </Image>
+
+            <ActivityIndicator x:Name="LoadingIndicator"
+                              IsRunning="False"
+                              IsVisible="False"
+                              Color="#00D4FF"
+                              Scale="1.5" />
+        </Grid>
+
+
+        <!-- ═══ FOOTER CON CONTROLES ═══ -->
+        <Grid Grid.Row="2"
+              Grid.Column="0"
+              BackgroundColor="#1A1A1A"
+              Padding="10,0"
+              ColumnDefinitions="*,*,*,*">
+
+            <!-- Reset -->
+            <Button Grid.Column="0" Grid.ColumnSpan="2"
+                    Text="🔄 Reset"
+                    FontSize="11"
+                    TextColor="White"
+                    BackgroundColor="#2A2A2A"
+                    Clicked="OnResetClicked"
+                    CornerRadius="5"
+                    Padding="5" />
+
+            <!-- Info -->
+            <Button Grid.Column="3"
+                    Text="ℹ️ Info"
+                    FontSize="11"
+                    TextColor="White"
+                    BackgroundColor="#2A2A2A"
+                    Clicked="OnInfoClicked"
+                    CornerRadius="5"
+                    Padding="5" />
+
+        </Grid>
+    </Grid>
+</ContentPage>

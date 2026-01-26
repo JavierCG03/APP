@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="CarslineApp.Views.AdminHomePage"
+            x:Name="RootPage"
+            Shell.NavBarIsVisible="False"
+            NavigationPage.HasNavigationBar="False"
+            xmlns:converters="clr-namespace:CarslineApp.Converters">
+    <FlyoutPage.Resources>
+        <ResourceDictionary>
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
+        </ResourceDictionary>
+    </FlyoutPage.Resources>
+
+    <!-- ================== MENÚ LATERAL ================== -->
+    <FlyoutPage.Flyout>
+        <ContentPage Title="Menú" BackgroundColor="#1E1E1E">
+            <ScrollView>
+                <VerticalStackLayout Padding="0" Spacing="0">
+                    <!-- HEADER DEL MENÚ -->
+                    <Frame BackgroundColor="#D60000" Padding="20,30,20,25" Margin="0" CornerRadius="0" HasShadow="False">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="👨‍💼" FontSize="48" HorizontalOptions="Center"/>
+                            <Label Text="Administrador"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="{Binding NombreUsuarioActual}"
+                                   FontSize="15"
+                                   TextColor="#FFCCCC"
+                                   HorizontalOptions="Center"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- SECCIÓN DE NAVEGACIÓN -->
+                    <VerticalStackLayout Padding="15,20" Spacing="8">
+                        <Label Text="OPCIONES" 
+                               FontSize="12" 
+                               TextColor="#888" 
+                               FontAttributes="Bold"
+                               Margin="10,0,0,10"/>
+
+                        <!-- VER USUARIOS -->
+                        <Frame Padding="0" 
+                               Margin="0,0,0,8" 
+                               CornerRadius="12" 
+                               HasShadow="False"
+                               BackgroundColor="Gray">
+                            <Button Text="👥 Ver Usuarios"
+                                    Command="{Binding VerUsuariosCommand}"
+                                    BackgroundColor="Transparent"
+                                    TextColor="White"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="FillAndExpand"
+                                    HeightRequest="55"
+                                    Padding="15,0"/>
+                        </Frame>
+
+                        <!-- INVENTARIO -->
+                        <Frame Padding="0" 
+                               Margin="0,0,0,8" 
+                               CornerRadius="12" 
+                               HasShadow="False"
+                               BackgroundColor="Gray">
+                            <Button Text="📦 Inventario"
+                                    Command="{Binding VerInventarioCommand}"
+                                    BackgroundColor="Transparent"
+                                    TextColor="White"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="FillAndExpand"
+                                    HeightRequest="55"
+                                    Padding="15,0"/>
+                        </Frame>
+                        <!-- INVENTARIO -->
+                        <Frame Padding="0" 
+                               Margin="0,0,0,8" 
+                               CornerRadius="12" 
+                               HasShadow="False"
+                               BackgroundColor="Gray">
+                            <Button Text="✅ Crear Usuario"
+                                    Command="{Binding CrearUsuarioCommand}"
+                                    BackgroundColor="Transparent"
+                                    TextColor="White"
+                                    FontSize="16"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="FillAndExpand"
+                                    HeightRequest="55"
+                                    Padding="15,0"/>
+                        </Frame>
+                        <!-- SEPARADOR -->
+                        <BoxView HeightRequest="1" BackgroundColor="#333" Margin="20,10"/>
+                        <Frame Padding="0"
+                           Margin="0,0,0,20"
+                           CornerRadius="12"
+                           HasShadow="False"
+                           BackgroundColor="#404040">
+
+                            <Grid HeightRequest="55"
+                                  Padding="15,0"
+                                  ColumnDefinitions="50,*">
+
+                                <!-- ICONO -->
+                                <ImageButton Grid.Column="0"
+                                     BackgroundColor="Transparent"
+                                     Command="{Binding LogoutCommand}"
+                                     Source="cerrarsesion.png"
+                                     WidthRequest="50"
+                                     HeightRequest="50"                             
+                                     VerticalOptions="Center"/>
+
+                                <!-- TEXTO -->
+                                <Button Grid.Column="1"
+                                        Text="Cerrar Sesión"
+                                        Command="{Binding LogoutCommand}"
+                                        BackgroundColor="#404040"
+                                        TextColor="White"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        HorizontalOptions="FillAndExpand"/>
+                            </Grid>
+                        </Frame>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+    <!-- ================== CONTENIDO PRINCIPAL ================== -->
+    <FlyoutPage.Detail>
+        <NavigationPage BarBackgroundColor="#D60000" BarTextColor="White" Shell.NavBarIsVisible="False">
+            <x:Arguments>
+                <ContentPage Title="Panel Administrador" x:Name="DetailPage">
+                    <Grid RowDefinitions="Auto,*" BackgroundColor="#F5F5F5">
+                        <!-- HEADER -->
+                        <Frame Grid.Row="0" BackgroundColor="#D60000" Padding="10,10" Margin="0" CornerRadius="0" HasShadow="True">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <ImageButton Grid.Column="0"
+                                         Clicked="OnMenuButtonClicked"
+                                         Source="menu.png"
+                                         BackgroundColor="Transparent"
+                                         WidthRequest="55"
+                                         HeightRequest="55"
+                                         HorizontalOptions="Start"
+                                         VerticalOptions="Center"/>
+                                <Label Grid.Column="1" 
+                                       Text="Administrador"
+                                       FontSize="23" 
+                                       FontAttributes="Bold"
+                                       TextColor="White" 
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </Grid>
+                        </Frame>
+                        <!-- CONTENIDO PRINCIPAL -->
+                        <ScrollView Grid.Row="1">
+                            <VerticalStackLayout Padding="20" Spacing="20">
+                                <!-- FORMULARIO DE CREACIÓN -->
+                                <Frame BackgroundColor="White" Padding="20" Margin="0,10" HasShadow="True" CornerRadius="15">
+
+                                </Frame>
+
+                            </VerticalStackLayout>
+                        </ScrollView>
+                    </Grid>
+                </ContentPage>
+            </x:Arguments>
+        </NavigationPage>
+    </FlyoutPage.Detail>
+</FlyoutPage>

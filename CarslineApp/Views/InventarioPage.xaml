@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:CarslineApp.ViewModels"
+             xmlns:models="clr-namespace:CarslineApp.Models"
+             x:Class="CarslineApp.Views.InventarioPage"
+             x:DataType="viewmodels:InventarioViewModel"
+             Title="Inventario"
+             NavigationPage.HasNavigationBar="False"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="CardFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="BorderColor" Value="#E0E0E0"/>
+                <Setter Property="CornerRadius" Value="12"/>
+                <Setter Property="HasShadow" Value="True"/>
+                <Setter Property="Padding" Value="15"/>
+                <Setter Property="Margin" Value="10,8"/>
+            </Style>
+
+            <Style x:Key="ActionButton" TargetType="Button">
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" BackgroundColor="#F0F2F5">
+
+        <!-- Header -->
+        <Frame Grid.Row="0"
+               BackgroundColor="red"
+               CornerRadius="0"
+               Padding="20,30,20,20"
+               HasShadow="True"
+               Margin="0">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+                <VerticalStackLayout Grid.Column="0" Spacing="5">
+                    <Label Text="📦 Inventario"
+                           FontSize="26"
+                           FontAttributes="Bold"
+                           TextColor="White"/>
+                    <Label Text="{Binding CantidadMostrada, StringFormat='Mostrando {0} refacciones'}"
+                           FontSize="14"
+                           TextColor="White"
+                           Opacity="0.9"/>
+                </VerticalStackLayout>
+
+                <ImageButton Grid.Column="1"
+                             Command="{Binding ExportarExcelCommand}"
+                             Source="excel.png"
+                             BackgroundColor="Transparent"
+                             WidthRequest="30"
+                             HeightRequest="30"
+                             VerticalOptions="Center"/>
+                <Button Grid.Column="2"
+                        Text="🔄"
+                        FontSize="26"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        WidthRequest="65"
+                        HeightRequest="65"
+                        Command="{Binding RefreshCommand}"
+                        VerticalOptions="Center"/>
+            </Grid>
+        </Frame>
+
+        <!-- Loading -->
+        <ActivityIndicator Grid.Row="1"
+                          IsRunning="{Binding IsLoading}"
+                          IsVisible="{Binding IsLoading}"
+                          Color="#3498DB"
+                          HeightRequest="40"
+                          Margin="0,10,0,0"/>
+
+        <!-- Búsqueda y Filtros -->
+        <Frame Grid.Row="2"
+               BackgroundColor="White"
+               BorderColor="#E0E0E0"
+               CornerRadius="15"
+               Padding="15"
+               Margin="15,10"
+               HasShadow="True">
+            <VerticalStackLayout Spacing="10">
+
+                <!-- Búsqueda -->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Border Grid.Column="0"
+                            BackgroundColor="White"
+                            Stroke="#BDC3C7"
+                            StrokeThickness="1.5"
+                            Padding="12,0"
+                            StrokeShape="RoundRectangle 10">
+                        <Entry Text="{Binding TextoBusqueda}"
+                               Placeholder="🔍 Buscar..."
+                               TextColor="#2C3E50"
+                               PlaceholderColor="#95A5A6"
+                               FontSize="15"
+                               HeightRequest="45"
+                               ReturnCommand="{Binding BuscarCommand}"/>
+                    </Border>
+
+                    <Button Grid.Column="1"
+                            Text="✖️"
+                            FontSize="17"
+                            BackgroundColor="#95A5A6"
+                            TextColor="White"
+                            WidthRequest="60"
+                            HeightRequest="40"
+                            CornerRadius="10"
+                            Command="{Binding LimpiarBusquedaCommand}"/>
+                </Grid>
+
+                <!-- Filtro -->
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                    <Label Grid.Column="0"
+                           Text="🏷️ Tipo:"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#34495E"
+                           VerticalOptions="Center"/>
+
+                    <Border Grid.Column="1"
+                            BackgroundColor="White"
+                            Stroke="#BDC3C7"
+                            StrokeThickness="1.5"
+                            Padding="0"
+                            StrokeShape="RoundRectangle 10">
+                        <Picker ItemsSource="{Binding TiposFiltro}"
+                                SelectedItem="{Binding FiltroTipo}"
+                                FontSize="12"
+                                TextColor="#2C3E50"
+                                BackgroundColor="Transparent"
+                                HeightRequest="40"/>
+                    </Border>
+                </Grid>
+
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- ✅ Lista con RefreshView y RemainingItemsThreshold para scroll infinito -->
+        <RefreshView Grid.Row="3"
+                     Command="{Binding RefreshCommand}">
+            <CollectionView ItemsSource="{Binding Refacciones}">
+                <CollectionView.EmptyView>
+                    <Frame BackgroundColor="White"
+                           BorderColor="#E0E0E0"
+                           CornerRadius="20"
+                           Padding="40"
+                           Margin="20,60">
+                        <VerticalStackLayout HorizontalOptions="Center" 
+                                           VerticalOptions="Center"
+                                           Spacing="15">
+                            <Label Text="📦"
+                                   FontSize="80"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="No se encontraron refacciones"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   HorizontalOptions="Center"
+                                   TextColor="#7F8C8D"/>
+                            <Label Text="Intenta con otra búsqueda"
+                                   FontSize="14"
+                                   HorizontalOptions="Center"
+                                   TextColor="#BDC3C7"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate >
+                    <DataTemplate x:DataType="models:RefaccionDto">
+                        <Frame Style="{StaticResource CardFrame}" BorderColor="Red">
+                            
+                            <Grid RowDefinitions="Auto,Auto,Auto" 
+                                  ColumnDefinitions="Auto,*,Auto"
+                                  RowSpacing="5"
+                                  ColumnSpacing="10">
+
+                                <!-- Badge de color -->
+                                <Border Grid.Row="0" Grid.Column="0"
+                                        BackgroundColor="{Binding ColorTipo}"
+                                        Stroke="{Binding ColorTipo}"
+                                        StrokeThickness="2"
+                                        Padding="12"
+                                        WidthRequest="55"
+                                        HeightRequest="60"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding IconoTipo}"
+                                           FontSize="20"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                </Border>
+
+                                <!-- Info -->
+                                <VerticalStackLayout Grid.Row="0" Grid.Column="1" 
+                                                   Spacing="5"
+                                                   VerticalOptions="Center">
+                                    <Label Text="{Binding NumeroParte}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="#1A1A1A"/>
+                                    <Label Text="{Binding DescripcionCompleta}"
+                                           FontSize="12"
+                                           TextColor="#5F6368"
+                                           MaxLines="2"/>
+                                </VerticalStackLayout>
+
+                                <HorizontalStackLayout Grid.Row="0" Grid.Column="1" 
+                                                   Spacing="5"
+                                                   VerticalOptions="Start"
+                                                   HorizontalOptions="End">
+                                    <Label Text="Estante"
+                                                   FontSize="14"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#1A1A1A"
+                                                   HorizontalOptions="End"/>
+                                    <Label Text="{Binding Ubicacion}"
+                                                   FontSize="14"
+                                                   TextColor="#1A1A1A"
+                                               HorizontalOptions="End"/>
+                                </HorizontalStackLayout>
+
+                                <!-- Stock Badge -->
+                                <Border Grid.Row="0" Grid.Column="2"
+                                        BackgroundColor="{Binding ColorStockFondo}"
+                                        Stroke="{Binding ColorStock}"
+                                        StrokeThickness="2"
+                                        Padding="12,8"
+                                        VerticalOptions="Center"
+                                        MinimumWidthRequest="50">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10"/>
+                                    </Border.StrokeShape>
+                                    <Label Text="{Binding Cantidad}"
+                                           FontSize="20"
+                                           FontAttributes="Bold"
+                                           TextColor="{Binding ColorStock}"
+                                           HorizontalOptions="Center"/>
+                                </Border>
+
+                                <!-- Separador -->
+                                <BoxView Grid.Row="1" Grid.ColumnSpan="3"
+                                         HeightRequest="1.5"
+                                         BackgroundColor="#D0D0D0"
+                                         Margin="0,5"/>
+
+                                <!-- Botones -->
+                                <Grid Grid.Row="2" Grid.ColumnSpan="3"
+                                      ColumnDefinitions="Auto,*,Auto"
+                                      ColumnSpacing="10">
+
+                                    <!-- Rápidos -->
+                                    <HorizontalStackLayout Grid.Column="0" Spacing="8">
+                                        <Button Text="+1"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               BackgroundColor="#27AE60"
+                                               TextColor="White"
+                                               WidthRequest="45"
+                                               HeightRequest="35"
+                                               CornerRadius="8"
+                                               Padding="0"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:InventarioViewModel}}, Path=AumentarUnoCommand}"
+                                               CommandParameter="{Binding .}"/>
+
+                                        <Button Text="-1"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               BackgroundColor="#E67E22"
+                                               TextColor="White"
+                                               WidthRequest="45"
+                                               HeightRequest="35"
+                                               CornerRadius="8"
+                                               Padding="0"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:InventarioViewModel}}, Path=DisminuirUnoCommand}"
+                                               CommandParameter="{Binding .}"/>
+
+                                    </HorizontalStackLayout>
+
+                                    <!-- Avanzados -->
+                                    <HorizontalStackLayout Grid.Column="2"
+                                                         Spacing="8"
+                                                         HorizontalOptions="End">
+                                        <Button Text="+"
+                                               Style="{StaticResource ActionButton}"
+                                               BackgroundColor="#27AE60"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:InventarioViewModel}}, Path=AumentarCommand}"
+                                               CommandParameter="{Binding .}"/>
+
+                                        <Button Text="−"
+                                               Style="{StaticResource ActionButton}"
+                                               BackgroundColor="#E67E22"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:InventarioViewModel}}, Path=DisminuirCommand}"
+                                               CommandParameter="{Binding .}"/>
+
+                                        <Button Text="🗑️"
+                                               Style="{StaticResource ActionButton}"
+                                               BackgroundColor="#E74C3C"
+                                               Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:InventarioViewModel}}, Path=EliminarCommand}"
+                                               CommandParameter="{Binding .}"/>
+                                    </HorizontalStackLayout>
+                                </Grid>
+
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Botones -->
+        <Grid Grid.Row="4" 
+              ColumnDefinitions="*,Auto"
+              Padding="15"
+              ColumnSpacing="10"
+              BackgroundColor="White"
+              HeightRequest="80">
+
+            <Button Grid.Column="0"
+                   Text="+ Agregar"
+                   BackgroundColor="red"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   FontSize="16"
+                   CornerRadius="12"
+                   HeightRequest="50"
+                   Command="{Binding AgregarRefaccionCommand}"/>
+
+            <Button Grid.Column="1"
+                   Text="Volver"
+                   BackgroundColor="#95A5A6"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   FontSize="16"
+                   CornerRadius="12"
+                   WidthRequest="100"
+                   HeightRequest="50"
+                   Command="{Binding VolverCommand}"/>
+        </Grid>
+
+    </Grid>
+</ContentPage>

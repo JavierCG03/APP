@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:CarslineApp.Converters"
+             x:Class="CarslineApp.Views.TableroPage"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             Title="Tablero de Técnicos"
+             BackgroundColor="#F5F5F5">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:EstadoColorConverter x:Key="EstadoColorConverter"/>
+            <converters:BoolToTextConverter x:Key="BoolToTextConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- ================== HEADER ================== -->
+        <Frame Grid.Row="0" 
+               BackgroundColor="#D60000" 
+               Padding="15,10" 
+               Margin="0" 
+               CornerRadius="0" 
+               HasShadow="True">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <!-- Botón Volver -->
+                <Button Grid.Column="0"
+                        Text="◀"
+                        FontSize="24"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        Padding="0"
+                        VerticalOptions="Center"
+                        Clicked="OnVolverClicked"/>
+
+                <!-- Título -->
+                <Label Grid.Column="1" 
+                       Text="📊 TABLERO DE TÉCNICOS"
+                       FontSize="20" 
+                       FontAttributes="Bold"
+                       TextColor="White" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <!-- Botón Actualizar -->
+                <Button Grid.Column="2"
+                        Text="🔄"
+                        FontSize="30"
+                        TextColor="White"
+                        BackgroundColor="Transparent"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        Padding="0"
+                        VerticalOptions="Center"
+                        Clicked="OnRefreshClicked"
+                        IsEnabled="{Binding IsNotLoading}"/>
+            </Grid>
+        </Frame>
+
+        <!-- ================== CONTENIDO ================== -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="0">
+
+                <!-- Indicador de Carga -->
+                <Frame IsVisible="{Binding IsLoading}"
+                       BackgroundColor="White"
+                       Padding="20"
+                       Margin="15,15,15,0"
+                       HasShadow="True"
+                       CornerRadius="12">
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <ActivityIndicator IsRunning="True" 
+                                         Color="#D60000"
+                                         HeightRequest="40"
+                                         WidthRequest="40"/>
+                        <Label Text="Cargando tablero..."
+                               FontSize="14"
+                               TextColor="Gray"
+                               HorizontalOptions="Center"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Lista de Técnicos -->
+                <CollectionView ItemsSource="{Binding Tecnicos}"
+                                SelectionMode="None"
+                                Margin="0,15,0,20">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White"
+                                   Padding="15"
+                                   Margin="15,0,15,15"
+                                   HasShadow="True"
+                                   CornerRadius="12"
+                                   BorderColor="Red">
+
+                                <VerticalStackLayout Spacing="12">
+
+                                    <!-- ======== ENCABEZADO TÉCNICO (CLICKEABLE) ======== -->
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleExpandCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+
+                                        <!-- Icono -->
+                                        <Frame Grid.Column="0"
+                                               BackgroundColor="#FFE5E5"
+                                               Padding="10"
+                                               CornerRadius="25"
+                                               WidthRequest="50"
+                                               HeightRequest="50"
+                                               HasShadow="False">
+                                            <Label Text="👨‍🔧"
+                                                   FontSize="24"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Frame>
+
+                                        <!-- Nombre -->
+                                        <VerticalStackLayout Grid.Column="1" Margin="10,0">
+                                            <Label Text="{Binding TecnicoNombre}"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#1A1A1A"/>
+                                            <Label Text="TÉCNICO ASIGNADO"
+                                                   FontSize="11"
+                                                   TextColor="#888"/>
+                                        </VerticalStackLayout>
+
+                                        <!-- Badge Total Trabajos -->
+                                        <VerticalStackLayout Grid.Column="2"
+                                                           Spacing="4"
+                                                           VerticalOptions="Center">
+                                            <Frame BackgroundColor="#D60000"
+                                                   Padding="10,5"
+                                                   CornerRadius="12"
+                                                   HasShadow="False">
+                                                <Label Text="{Binding TotalTrabajos}"
+                                                       TextColor="White"
+                                                       FontSize="16"
+                                                       FontAttributes="Bold"
+                                                       HorizontalOptions="Center"/>
+                                            </Frame>
+                                            <Label Text="{Binding IsExpanded, Converter={StaticResource BoolToTextConverter}}"
+                                                   FontSize="10"
+                                                   TextColor="#666"
+                                                   HorizontalOptions="Center"/>
+                                        </VerticalStackLayout>
+                                    </Grid>
+
+                                    <!-- Separador -->
+                                    <BoxView HeightRequest="1" 
+                                             BackgroundColor="#E0E0E0"
+                                             Margin="0,5,0,5"
+                                             IsVisible="{Binding IsExpanded}"/>
+
+                                    <!-- ======== LISTA DE TRABAJOS (EXPANDIBLE) ======== -->
+                                    <VerticalStackLayout IsVisible="{Binding IsExpanded}"
+                                                       Spacing="10">
+
+                                        <Label Text="🔧 TRABAJOS ASIGNADOS"
+                                               FontSize="13"
+                                               FontAttributes="Bold"
+                                               TextColor="#D60000"
+                                               Margin="0,0,0,5"/>
+
+                                        <CollectionView ItemsSource="{Binding Trabajos}"
+                                                        SelectionMode="None">
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Frame Padding="10"
+                                                           Margin="0,0,0,8"
+                                                           CornerRadius="8"
+                                                           HasShadow="False"
+                                                           BorderColor="{Binding Borde, Converter={StaticResource EstadoColorConverter}}"
+                                                           BackgroundColor="{Binding Estado, Converter={StaticResource EstadoColorConverter}}">
+                                                        <Grid ColumnDefinitions="Auto,*,Auto" 
+                                                              RowDefinitions="Auto,Auto"
+                                                              ColumnSpacing="10"
+                                                              RowSpacing="5">
+
+                                                            <!-- Icono del Trabajo -->
+                                                            <Label Grid.Column="0"
+                                                                   Grid.RowSpan="2"
+                                                                   Text="{Binding Icono}"
+                                                                   FontSize="28"
+                                                                   VerticalOptions="Center"/>
+
+                                                            <!-- Nombre del Trabajo -->
+                                                            <Label Grid.Column="1"
+                                                                   Grid.Row="0"
+                                                                   Text="{Binding Trabajo}"
+                                                                   FontSize="14"
+                                                                   FontAttributes="Bold"
+                                                                   TextColor="#1A1A1A"
+                                                                   LineBreakMode="WordWrap"
+                                                                   MaxLines="2"/>
+
+                                                            <!-- Estado Badge -->
+                                                            <Frame Grid.Column="1"
+                                                                   Grid.Row="1"
+                                                                   BackgroundColor="#E3F2FD"
+                                                                   Padding="6,2"
+                                                                   CornerRadius="4"
+                                                                   HasShadow="False"
+                                                                   HorizontalOptions="Start">
+                                                                <Label Text="{Binding Estado}"
+                                                                       FontSize="10"
+                                                                       FontAttributes="Bold"
+                                                                       TextColor="#2196F3"/>
+                                                            </Frame>
+
+                                                            <!-- Fecha de Entrega -->
+                                                            <VerticalStackLayout Grid.Column="2"
+                                                                               Grid.RowSpan="2"
+                                                                               Spacing="2"
+                                                                               VerticalOptions="Center"
+                                                                               HorizontalOptions="End">
+                                                                <Label Text="📅"
+                                                                       FontSize="16"
+                                                                       HorizontalOptions="Center"/>
+                                                                <Label Text="{Binding FechaEntregaFormateada}"
+                                                                       FontSize="11"
+                                                                       FontAttributes="Bold"
+                                                                       TextColor="#666"
+                                                                       HorizontalOptions="Center"/>
+                                                            </VerticalStackLayout>
+                                                        </Grid>
+                                                    </Frame>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+
+                                        <!-- Botón Contraer -->
+                                        <Button Text="▲ Contraer"
+                                                FontSize="12"
+                                                BackgroundColor="Transparent"
+                                                TextColor="#D60000"
+                                                HorizontalOptions="Center"
+                                                Margin="0,5,0,0"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ToggleExpandCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <!-- Empty View -->
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout VerticalOptions="Center"
+                                           HorizontalOptions="Center"
+                                           Padding="40"
+                                           Spacing="15">
+                            <Label Text="📋"
+                                   FontSize="60"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="No hay trabajos activos"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="Gray"
+                                   HorizontalOptions="Center"/>
+                            <Label Text="Los trabajos aparecerán aquí cuando los técnicos tengan tareas asignadas"
+                                   FontSize="14"
+                                   TextColor="Gray"
+                                   HorizontalOptions="Center"
+                                   HorizontalTextAlignment="Center"/>
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+</ContentPage>

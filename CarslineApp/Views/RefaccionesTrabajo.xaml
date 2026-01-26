@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CarslineApp.Views.RefaccionesTrabajo"
+             xmlns:models="clr-namespace:CarslineApp.Models"
+             xmlns:viewmodel="clr-namespace:CarslineApp.ViewModels"
+             x:DataType="viewmodel:RefaccionesTrabajoViewModel"
+             Title="Refacciones del Trabajo"
+             x:Name="Page"
+             BackgroundColor="#F5F5F5">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" Padding="15">
+
+        <!-- SECCIÓN: AGREGAR NUEVA REFACCIÓN (EXPANDIBLE) -->
+        <Frame Grid.Row="0" 
+               BackgroundColor="White" 
+               CornerRadius="12" 
+               Padding="0" 
+               Margin="0,0,0,15"
+               HasShadow="True">
+            <VerticalStackLayout Spacing="0">
+
+                <!-- Encabezado clickeable -->
+                <Grid BackgroundColor="#800020" 
+                      Padding="15,12"
+                      ColumnDefinitions="Auto,*">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleFormularioCommand}"/>
+                    </Grid.GestureRecognizers>
+
+                    <Label Grid.Column="0"
+                           Text="{Binding IconoFormulario}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           Margin="0,0,10,0"/>
+
+                    <Label Grid.Column="1"
+                           Text="Agregar Refacción" 
+                           FontSize="15" 
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Formulario expandible -->
+                <VerticalStackLayout Spacing="5" 
+                                     Padding="15"
+                                     IsVisible="{Binding FormularioExpandido}">
+
+                    <!-- Campo: Refacción -->
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Refacción" FontSize="14" TextColor="#666" FontAttributes="Bold"/>
+                        <Frame BorderColor="#800020" 
+                               BackgroundColor="Transparent"
+                               CornerRadius="8" 
+                               Padding="0" 
+                               HasShadow="False">
+                            <Entry Placeholder="Nombre de la refacción" 
+                                   Text="{Binding NuevaRefaccion}"
+                                   BackgroundColor="White"
+                                   PlaceholderColor="#999"
+                                   TextColor="#333"
+                                   HeightRequest="40"
+                                   Margin="10,0"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- Campos: Cantidad y Precio -->
+                    <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="20">
+                        <!-- Cantidad -->
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label Text="Cantidad" FontSize="14" TextColor="#666" FontAttributes="Bold"/>
+                            <Frame BorderColor="#800020" 
+                                   BackgroundColor="Transparent"
+                                   CornerRadius="8" 
+                                   Padding="0" 
+                                   HasShadow="False">
+                                <Entry Placeholder="0" 
+                                       Text="{Binding NuevaCantidad}"
+                                       Keyboard="Numeric"
+                                       BackgroundColor="White"
+                                       MaxLength="3"
+                                       PlaceholderColor="#999"
+                                       TextColor="#333"
+                                       HeightRequest="40"
+                                       Margin="10,0"/>
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <!-- Precio Unitario -->
+                        <VerticalStackLayout Grid.Column="1" Spacing="5">
+                            <Label Text="Precio Unitario" FontSize="13" TextColor="#666" FontAttributes="Bold"/>
+                            <Frame BorderColor="#800020" 
+                                   BackgroundColor="Transparent"
+                                   CornerRadius="8" 
+                                   Padding="0" 
+                                   HasShadow="False">
+                                <Entry Placeholder="$0.00" 
+                                       Text="{Binding NuevoPrecioUnitario}"
+                                       Keyboard="Numeric"
+                                       BackgroundColor="White"
+                                       PlaceholderColor="#999"
+                                       TextColor="#333"
+                                       HeightRequest="40"
+                                       ReturnCommand="{Binding AgregarRefaccionCommand}"
+                                       Margin="10,0"/>
+                            </Frame>
+                        </VerticalStackLayout>
+                        <!-- Botón Agregar -->
+                        <Button Grid.Column="2"
+                            Text="Agregar Refaccion"
+                            Command="{Binding AgregarRefaccionCommand}"
+                            BackgroundColor="Gray"
+                            TextColor="White"
+                            CornerRadius="8"
+                            HeightRequest="48"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            VerticalOptions="End"
+                            Margin="0,5,0,0"/>
+                    </Grid>
+
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+        
+        <!-- SECCIÓN: MANO DE OBRA (EXPANDIBLE) -->
+        <Frame Grid.Row="1" 
+               BackgroundColor="White" 
+               CornerRadius="12" 
+               Padding="0" 
+               Margin="0,0,0,15"
+               HasShadow="True">
+            <VerticalStackLayout Spacing="0">
+
+                <!-- Encabezado clickeable -->
+                <Grid BackgroundColor="#800020" 
+                      Padding="15,12"
+                      ColumnDefinitions="Auto,*">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleManoObraCommand}"/>
+                    </Grid.GestureRecognizers>
+
+                    <Label Grid.Column="0"
+                           Text="{Binding IconoManoObra}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center"
+                           Margin="0,0,10,0"/>
+
+                    <Label Grid.Column="1"
+                           Text="Mano de Obra" 
+                           FontSize="15" 
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Formulario expandible -->
+                <VerticalStackLayout Spacing="12" 
+                                     Padding="15"
+                                     IsVisible="{Binding ManoObraExpandido}">
+                    <Grid ColumnDefinitions="Auto,150" ColumnSpacing="10">
+                        <VerticalStackLayout Grid.Column="0" Spacing="5">
+                            <Label Text="Costo de Mano de Obra" FontSize="13" TextColor="#666" FontAttributes="Bold"/>
+                            <Frame BorderColor="#800020" 
+                               CornerRadius="8" 
+                               Padding="0" 
+                               BackgroundColor="Transparent"
+                               HasShadow="False">
+                                <Entry Placeholder="$0.00" 
+                                   Text="{Binding PrecioManoObraTexto}"
+                                   Keyboard="Numeric"
+                                   BackgroundColor="White"
+                                   PlaceholderColor="#999"
+                                   TextColor="#333"
+                                   ReturnCommand="{Binding EditarManoObraCommand}"
+                                   HeightRequest="45"
+                                   Margin="10,0"/>
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <Button Grid.Column="1"
+                            Text="Guardar"
+                            Command="{Binding EditarManoObraCommand}"
+                            BackgroundColor="Gray"
+                            TextColor="White"
+                            CornerRadius="8"
+
+                            HeightRequest="45"
+                            VerticalOptions="End"
+                            FontSize="13"
+                            FontAttributes="Bold"/>
+                    </Grid>
+
+
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- ENCABEZADO DE LA TABLA -->
+        <Frame Grid.Row="2" 
+               BackgroundColor="#800020" 
+               CornerRadius="8" 
+               Padding="12,10"
+               HasShadow="False"
+               Margin="0,0,0,0">
+            <Grid ColumnDefinitions="3*,1.8*,2*,2*,1*" ColumnSpacing="5">
+                <Label Grid.Column="0" Text="Refacción" FontSize="13" FontAttributes="Bold" TextColor="White"/>
+                <Label Grid.Column="1" Text="Cantidad" FontSize="13" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center"/>
+                <Label Grid.Column="2" Text="Precio Unit." FontSize="13" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center"/>
+                <Label Grid.Column="3" Text="Subtotal" FontSize="13" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="End"/>
+                <Label Grid.Column="4" Text="" FontSize="13" FontAttributes="Bold" TextColor="White"/>
+            </Grid>
+            
+        </Frame>
+
+        <!-- Separador visual -->
+        <BoxView Grid.Row="3" 
+                 HeightRequest="1" 
+                 Color="#E0E0E0" 
+                 Margin="0"/>
+
+        <!-- LISTA DE REFACCIONES -->
+        <ScrollView Grid.Row="4">
+            <VerticalStackLayout Spacing="0">
+                <!-- CollectionView con fondo blanco continuo -->
+                <Frame BackgroundColor="White" 
+                       CornerRadius="8" 
+                       Padding="0" 
+                       HasShadow="True"
+                       Margin="0">
+
+                    <CollectionView ItemsSource="{Binding Refacciones}"
+                                    EmptyView="📋 No hay refacciones cargadas"
+                                    SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:RefaccionTrabajoViewModel">
+                                <SwipeView>
+                                    <!-- Botón Eliminar al deslizar -->
+                                    <SwipeView.RightItems>
+                                        <SwipeItems Mode="Execute">
+                                            <SwipeItem Text="Eliminar"
+                                                       BackgroundColor="#C41E3A"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RefaccionesTrabajoViewModel}}, Path=EliminarRefaccionCommand}"
+                                                       CommandParameter="{Binding .}"/>
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+
+                                    <!-- Contenido de la fila -->
+                                    <Grid ColumnDefinitions="3*,1.5*,2*,2*,1*" 
+                                          ColumnSpacing="5"
+                                          Padding="12,15"
+                                          BackgroundColor="White">
+
+                                        <!-- Separador inferior -->
+                                        <BoxView Grid.ColumnSpan="5" 
+                                                 HeightRequest="1" 
+                                                 Color="#F0F0F0" 
+                                                 VerticalOptions="End"/>
+
+                                        <!-- Refacción -->
+                                        <Label Grid.Column="0" 
+                                               Text="{Binding Nombre}" 
+                                               FontSize="14" 
+                                               TextColor="#333"
+                                               LineBreakMode="WordWrap"
+                                               VerticalOptions="Center"/>
+
+                                        <!-- Cantidad -->
+                                        <Label Grid.Column="1" 
+                                               Text="{Binding CantidadTexto}" 
+                                               FontSize="14" 
+                                               TextColor="#555"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalOptions="Center"/>
+
+                                        <!-- Precio Unitario -->
+                                        <Label Grid.Column="2" 
+                                               Text="{Binding PrecioFormateado}" 
+                                               FontSize="14" 
+                                               TextColor="#555"
+                                               HorizontalTextAlignment="End"
+                                               VerticalOptions="Center"/>
+
+                                        <!-- Subtotal -->
+                                        <Label Grid.Column="3" 
+                                               Text="{Binding TotalFormateado}" 
+                                               FontSize="14" 
+                                               FontAttributes="Bold"
+                                               TextColor="#800020"
+                                               HorizontalTextAlignment="End"
+                                               VerticalOptions="Center"/>
+
+                                        <ImageButton Grid.Column="4"
+                                              BackgroundColor="Transparent"
+                                              Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RefaccionesTrabajoViewModel}}, Path=EliminarRefaccionCommand}"
+                                              CommandParameter="{Binding .}"
+                                              Source="borrar.png"
+                                              WidthRequest="32"
+                                              HeightRequest="32"                             
+                                              VerticalOptions="Center"
+                                              HorizontalOptions="Center"/>
+                                    </Grid>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- RESUMEN DE TOTALES -->
+        <Frame Grid.Row="5" 
+               BackgroundColor="White" 
+               CornerRadius="12" 
+               Padding="20,15" 
+               Margin="0,15,0,0"
+               HasShadow="True"
+               BorderColor="#800020">
+            <VerticalStackLayout Spacing="5">
+
+                <!-- Subtotal Refacciones -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0" 
+                           Text="Subtotal Refacciones:" 
+                           FontSize="13" 
+                           TextColor="#666"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="1" 
+                           Text="{Binding TotalRefaccionesFormateado}" 
+                           FontSize="13" 
+                           TextColor="#333"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Mano de Obra -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0" 
+                           Text="Mano de Obra:" 
+                           FontSize="13" 
+                           TextColor="#666"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="1" 
+                           Text="{Binding ManoObraFormateado}" 
+                           FontSize="13" 
+                           TextColor="#333"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Separador -->
+                <BoxView HeightRequest="1" Color="#E0E0E0" Margin="0,5"/>
+
+                <!-- Subtotal (Refacciones + Mano de Obra) -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0" 
+                           Text="Subtotal:" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#333"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="1" 
+                           Text="{Binding SubtotalFormateado}" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#333"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- IVA 16% -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Grid.Column="0" 
+                           Text="IVA (16%):" 
+                           FontSize="13" 
+                           TextColor="#666"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="1" 
+                           Text="{Binding IvaFormateado}" 
+                           FontSize="13" 
+                           TextColor="#333"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Separador destacado -->
+                <BoxView HeightRequest="2" Color="#800020" Margin="0,0"/>
+
+                <!-- TOTAL GENERAL -->
+                <Grid ColumnDefinitions="*,Auto" Margin="0,5,0,0">
+                    <Label Grid.Column="0" 
+                           Text="TOTAL GENERAL:" 
+                           FontSize="15" 
+                           FontAttributes="Bold"
+                           TextColor="#800020"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="1" 
+                           Text="{Binding TotalGeneralFormateado}" 
+                           FontSize="17" 
+                           FontAttributes="Bold"
+                           TextColor="#800020"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Indicador de carga -->
+        <ActivityIndicator Grid.RowSpan="6"
+                           IsRunning="{Binding EstaCargando}"
+                           IsVisible="{Binding EstaCargando}"
+                           Color="#800020"
+                           WidthRequest="50"
+                           HeightRequest="50"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+    </Grid>
+</ContentPage>

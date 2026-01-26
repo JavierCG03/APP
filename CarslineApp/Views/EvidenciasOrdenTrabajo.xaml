@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:CarslineApp.ViewModels"
+             x:Class="CarslineApp.Views.EvidenciasOrdenTrabajo"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             Title="Evidencias de Trabajo"
+             BackgroundColor="#141414">
+
+    <ContentPage.BindingContext>
+        <vm:EvidenciaOrdenTrabajoViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,Auto,*">
+
+        <Frame Grid.Row="0" 
+               BackgroundColor="#800020" 
+               CornerRadius="0" 
+               Padding="15,10,10,15"
+               HasShadow="True"
+               Margin="0">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                <ImageButton Grid.Column="0"
+                             Source="back.png"
+                             BackgroundColor="Transparent"
+                             HeightRequest="32"
+                             WidthRequest="32"
+                             Command="{Binding BackCommand}"
+                             VerticalOptions="Center"/>
+
+                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                    <Label Text="{Binding Titulo}" 
+                           HorizontalOptions="Center"
+                           TextColor="White" 
+                           FontSize="20" 
+                           FontAttributes="Bold"/>
+                    <Label Text="{Binding NumeroOrden, StringFormat='📋: {0}'}"
+                           TextColor="White"
+                           HorizontalOptions="End"
+                           FontSize="14"
+                           FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Grid>
+        </Frame>
+
+        <!-- INFO DE VEHÍCULO -->
+        <Frame Grid.Row="1"
+               BackgroundColor="White"
+               Padding="20,20"
+               CornerRadius="0"
+               HasShadow="False"
+               Margin="0">
+            <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="15" RowSpacing="5">
+                <Label Grid.Column="0" Grid.Row="0"
+                       TextColor="#999999"
+                       FontSize="13"
+                       Text="VEHÍCULO"/>
+                <Label Grid.Column="1" Grid.Row="0"
+                       Text="{Binding VehiculoCompleto}"
+                       TextColor="Black"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       LineBreakMode="TailTruncation"/>
+                <Label Grid.Column="0" Grid.Row="1"
+                       IsVisible="{Binding EsServicio}"
+                       TextColor="#999999"
+                       FontSize="13"
+                       Text="SERVICIO"/>
+                <Label  Grid.Column="1" Grid.Row="1"
+                       IsVisible="{Binding EsServicio}"
+                       Text="{Binding Servicio}"
+                       TextColor="Black"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       LineBreakMode="TailTruncation"/>
+                <Label Grid.Column="0" Grid.Row="2"
+                       Text="VIN:"
+                       TextColor="#999999"
+                       FontAttributes="Bold"
+                       FontSize="14"/>
+                <Label Grid.Column="1" Grid.Row="2"
+                       Text="{Binding VIN}"
+                       FontSize="14"
+                       HorizontalOptions="Start"/>
+            </Grid>
+        </Frame>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <ScrollView Grid.Row="2" BackgroundColor="White" Padding="0,20">
+            <VerticalStackLayout Padding="0" Spacing="0">
+
+                <!-- Barra de Progreso -->
+                <Frame BackgroundColor="White"
+                       Padding="15,10"
+                       CornerRadius="0"
+                       HasShadow="False"
+                       Margin="0"
+                       IsVisible="{Binding IsLoadingImages}">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="{Binding ProgresoTexto}"
+                               TextColor="#999999"
+                               FontSize="12"
+                               HorizontalOptions="Center"/>
+                        <ProgressBar Progress="{Binding ProgresoValor}"
+                                     ProgressColor="#800020"
+                                     BackgroundColor="#333333"
+                                     HeightRequest="4"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <VerticalStackLayout Spacing="20" 
+                                    Padding="0,20"
+                                    IsVisible="{Binding TieneEvidencias}">
+
+                    <!-- CARRUSEL CON CONTROLES DE NAVEGACIÓN -->
+                    <Grid>
+                        <ImageButton Grid.Column="0"
+                             Source="izquierda.png"
+                             HorizontalOptions="Start"
+                             BackgroundColor="Transparent"
+                             HeightRequest="50"
+                             WidthRequest="50"
+                             Command="{Binding ScrollAnteriorCommand}"
+                             IsVisible="{Binding MostrarBotonAnterior}"
+                             Opacity="0.9"
+                             VerticalOptions="Center"
+                             ZIndex="10"/>
+
+                        <!-- ScrollView del Carrusel -->
+                        <ScrollView x:Name="CarouselScrollView"
+                                    Orientation="Horizontal" 
+                                    HorizontalScrollBarVisibility="Never"
+                                    Scrolled="OnCarouselScrolled">
+                            <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Evidencias}" 
+                                                  Spacing="15"
+                                                  Padding="15,0">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame Padding="0"
+                                               BackgroundColor="Black"
+                                               CornerRadius="8"
+                                               HasShadow="False"
+                                               WidthRequest="280"
+                                               HeightRequest="380">
+
+                                            <Grid RowDefinitions="320,*">
+                                                <Frame Grid.Row="0"
+                                                       Padding="0"
+                                                       CornerRadius="8"
+                                                       HasShadow="True"
+                                                       BackgroundColor="#800020" 
+                                                       BorderColor="#3A3A3A">
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer 
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:EvidenciaOrdenTrabajoViewModel}}, Path=VerImagenCommand}"
+                                                            CommandParameter="{Binding .}"/>
+                                                    </Frame.GestureRecognizers>
+
+                                                    <Grid>
+                                                        <Image Source="{Binding ImagenPreview}"
+                                                               Aspect="AspectFill"
+                                                               HeightRequest="320"
+                                                               WidthRequest="280"
+                                                               IsVisible="{Binding TieneImagen}"/>
+
+                                                        <Grid IsVisible="{Binding EstaCargando}"
+                                                              BackgroundColor="#2A2A2A">
+                                                            <VerticalStackLayout VerticalOptions="Center"
+                                                                               HorizontalOptions="Center"
+                                                                               Spacing="10">
+                                                                <ActivityIndicator IsRunning="{Binding EstaCargando}"
+                                                                                 Color="#800020"
+                                                                                 WidthRequest="40"
+                                                                                 HeightRequest="40"/>
+                                                                <Label Text="Cargando..."
+                                                                       TextColor="#666666"
+                                                                       FontSize="12"/>
+                                                            </VerticalStackLayout>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Frame>
+
+                                                <VerticalStackLayout Grid.Row="1" 
+                                                                    Spacing="4"
+                                                                    Padding="0,10,0,0">
+                                                    <Label Text="{Binding Descripcion}"
+                                                           HorizontalOptions="Center"
+                                                           TextColor="White"
+                                                           FontSize="15"
+                                                           FontAttributes="Bold"
+                                                           LineBreakMode="TailTruncation"
+                                                           MaxLines="2"/>
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </Frame>
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </HorizontalStackLayout>
+                        </ScrollView>
+                        
+                        <ImageButton Grid.Column="0"
+                             Source="derecha.png"
+                             BackgroundColor="Transparent"
+                             HeightRequest="50"
+                             WidthRequest="50"
+                             HorizontalOptions="End"
+                             Command="{Binding ScrollSiguienteCommand}"
+                             IsVisible="{Binding MostrarBotonSiguiente}"                          
+                             Opacity="0.9"
+                             VerticalOptions="Center"
+                             ZIndex="10"/>
+
+                    </Grid>
+
+                    <!-- Indicador de Posición (Opcional) -->
+                    <Label Text="{Binding IndicadorPosicion}"
+                           TextColor="#999999"
+                           FontSize="12"
+                           HorizontalOptions="Center"
+                           Margin="0,10,0,0"
+                           IsVisible="{Binding TieneEvidencias}"/>
+
+                </VerticalStackLayout>
+
+                <!-- ESTADO VACÍO -->
+                <VerticalStackLayout Spacing="20"
+                                    Padding="30"
+                                    IsVisible="{Binding NoTieneEvidencias}"
+                                    VerticalOptions="Center"
+                                    MinimumHeightRequest="400">
+
+                    <Frame BackgroundColor="#1F1F1F"
+                           CornerRadius="100"
+                           WidthRequest="140"
+                           HeightRequest="140"
+                           Padding="0"
+                           HasShadow="False"
+                           HorizontalOptions="Center">
+                        <Label Text="📸"
+                               FontSize="70"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Frame>
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Sin evidencias disponibles"
+                               FontSize="22"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalTextAlignment="Center"/>
+                        <Label Text="No se encontraron fotografías del trabajo realizado en esta orden de servicio"
+                               FontSize="14"
+                               TextColor="#999999"
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="WordWrap"
+                               Padding="20,0"/>
+                    </VerticalStackLayout>
+
+                    <Frame BackgroundColor="#2A2A2A"
+                           Padding="15"
+                           CornerRadius="8"
+                           HasShadow="False"
+                           BorderColor="#3A3A3A"
+                           Margin="0,10,0,0">
+                        <Label TextColor="#CCCCCC"
+                               FontSize="13"
+                               HorizontalTextAlignment="Center"
+                               LineBreakMode="WordWrap">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="💡 " FontSize="16"/>
+                                    <Span Text="Las evidencias son fotografías tomadas por los técnicos durante el servicio"/>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </Frame>
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- LOADING OVERLAY -->
+        <Grid Grid.RowSpan="3"
+              IsVisible="{Binding IsLoading}"
+              BackgroundColor="#CC000000"
+              InputTransparent="False">
+            <Frame BackgroundColor="#1F1F1F"
+                   Padding="30,25"
+                   CornerRadius="15"
+                   HasShadow="True"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   BorderColor="#800020">
+                <VerticalStackLayout Spacing="15">
+                    <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                       Color="#800020"
+                                       WidthRequest="50"
+                                       HeightRequest="50"/>
+                    <Label Text="Cargando evidencias..."
+                           TextColor="White"
+                           FontSize="16"
+                           FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Frame>
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CarslineApp.Views.CrearUsuarioPage"
+             xmlns:converters="clr-namespace:CarslineApp.Converters"
+             Title="Crear Usuario"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="#F5F5F5">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter"/>
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- HEADER -->
+        <Frame Grid.Row="0" 
+               BackgroundColor="#D60000" 
+               Padding="10,10" 
+               Margin="0" 
+               CornerRadius="0" 
+               HasShadow="True">
+            <Grid ColumnDefinitions="Auto,*,Auto">
+
+                <!-- Botón Volver -->
+                <ImageButton Grid.Column="0"
+                             Command="{Binding VolverCommand}"
+                             Source="back.png"
+                             BackgroundColor="Transparent"
+                             WidthRequest="45"
+                             HeightRequest="45"
+                             HorizontalOptions="Start"
+                             VerticalOptions="Center"/>
+
+                <!-- Título -->
+                <Label Grid.Column="1" 
+                       Text="CREAR USUARIO"
+                       FontSize="23" 
+                       FontAttributes="Bold"
+                       TextColor="White" 
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+
+                <!-- Espacio para balance visual -->
+                <BoxView Grid.Column="2" 
+                         WidthRequest="45" 
+                         Color="Transparent"/>
+            </Grid>
+        </Frame>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <!-- FORMULARIO DE CREACIÓN -->
+                <Frame BackgroundColor="White" 
+                       Padding="20" 
+                       Margin="0,10" 
+                       HasShadow="True" 
+                       CornerRadius="15">
+                    <VerticalStackLayout Spacing="5">
+
+                        <Label Text="Nuevo Usuario"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="#D60000"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,10"/>
+                        
+
+                            <Label Text="Nombre Completo"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#404040"/>
+                            <Frame BorderColor="#D60000" 
+                                   Padding="0" 
+                                   BackgroundColor="White"
+                                   HasShadow="False" 
+                                   CornerRadius="8">
+                                <Entry Text="{Binding NuevoNombreCompleto}"
+                                       Placeholder="Ej: Juan Pérez García"
+                                       BackgroundColor="White"
+                                       TextColor="Black"
+                                       PlaceholderColor="#919191"
+                                       HeightRequest="45"/>
+                            </Frame>
+                        <BoxView HeightRequest="0" BackgroundColor="White" Margin="10,5"/>
+
+                        <Label Text="Nombre de Usuario"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#404040"/>
+                            <Frame BorderColor="#D60000" 
+                                   Padding="0" 
+                                   BackgroundColor="White"
+                                   HasShadow="False" 
+                                   CornerRadius="8">
+                                <Entry Text="{Binding NuevoNombreUsuario}"
+                                       Placeholder="Ej: jperez"
+                                       BackgroundColor="White"
+                                       TextColor="Black"
+                                       PlaceholderColor="#919191"
+                                       HeightRequest="45"/>
+                            </Frame>
+                        <BoxView HeightRequest="0" BackgroundColor="White" Margin="10,5"/>
+
+
+                            <Label Text="Contraseña"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#404040"/>
+                            <Frame BorderColor="#D60000" 
+                                   Padding="0" 
+                                   HasShadow="False" 
+                                   BackgroundColor="Transparent"
+                                   CornerRadius="8">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Grid.Column="0"
+                                           Text="{Binding NuevaPassword}"
+                                           Placeholder="Mínimo 8 caracteres"
+                                           MaxLength="12"
+                                           IsPassword="{Binding IsPasswordVisible, Converter={StaticResource InverseBoolConverter}}"
+                                           BackgroundColor="White"
+                                           TextColor="Black"
+                                           PlaceholderColor="#919191"
+                                           HeightRequest="45"/>
+                                    <ImageButton Grid.Column="1"
+                                                 Source="{Binding PasswordIcon}"
+                                                 Command="{Binding TogglePasswordVisibilityCommand}"
+                                                 BackgroundColor="White"
+                                                 WidthRequest="40"
+                                                 HeightRequest="40"
+                                                 Padding="8"
+                                                 VerticalOptions="Center"
+                                                 HorizontalOptions="End"
+                                                 Margin="0,0,5,0"/>
+                                </Grid>
+                            </Frame>
+
+                            <Label Text="Repetir Contraseña"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#404040"/>
+                            <Frame BorderColor="#D60000" 
+                                   BackgroundColor="Transparent"
+                                   Padding="0" 
+                                   HasShadow="False" 
+                                   CornerRadius="8">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Entry Grid.Column="0"
+                                           Text="{Binding RepetirPassword}"
+                                           Placeholder="Confirma tu contraseña"
+                                           MaxLength="12"
+                                           IsPassword="{Binding IsRepeatPasswordVisible, Converter={StaticResource InverseBoolConverter}}"
+                                           BackgroundColor="White"
+                                           TextColor="Black"
+                                           PlaceholderColor="#919191"
+                                           HeightRequest="45"/>
+                                    <ImageButton Grid.Column="1"
+                                                 Source="{Binding RepeatPasswordIcon}"
+                                                 Command="{Binding ToggleRepeatPasswordVisibilityCommand}"
+                                                 BackgroundColor="Transparent"
+                                                 WidthRequest="40"
+                                                 HeightRequest="40"
+                                                 Padding="8"
+                                                 VerticalOptions="Center"
+                                                 HorizontalOptions="End"
+                                                 Margin="0,0,5,0"/>
+                                </Grid>
+                            </Frame>
+                        
+                        <BoxView HeightRequest="0" BackgroundColor="White" Margin="10,8"/>
+
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="Tipo de Usuario"
+                                   FontSize="14"
+                                   FontAttributes="Bold"
+                                   TextColor="#404040"/>
+                            <Grid ColumnDefinitions="115,*">
+                                <Frame Grid.Column="0"
+                                    BorderColor="#D60000"
+                                   CornerRadius="10"
+                                   Padding="10,6"
+                                   HasShadow="False"
+                                   BackgroundColor="White">
+
+                                    <Grid ColumnDefinitions="*,Auto"
+                                      VerticalOptions="Center">
+
+                                        <!-- Picker -->
+                                        <Picker ItemsSource="{Binding RolesDisponibles}"
+                                            ItemDisplayBinding="{Binding NombreRol}"
+                                            SelectedItem="{Binding RolSeleccionado}"
+                                            Title="Usuarios ↓ "
+                                            BackgroundColor="Transparent"
+                                            TextColor="Black"
+                                            HeightRequest="40"/>
+
+                                    </Grid>
+                                </Frame>
+                                <Frame Grid.Column="1"
+                                    BorderColor="#D60000"
+                                   CornerRadius="10"
+                                   Padding="10,6"
+                                   HasShadow="False"
+                                   BackgroundColor="White">
+                                
+                                    <Label Text="{Binding RolSeleccionado.NombreRol}"
+                                           VerticalOptions="Center"
+                                               FontAttributes="Bold"
+                                               FontSize="15"
+                                               HorizontalOptions="Center">
+
+                                    </Label>
+
+                                </Frame>
+
+
+                            </Grid>
+                        </VerticalStackLayout>
+
+                        <!-- Mensajes -->
+                        <Label Text="{Binding ErrorMessage}"
+                               TextColor="Red"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                               HorizontalOptions="Center"
+                               Margin="0,5,0,0"/>
+
+                        <Label Text="{Binding SuccessMessage}"
+                               TextColor="Green"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               IsVisible="{Binding SuccessMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                               HorizontalOptions="Center"
+                               Margin="0,5,0,0"/>
+
+                        <!-- Botón Crear -->
+                        <Button Text="✅ CREAR USUARIO"
+                                Command="{Binding CrearUsuarioCommand}"
+                                BackgroundColor="#D60000"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                HeightRequest="55"
+                                CornerRadius="10"
+                                Margin="0,15,0,0"/>
+
+                        <!-- Loading Indicator -->
+                        <ActivityIndicator IsRunning="{Binding IsLoading}"
+                                           IsVisible="{Binding IsLoading}"
+                                           Color="#D60000"
+                                           HorizontalOptions="Center"
+                                           Margin="0,10,0,0"/>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

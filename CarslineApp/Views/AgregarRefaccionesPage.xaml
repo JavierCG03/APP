@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:CarslineApp.ViewModels"
+             x:Class="CarslineApp.Views.AgregarRefaccionPage"
+             x:DataType="viewmodels:AgregarRefaccionViewModel"
+             Title="Agregar Refacción"
+             Shell.NavBarIsVisible="True">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="EntryStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="TextColor" Value="#2C3E50"/>
+                <Setter Property="PlaceholderColor" Value="#BDC3C7"/>
+                <Setter Property="HeightRequest" Value="45"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+
+            <Style x:Key="PickerStyle" TargetType="Picker">
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="TextColor" Value="#2C3E50"/>
+                <Setter Property="TitleColor" Value="#7F8C8D"/>
+                <Setter Property="HeightRequest" Value="45"/>
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="#34495E"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="Margin" Value="0,10,0,5"/>
+            </Style>
+
+            <Style x:Key="ErrorLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="TextColor" Value="#E74C3C"/>
+                <Setter Property="Margin" Value="0,5,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="0">
+
+            <!-- Header -->
+            <Frame BackgroundColor="#3498DB"
+                   CornerRadius="10"
+                   Padding="15"
+                   Margin="0,0,0,20"
+                   HasShadow="True">
+                <StackLayout>
+                    <Label Text="📦 Nueva Refacción"
+                           FontSize="22"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Complete los datos de la refacción"
+                           FontSize="14"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           Opacity="0.9"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Indicador de carga -->
+            <ActivityIndicator IsRunning="{Binding IsLoading}"
+                             IsVisible="{Binding IsLoading}"
+                             Color="#3498DB"
+                             HeightRequest="40"
+                             Margin="0,0,0,20"/>
+
+            <!-- Formulario -->
+            <Frame BackgroundColor="White"
+                   BorderColor="#E0E0E0"
+                   CornerRadius="10"
+                   Padding="15"
+                   HasShadow="True">
+                <StackLayout Spacing="0">
+
+                    <!-- Número de Parte -->
+                    <Label Text="Número de Parte *"
+                           Style="{StaticResource LabelStyle}"/>
+                    <Entry Text="{Binding NumeroParte}"
+                           Placeholder="Ej: AC-123456"
+                           Style="{StaticResource EntryStyle}"/>
+                    <Label Text="{Binding ErrorNumeroParte}"
+                           Style="{StaticResource ErrorLabel}"
+                           IsVisible="{Binding ErrorNumeroParte, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+                    <!-- Tipo de Refacción -->
+                    <Label Text="Tipo de Refacción *"
+                       Style="{StaticResource LabelStyle}"/>
+
+                        <Border BackgroundColor="White"
+                            StrokeThickness="1"
+                            Stroke="#BDC3C7"
+                            Padding="0"
+                            StrokeShape="RoundRectangle 8">
+                            <Picker ItemsSource="{Binding TiposRefaccion}"
+                                SelectedItem="{Binding TipoRefaccion}"
+                                Title="Seleccione un tipo"
+                                FontSize="16"
+                                TextColor="#2C3E50"
+                                BackgroundColor="Transparent"/>
+                        </Border>
+
+                        <Label Text="{Binding ErrorTipoRefaccion}"
+                           Style="{StaticResource ErrorLabel}"
+                           IsVisible="{Binding ErrorTipoRefaccion, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+                    <!-- NUEVO: Campo para "Otro" tipo -->
+                    <StackLayout IsVisible="{Binding MostrarOtroTipo}" Spacing="5">
+                        <Label Text="Especifique el tipo de refacción"
+                           FontSize="14"
+                           TextColor="#34495E"
+                           FontAttributes="Bold"/>
+                        <Entry Text="{Binding OtroTipoRefaccion}"
+                           Placeholder="Ej: Bujías, Correa de distribución..."
+                           Style="{StaticResource EntryStyle}"/>
+                    </StackLayout>
+
+                    <!-- Cantidad -->
+                    <Label Text="Cantidad Inicial *"
+                           Style="{StaticResource LabelStyle}"/>
+                    <Entry Text="{Binding Cantidad}"
+                           Placeholder="Ej: 10"
+                           Keyboard="Numeric"
+                           MaxLength="6"
+                           Style="{StaticResource EntryStyle}"/>
+                    <Label Text="{Binding ErrorCantidad}"
+                           Style="{StaticResource ErrorLabel}"
+                           IsVisible="{Binding ErrorCantidad, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+                    <!-- Marca del Vehículo -->
+                    <Label Text="Marca del Vehículo (Opcional)"
+                           Style="{StaticResource LabelStyle}"/>
+                    <Entry Text="{Binding MarcaVehiculo}"
+                           Placeholder="Ej: Toyota, Ford, Nissan"
+                           Style="{StaticResource EntryStyle}"/>
+
+                    <!-- Modelo -->
+                    <Label Text="Modelo (Opcional)"
+                           Style="{StaticResource LabelStyle}"/>
+                    <Entry Text="{Binding Modelo}"
+                           Placeholder="Ej: Corolla, Focus, Sentra"
+                           Style="{StaticResource EntryStyle}"/>
+                    
+                    <!-- Estante -->
+                    <Label Text="Estante de Ubicacion (Opcional)"
+                           Style="{StaticResource LabelStyle}"/>
+                    <Entry Text="{Binding Ubicacion}"
+                           Placeholder="Ej: 1421"
+                           Style="{StaticResource EntryStyle}"/>
+
+                    <!-- Año -->
+                    <Label Text="Año (Opcional)"
+                           Style="{StaticResource LabelStyle}"/>
+                    <Entry Text="{Binding Anio}"
+                           Placeholder="Ej: 2020"
+                           Keyboard="Numeric"
+                           MaxLength="4"
+                           Style="{StaticResource EntryStyle}"/>
+                    <Label Text="{Binding ErrorAnio}"
+                           Style="{StaticResource ErrorLabel}"
+                           IsVisible="{Binding ErrorAnio, Converter={StaticResource StringNotEmptyConverter}}"/>
+
+                </StackLayout>
+            </Frame>
+
+            <!-- Mensaje de error general -->
+            <Frame IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                   BackgroundColor="#FADBD8"
+                   BorderColor="#E74C3C"
+                   CornerRadius="10"
+                   Padding="15"
+                   Margin="0,15,0,0">
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="#C0392B"
+                       FontSize="14"/>
+            </Frame>
+
+            <!-- Nota informativa -->
+            <Frame BackgroundColor="#EBF5FB"
+                   BorderColor="#3498DB"
+                   CornerRadius="10"
+                   Padding="15"
+                   Margin="0,15,0,20">
+                <StackLayout>
+                    <Label Text="ℹ️ Campos obligatorios"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#2980B9"/>
+                    <Label Text="• Número de Parte&#x0a;• Tipo de Refacción&#x0a;• Cantidad Inicial"
+                           FontSize="12"
+                           TextColor="#5DADE2"
+                           Margin="0,5,0,0"/>
+                </StackLayout>
+            </Frame>
+
+            <!-- Botones -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+
+                <!-- Botón Guardar -->
+                <Button Grid.Column="0"
+                       Text="💾 Guardar"
+                       BackgroundColor="#27AE60"
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       CornerRadius="10"
+                       HeightRequest="50"
+                       Command="{Binding GuardarCommand}"/>
+
+                <!-- Botón Cancelar -->
+                <Button Grid.Column="1"
+                       Text="❌ Cancelar"
+                       BackgroundColor="#95A5A6"
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       CornerRadius="10"
+                       HeightRequest="50"
+                       Command="{Binding CancelarCommand}"/>
+            </Grid>
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
