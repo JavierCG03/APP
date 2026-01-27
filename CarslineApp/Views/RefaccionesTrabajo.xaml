@@ -8,11 +8,85 @@
              Title="Refacciones del Trabajo"
              x:Name="Page"
              BackgroundColor="#F5F5F5">
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" Padding="15">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" Padding="15">
-
-        <!-- SECCIÓN: AGREGAR NUEVA REFACCIÓN (EXPANDIBLE) -->
+        <!-- SECCIÓN: Info del trabaoj -->
         <Frame Grid.Row="0" 
+               BackgroundColor="White" 
+               CornerRadius="12" 
+               Padding="0" 
+               BorderColor="#800020"
+               Margin="0,0,0,10"
+               HasShadow="True">
+            <VerticalStackLayout Spacing="0" Padding="4">
+                <!-- Encabezado clickeable -->
+                <Grid BackgroundColor="White" 
+                      Padding="15,12"
+                      ColumnDefinitions="Auto,*">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleInfoCommand}"/>
+                    </Grid.GestureRecognizers>
+
+                    <Label Grid.Column="0"
+                           Text="{Binding IconoInfo}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="#800020"
+                           VerticalOptions="Center"
+                           Margin="0,0,10,0"/>
+
+                    <Label Grid.Column="1"
+                           Text="📋 Información del Trabajo" 
+                           FontSize="15" 
+                           FontAttributes="Bold"
+                           TextColor="#800020"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,*,*" ColumnSpacing="5" IsVisible="{Binding InfoTrabajoVisible}">
+                    <Label Grid.Column="0" Grid.Row="0"
+                           Text="Trabajo:" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#555"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Grid.Row="0"
+                           Text="{Binding NombreTrabajo}" 
+                           FontSize="17" 
+                           FontAttributes="Bold"
+                           TextColor="#333"
+                           LineBreakMode="WordWrap"
+                           VerticalOptions="Center"/>
+                    <Label Grid.Column="0" Grid.Row="1"
+                           Text="Vehículo:" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#555"
+                           VerticalOptions="Start"/>
+                    <Label Grid.Column="1" Grid.Row="1"
+                           Text="{Binding VehiculoCompleto}" 
+                           FontSize="14" 
+                           TextColor="#333"
+                           LineBreakMode="WordWrap"
+                           VerticalOptions="Start"/>
+                    <Label Grid.Column="0" Grid.Row="2"
+                           Text="VIN:" 
+                           FontSize="14" 
+                           FontAttributes="Bold"
+                           TextColor="#555"
+                           VerticalOptions="Start"/>
+                    <Label Grid.Column="1" Grid.Row="2"
+                           Text="{Binding VIN}" 
+                           FontSize="14" 
+                           TextColor="#333"
+                           FontFamily="Courier"
+                           VerticalOptions="Start"/>
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+        <!-- SECCIÓN: AGREGAR NUEVA REFACCIÓN (EXPANDIBLE) -->
+        <Frame Grid.Row="2" 
                BackgroundColor="White" 
                CornerRadius="12" 
                Padding="0" 
@@ -122,11 +196,9 @@
                             Margin="0,5,0,0"/>
                     </Grid>
 
-
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </Frame>
-        
         <!-- SECCIÓN: MANO DE OBRA (EXPANDIBLE) -->
         <Frame Grid.Row="1" 
                BackgroundColor="White" 
@@ -190,20 +262,17 @@
                             BackgroundColor="Gray"
                             TextColor="White"
                             CornerRadius="8"
-
                             HeightRequest="45"
                             VerticalOptions="End"
                             FontSize="13"
                             FontAttributes="Bold"/>
                     </Grid>
 
-
                 </VerticalStackLayout>
             </VerticalStackLayout>
         </Frame>
-
         <!-- ENCABEZADO DE LA TABLA -->
-        <Frame Grid.Row="2" 
+        <Frame Grid.Row="3" 
                BackgroundColor="#800020" 
                CornerRadius="8" 
                Padding="12,10"
@@ -216,17 +285,15 @@
                 <Label Grid.Column="3" Text="Subtotal" FontSize="13" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="End"/>
                 <Label Grid.Column="4" Text="" FontSize="13" FontAttributes="Bold" TextColor="White"/>
             </Grid>
-            
-        </Frame>
 
+        </Frame>
         <!-- Separador visual -->
-        <BoxView Grid.Row="3" 
+        <BoxView Grid.Row="4" 
                  HeightRequest="1" 
                  Color="#E0E0E0" 
                  Margin="0"/>
-
         <!-- LISTA DE REFACCIONES -->
-        <ScrollView Grid.Row="4">
+        <ScrollView Grid.Row="6">
             <VerticalStackLayout Spacing="0">
                 <!-- CollectionView con fondo blanco continuo -->
                 <Frame BackgroundColor="White" 
@@ -236,9 +303,22 @@
                        Margin="0">
 
                     <CollectionView ItemsSource="{Binding Refacciones}"
-                                    EmptyView="📋 No hay refacciones cargadas"
                                     SelectionMode="None">
-                        <CollectionView.ItemTemplate>
+                            <!-- EmptyView personalizado -->
+                            <CollectionView.EmptyView>
+                                <DataTemplate>
+                                    <StackLayout Padding="20"
+                                         HorizontalOptions="Center"
+                                         VerticalOptions="Center">
+                                        <Label Text="📋 No hay refacciones cargadas"
+                                           TextColor="Black"
+                                           FontSize="16"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"/>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.EmptyView>
+                            <CollectionView.ItemTemplate>
                             <DataTemplate x:DataType="models:RefaccionTrabajoViewModel">
                                 <SwipeView>
                                     <!-- Botón Eliminar al deslizar -->
@@ -313,9 +393,8 @@
                 </Frame>
             </VerticalStackLayout>
         </ScrollView>
-
         <!-- RESUMEN DE TOTALES -->
-        <Frame Grid.Row="5" 
+        <Frame Grid.Row="7" 
                BackgroundColor="White" 
                CornerRadius="12" 
                Padding="20,15" 
@@ -409,9 +488,8 @@
 
             </VerticalStackLayout>
         </Frame>
-
         <!-- Indicador de carga -->
-        <ActivityIndicator Grid.RowSpan="6"
+        <ActivityIndicator Grid.RowSpan="8"
                            IsRunning="{Binding EstaCargando}"
                            IsVisible="{Binding EstaCargando}"
                            Color="#800020"
@@ -420,4 +498,5 @@
                            HorizontalOptions="Center"
                            VerticalOptions="Center"/>
     </Grid>
+    </ScrollView>
 </ContentPage>

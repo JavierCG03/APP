@@ -27,12 +27,18 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
             _vehiculoId = vehiculoId;
             OrdenesVehiculo = new ObservableCollection<OrdenSimpleDto>();
 
-            // Comandos
+            // Comandos existentes
             EditarPlacasCommand = new Command(HabilitarEdicionPlacas);
             GuardarPlacasCommand = new Command(async () => await GuardarPlacas());
             CancelarEdicionCommand = new Command(CancelarEdicion);
             VerClienteCommand = new Command(async () => await VerCliente());
             VerOrdenCommand = new Command<int>(async (ordenId) => await VerOrden(ordenId));
+
+            // Nuevos comandos para accesos directos
+            CopiarVINCommand = new Command(async () => await CopiarVIN());
+            CopiarPlacasCommand = new Command(async () => await CopiarPlacas());
+            ConsultarREPUVEPorVINCommand = new Command(async () => await ConsultarREPUVEPorVIN());
+            LlamarPropietarioCommand = new Command(async () => await LlamarPropietario());
 
             CargarDatosVehiculo();
         }
@@ -90,20 +96,184 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
         public bool MostrarEdicionPlacas => ModoEdicionPlacas;
         public bool MostrarPlacasNormales => !ModoEdicionPlacas;
         public bool TieneOrdenes => OrdenesVehiculo?.Any() ?? false;
+        public bool TienePlacas => !string.IsNullOrWhiteSpace(Vehiculo?.Placas);
 
         #endregion
 
         #region Comandos
 
+        // Comandos existentes
         public ICommand EditarPlacasCommand { get; }
         public ICommand GuardarPlacasCommand { get; }
         public ICommand CancelarEdicionCommand { get; }
         public ICommand VerClienteCommand { get; }
         public ICommand VerOrdenCommand { get; }
 
+        // Nuevos comandos
+        public ICommand CopiarVINCommand { get; }
+        public ICommand CopiarPlacasCommand { get; }
+        public ICommand ConsultarREPUVEPorVINCommand { get; }
+        public ICommand LlamarPropietarioCommand { get; }
+
         #endregion
 
-        #region Métodos
+        #region Métodos de Accesos Directos
+
+        /// <summary>
+        /// Copia el VIN al portapapeles
+        /// </summary>
+        private async Task CopiarVIN()
+        {
+            if (string.IsNullOrWhiteSpace(Vehiculo?.VIN))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "⚠️ Advertencia",
+                    "No hay VIN disponible para copiar",
+                    "OK");
+                return;
+            }
+
+            try
+            {
+                await Clipboard.SetTextAsync(Vehiculo.VIN);
+
+                await Application.Current.MainPage.DisplayAlert(
+                    "✅ Copiado",
+                    $"VIN copiado al portapapeles:\n{Vehiculo.VIN}",
+                    "OK");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "❌ Error",
+                    $"No se pudo copiar el VIN: {ex.Message}",
+                    "OK");
+            }
+        }
+
+        /// <summary>
+        /// Copia las placas al portapapeles
+        /// </summary>
+        private async Task CopiarPlacas()
+        {
+            if (string.IsNullOrWhiteSpace(Vehiculo?.Placas))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "⚠️ Advertencia",
+                    "No hay placas disponibles para copiar",
+                    "OK");
+                return;
+            }
+
+            try
+            {
+                await Clipboard.SetTextAsync(Vehiculo.Placas);
+
+                await Application.Current.MainPage.DisplayAlert(
+                    "✅ Copiado",
+                    $"Placas copiadas al portapapeles:\n{Vehiculo.Placas}",
+                    "OK");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "❌ Error",
+                    $"No se pudo copiar las placas: {ex.Message}",
+                    "OK");
+            }
+        }
+
+        /// <summary>
+        /// Consulta REPUVE usando el VIN
+        /// </summary>
+        private async Task ConsultarREPUVEPorVIN()
+        {
+            if (string.IsNullOrWhiteSpace(Vehiculo?.VIN))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "⚠️ Advertencia",
+                    "No hay VIN disponible para consultar",
+                    "OK");
+                return;
+            }
+
+            try
+            {
+                await Clipboard.SetTextAsync(Vehiculo.VIN);
+                var repuveUrl = "https://www2.repuve.gob.mx:8443/ciudadania/";
+
+                await Launcher.OpenAsync(new Uri(repuveUrl));
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "❌ Error",
+                    $"No se pudo abrir REPUVE: {ex.Message}",
+                    "OK");
+            }
+        }
+
+
+        /// <summary>
+        /// Llama al propietario del vehículo
+        /// </summary>
+        private async Task LlamarPropietario()
+        {
+            if (string.IsNullOrWhiteSpace(Cliente?.TelefonoMovil))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "⚠️ Advertencia",
+                    "No hay teléfono disponible del propietario",
+                    "OK");
+                return;
+            }
+
+            try
+            {
+                var telefonoLimpio = LimpiarNumeroTelefono(Cliente.TelefonoMovil);
+
+                if (PhoneDialer.Default.IsSupported)
+                {
+                    PhoneDialer.Default.Open(telefonoLimpio);
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "⚠️ No disponible",
+                        "Este dispositivo no soporta llamadas telefónicas",
+                        "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "❌ Error",
+                    $"No se pudo realizar la llamada: {ex.Message}",
+                    "OK");
+            }
+        }
+
+        /// <summary>
+        /// Limpia un número de teléfono
+        /// </summary>
+        private string LimpiarNumeroTelefono(string telefono)
+        {
+            if (string.IsNullOrWhiteSpace(telefono))
+                return string.Empty;
+
+            var limpio = new string(telefono.Where(c => char.IsDigit(c) || c == '+').ToArray());
+
+            if (limpio.Contains('+'))
+            {
+                limpio = "+" + limpio.Replace("+", "");
+            }
+
+            return limpio;
+        }
+
+        #endregion
+
+        #region Métodos Existentes
 
         private async void CargarDatosVehiculo()
         {
@@ -126,8 +296,11 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
                         Cliente = clienteResponse.Cliente;
                     }
 
-                    // Cargar historial de órdenes (puedes crear un endpoint específico)
+                    // Cargar historial de órdenes
                     await CargarHistorialOrdenes();
+
+                    // Actualizar propiedades calculadas
+                    OnPropertyChanged(nameof(TienePlacas));
                 }
                 else
                 {
@@ -154,7 +327,6 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
                 {
                     OrdenesVehiculo.Clear();
 
-                    // Convertir historial a órdenes simples
                     foreach (var orden in historialResponse.Historial)
                     {
                         OrdenesVehiculo.Add(new OrdenSimpleDto
@@ -204,6 +376,7 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
                 {
                     Vehiculo.Placas = NuevasPlacas;
                     ModoEdicionPlacas = false;
+                    OnPropertyChanged(nameof(TienePlacas));
 
                     await Application.Current.MainPage.DisplayAlert(
                         "✅ Éxito",
@@ -245,7 +418,6 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
 
         private async Task VerOrden(int ordenId)
         {
-            // Navegar a página de detalle de orden
             var ordenPage = new OrdenPage(ordenId);
             await Application.Current.MainPage.Navigation.PushAsync(ordenPage);
         }

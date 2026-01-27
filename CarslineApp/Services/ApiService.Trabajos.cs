@@ -117,6 +117,53 @@ namespace CarslineApp.Services
             }
         }
 
+
+
+        public async Task<TrabajoSimpleResponse> ObtenerInfoTrabajo(int trabajoId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync(
+                    $"{BaseUrl}/trabajos/Trabajo/{trabajoId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<TrabajoSimpleResponse>();
+                    return result ?? new TrabajoSimpleResponse
+                    {
+                        Success = false,
+                        Message = "Error al procesar la respuesta"
+                    };
+                }
+
+                // Si el trabajo no existe o no tiene mano de obra
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return new TrabajoSimpleResponse
+                    {
+                        Success = false,
+                        Message = "Trabajo no encontrado"
+                    };
+                }
+
+                return new TrabajoSimpleResponse
+                {
+                    Success = false,
+                    Message = $"Error en la solicitud: {response.StatusCode}"
+                };
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error al obtener mano de obra: {ex.Message}");
+                return new TrabajoSimpleResponse
+                {
+                    Success = false,
+                    Message = $"Error: {ex.Message}"
+                };
+            }
+        }
+
+
         public async Task<TrabajoResponse> IniciarTrabajoAsync(int trabajoId, int tecnicoId)
         {
             try

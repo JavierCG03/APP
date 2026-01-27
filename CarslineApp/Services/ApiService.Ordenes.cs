@@ -222,23 +222,26 @@ namespace CarslineApp.Services
             }
         }
 
-        public async Task<AuthResponse> EntregarOrdenAsync(int ordenId)
+        public async Task<TrabajoResponse> EntregarOrdenAsync(int ordenId)
         {
             try
             {
                 var response = await _httpClient.PutAsync($"{BaseUrl}/Ordenes/entregar/{ordenId}", null);
 
+                // Leer siempre el contenido como TrabajoResponse
+                var result = await response.Content.ReadFromJsonAsync<TrabajoResponse>();
+
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadFromJsonAsync<AuthResponse>();
-                    return result ?? new AuthResponse
+                    return result ?? new TrabajoResponse
                     {
                         Success = false,
                         Message = "Error al procesar la respuesta"
                     };
                 }
 
-                return new AuthResponse
+                // Si falla, devolver el mensaje que vino del API
+                return result ?? new TrabajoResponse
                 {
                     Success = false,
                     Message = "Error en la solicitud"
@@ -246,15 +249,12 @@ namespace CarslineApp.Services
             }
             catch (Exception ex)
             {
-                return new AuthResponse
+                return new TrabajoResponse
                 {
                     Success = false,
                     Message = $"Error: {ex.Message}"
                 };
             }
         }
-
-
-
     }
 }

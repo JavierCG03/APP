@@ -340,46 +340,45 @@
                                                 <CollectionView.ItemTemplate >
                                                     <DataTemplate >
                                                         <VerticalStackLayout Spacing="0">
+  
+                                                            
+                                                            <Frame Grid.Column="1"
+                                                                           BackgroundColor="#D60000"
+                                                                           Padding="8,4"
+                                                                           HorizontalOptions="End"
+                                                                           Margin="0,5,0,0"
+                                                                           CornerRadius="6"
+                                                                           HasShadow="False">
+                                                                <Label Text="{Binding NumeroOrden}"
+                                                                               FontSize="11"
+                                                                               FontAttributes="Bold"
+                                                                               TextColor="White"/>
+                                                            </Frame>
+
                                                             <Frame BackgroundColor="#FFE5E5"
                                                                Padding="15"
-                                                               Margin="0,10,0,15"
+                                                               Margin="0,0,0,5"
                                                                HasShadow="False"
                                                                BorderColor="#D60000"
                                                                CornerRadius="12">
-
-                                                            <Frame.GestureRecognizers>
-                                                                <TapGestureRecognizer 
+                                                                <Frame.GestureRecognizers>
+                                                                    <TapGestureRecognizer 
                                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.VerDetalleOrdenCommand}" 
                                                                     CommandParameter="{Binding Id}" />
-                                                            </Frame.GestureRecognizers>
-
-
-                                                            <VerticalStackLayout Spacing="12">
-
-                                                                <!-- ENCABEZADO: VEHÍCULO + NÚMERO ORDEN -->
-                                                                <Grid ColumnDefinitions="*,Auto">
-                                                                    <Label Grid.Column="0"
+                                                                </Frame.GestureRecognizers>
+                                                                
+                                                                <VerticalStackLayout Spacing="5">
+                                                                    
+                                                                    <Label 
                                                                            Text="{Binding VehiculoCompleto}"
-                                                                           HorizontalOptions="Center"
+                                                                           HorizontalOptions="Start"
                                                                            FontSize="18"
                                                                            FontAttributes="Bold"
                                                                            TextColor="#1A1A1A"
                                                                            LineBreakMode="TailTruncation"/>
 
-                                                                    <Frame Grid.Column="1"
-                                                                           BackgroundColor="#D60000"
-                                                                           Padding="8,4"
-                                                                           CornerRadius="6"
-                                                                           HasShadow="False">
-                                                                        <Label Text="{Binding NumeroOrden}"
-                                                                               FontSize="11"
-                                                                               FontAttributes="Bold"
-                                                                               TextColor="White"/>
-                                                                    </Frame>
-                                                                </Grid>
-
-                                                                <!-- INFO CLIENTE -->
-                                                                <HorizontalStackLayout Spacing="20">
+                                                                    <!-- INFO CLIENTE -->
+                                                                    <HorizontalStackLayout Spacing="20">
                                                                     <Grid ColumnDefinitions="18,Auto" ColumnSpacing="5">
                                                                         <Label Grid.Column="0" 
                                                                            Text="👤" 
@@ -404,7 +403,7 @@
                                                                 </HorizontalStackLayout>
 
 
-                                                                <HorizontalStackLayout Spacing="10">
+                                                                    <HorizontalStackLayout Spacing="10">
                                                                     <Grid ColumnDefinitions="Auto,*,Auto">
                                                                         <Label Grid.Column="0"
                                                                                    Text="🔧"
@@ -442,8 +441,8 @@
                                                                     </Frame>
                                                                 </HorizontalStackLayout>
                                                                 
-                                                                <!-- FECHA HORA PROMESA -->
-                                                                <HorizontalStackLayout Spacing="5">
+                                                                    <!-- FECHA HORA PROMESA -->
+                                                                    <HorizontalStackLayout Spacing="5">
                                                                     <Label Grid.Column="0"
                                                                            Text="⏱️ "
                                                                            TextColor="Black"
@@ -463,7 +462,7 @@
                                                                            VerticalOptions="Center"/>
                                                                 </HorizontalStackLayout>
 
-                                                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                                                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
                                                                     <!-- BOTÓN CANCELAR -->
                                                                     <Button Grid.Column="0"
                                                                             Text="✖ CANCELAR ORDEN"
@@ -485,8 +484,8 @@
                                                                             Source="camara.png"/>
 
                                                                 </Grid>
-                                                            </VerticalStackLayout>
-                                                        </Frame>
+                                                                </VerticalStackLayout>
+                                                            </Frame>
                                                         </VerticalStackLayout>
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate>
@@ -515,9 +514,23 @@
 
                                                 <CollectionView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Frame BackgroundColor="#FFF8E1"
+                                                        <VerticalStackLayout Spacing="0">
+                                                            <!-- ENCABEZADO -->
+                                                            <Frame Grid.Column="1"
+                                                                           BackgroundColor="#FFA500"
+                                                                           Padding="8,4,8,4"
+                                                                           HorizontalOptions="End"
+                                                                           Margin="0,5,0,0"
+                                                                           CornerRadius="6"
+                                                                           HasShadow="False">
+                                                                <Label Text="{Binding NumeroOrden}"
+                                                                               FontSize="11"
+                                                                               FontAttributes="Bold"
+                                                                               TextColor="White"/>
+                                                            </Frame>
+                                                            <Frame BackgroundColor="#FFF8E1"
                                                                Padding="15"
-                                                               Margin="0,10,0,15"
+                                                               Margin="0,0,0,5"
                                                                HasShadow="False"
                                                                BorderColor="#FFA500"
                                                                CornerRadius="12">
@@ -531,28 +544,13 @@
 
                                                             <VerticalStackLayout Spacing="12">
 
-                                                                <!-- ENCABEZADO -->
-                                                                <Grid ColumnDefinitions="*,Auto">
-                                                                    <Label Grid.Column="0"
+                                                                <Label Grid.Column="0"
                                                                            Text="{Binding VehiculoCompleto}"
-                                                                           HorizontalOptions="Center"
+                                                                           HorizontalOptions="Start"
                                                                            FontSize="18"
                                                                            FontAttributes="Bold"
                                                                            TextColor="#1A1A1A"
                                                                            LineBreakMode="TailTruncation"/>
-
-                                                                    <Frame Grid.Column="1"
-                                                                           BackgroundColor="#FFA500"
-                                                                           Padding="8,4"
-                                                                           CornerRadius="6"
-                                                                           HasShadow="False">
-                                                                        <Label Text="{Binding NumeroOrden}"
-                                                                               FontSize="11"
-                                                                               FontAttributes="Bold"
-                                                                               TextColor="White"/>
-                                                                    </Frame>
-                                                                </Grid>
-
 
                                                                 <!-- INFO CLIENTE -->
                                                                 <HorizontalStackLayout Spacing="20">
@@ -661,6 +659,7 @@
                                                             </VerticalStackLayout>
 
                                                         </Frame>
+                                                        </VerticalStackLayout>
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate>
                                             </CollectionView>
@@ -687,9 +686,24 @@
 
                                                 <CollectionView.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Frame BackgroundColor="#F1F8F4"
+                                                        <VerticalStackLayout Spacing="0">
+                                                            <!-- ENCABEZADO -->
+                                                            <Frame Grid.Column="1"
+                                                                           BackgroundColor="#4CAF50"
+                                                                           Padding="8,4,8,4"
+                                                                           HorizontalOptions="End"
+                                                                           Margin="0,5,0,0"
+                                                                           CornerRadius="6"
+                                                                           HasShadow="False">
+                                                                <Label Text="{Binding NumeroOrden}"
+                                                                               FontSize="11"
+                                                                               FontAttributes="Bold"
+                                                                               TextColor="White"/>
+                                                            </Frame>
+
+                                                            <Frame BackgroundColor="#F1F8F4"
                                                                Padding="15"
-                                                               Margin="0,10,0,15"
+                                                               Margin="0,0,0,5"
                                                                HasShadow="False"
                                                                BorderColor="#4CAF50"
                                                                CornerRadius="12">
@@ -702,28 +716,14 @@
 
                                                             <VerticalStackLayout Spacing="12">
 
-                                                                <!-- ENCABEZADO -->
-                                                                <Grid ColumnDefinitions="*,Auto">
-                                                                    <Label Grid.Column="0"
+                                                                <Label Grid.Column="0"
                                                                            Text="{Binding VehiculoCompleto}"
-                                                                           HorizontalOptions="Center"
+                                                                           HorizontalOptions="Start"
                                                                            FontSize="18"
                                                                            FontAttributes="Bold"
                                                                            TextColor="#1A1A1A"
                                                                            LineBreakMode="TailTruncation"/>
-
-                                                                    <Frame Grid.Column="1"
-                                                                           BackgroundColor="#4CAF50"
-                                                                           Padding="8,4"
-                                                                           CornerRadius="6"
-                                                                           HasShadow="False">
-                                                                        <Label Text="{Binding NumeroOrden}"
-                                                                               FontSize="11"
-                                                                               FontAttributes="Bold"
-                                                                               TextColor="White"/>
-                                                                    </Frame>
-                                                                </Grid>
-
+                                                                
                                                                 <!-- INFO CLIENTE -->
                                                                 <HorizontalStackLayout Spacing="20">
                                                                     <Grid ColumnDefinitions="18,Auto" ColumnSpacing="5">
@@ -838,6 +838,7 @@
                                                                         CornerRadius="8"/>
                                                             </VerticalStackLayout>
                                                         </Frame>
+                                                        </VerticalStackLayout>
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate>
                                             </CollectionView>

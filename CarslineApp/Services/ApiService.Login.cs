@@ -17,9 +17,11 @@ namespace CarslineApp.Services
 
                 var response = await _httpClient.PostAsJsonAsync($"{BaseUrl}/Auth/login", request);
 
+                // Intentar leer siempre el contenido como AuthResponse
+                var result = await response.Content.ReadFromJsonAsync<AuthResponse>();
+
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadFromJsonAsync<AuthResponse>();
                     return result ?? new AuthResponse
                     {
                         Success = false,
@@ -27,7 +29,8 @@ namespace CarslineApp.Services
                     };
                 }
 
-                return new AuthResponse
+                // Si falla, devolver el mensaje que vino del API
+                return result ?? new AuthResponse
                 {
                     Success = false,
                     Message = "Error en la solicitud"
@@ -38,7 +41,7 @@ namespace CarslineApp.Services
                 return new AuthResponse
                 {
                     Success = false,
-                    Message = $"Error de conexion: {ex.Message}"
+                    Message = $"Error de conexión: {ex.Message}"
                 };
             }
             catch (Exception ex)

@@ -36,11 +36,17 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
             _clienteId = clienteId;
             VehiculosCliente = new ObservableCollection<VehiculoDto>();
 
-            // Comandos
+            // Comandos existentes
             EditarClienteCommand = new Command(HabilitarEdicion);
             GuardarCambiosCommand = new Command(async () => await GuardarCambios());
             CancelarEdicionCommand = new Command(CancelarEdicion);
             VerVehiculoCommand = new Command<int>(async (vehiculoId) => await VerVehiculo(vehiculoId));
+
+            // Nuevos comandos para accesos directos
+            AbrirWhatsAppCommand = new Command<string>(async (telefono) => await AbrirWhatsApp(telefono));
+            LlamarTelefonoCommand = new Command<string>(async (telefono) => await LlamarTelefono(telefono));
+            EnviarEmailCommand = new Command<string>(async (email) => await EnviarEmail(email));
+            AbrirMapaCommand = new Command(async () => await AbrirMapa());
 
             CargarDatosCliente();
         }
@@ -159,9 +165,231 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
         public ICommand CancelarEdicionCommand { get; }
         public ICommand VerVehiculoCommand { get; }
 
+        // Nuevos comandos para accesos directos
+        public ICommand AbrirWhatsAppCommand { get; }
+        public ICommand LlamarTelefonoCommand { get; }
+        public ICommand EnviarEmailCommand { get; }
+        public ICommand AbrirMapaCommand { get; }
+
         #endregion
 
-        #region Métodos
+        #region Métodos de Accesos Directos
+
+        /// <summary>
+        /// Abre WhatsApp con el número de teléfono especificado
+        /// </summary>
+        private async Task AbrirWhatsApp(string telefono)
+        {
+            if (string.IsNullOrWhiteSpace(telefono))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "⚠️ Advertencia",
+                    "No hay número de teléfono disponible",
+                    "OK");
+                return;
+            }
+
+            try
+            {
+                // Limpiar el número de teléfono (quitar espacios, guiones, paréntesis)
+                var telefonoLimpio = LimpiarNumeroTelefono(telefono);
+
+                // Formato para WhatsApp (agregar código de país si no lo tiene)
+                // Asume México (+52) si no tiene código de país
+                if (!telefonoLimpio.StartsWith("+"))
+                {
+                    telefonoLimpio = "+52" + telefonoLimpio;
+                }
+
+                // URL de WhatsApp
+                var whatsappUrl = $"https://wa.me/{telefonoLimpio.Replace("+", "")}";
+
+                // Abrir WhatsApp
+                await Launcher.OpenAsync(new Uri(whatsappUrl));
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "❌ Error",
+                    $"No se pudo abrir WhatsApp: {ex.Message}",
+                    "OK");
+            }
+        }
+
+        /// <summary>
+        /// Realiza una llamada telefónica
+        /// </summary>
+        private async Task LlamarTelefono(string telefono)
+        {
+            if (string.IsNullOrWhiteSpace(telefono))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "⚠️ Advertencia",
+                    "No hay número de teléfono disponible",
+                    "OK");
+                return;
+            }
+
+            try
+            {
+                // Limpiar el número
+                var telefonoLimpio = LimpiarNumeroTelefono(telefono);
+
+                // Verificar si el dispositivo soporta llamadas telefónicas
+                if (PhoneDialer.Default.IsSupported)
+                {
+                    PhoneDialer.Default.Open(telefonoLimpio);
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "⚠️ No disponible",
+                        "Este dispositivo no soporta llamadas telefónicas",
+                        "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "❌ Error",
+                    $"No se pudo realizar la llamada: {ex.Message}",
+                    "OK");
+            }
+        }
+
+        /// <summary>
+        /// Abre el cliente de correo con el email especificado
+        /// </summary>
+        private async Task EnviarEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "⚠️ Advertencia",
+                    "No hay correo electrónico disponible",
+                    "OK");
+                return;
+            }
+
+            try
+            {
+                // Verificar si el dispositivo soporta correo
+                if (Email.Default.IsComposeSupported)
+                {
+                    var message = new EmailMessage
+                    {
+                        Subject = "",
+                        Body = "",
+                        To = new List<string> { email }
+                    };
+
+                    await Email.Default.ComposeAsync(message);
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "⚠️ No disponible",
+                        "Este dispositivo no soporta correo electrónico",
+                        "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "❌ Error",
+                    $"No se pudo abrir el correo: {ex.Message}",
+                    "OK");
+            }
+        }
+
+        /// <summary>
+        /// Abre Google Maps con la dirección del cliente
+        /// </summary>
+        private async Task AbrirMapa()
+        {
+            try
+            {
+                // Construir la dirección completa
+                var direccionCompleta = ConstruirDireccionCompleta();
+
+                if (string.IsNullOrWhiteSpace(direccionCompleta))
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "⚠️ Advertencia",
+                        "No hay dirección completa disponible",
+                        "OK");
+                    return;
+                }
+
+                // Codificar la dirección para URL
+                var direccionCodificada = Uri.EscapeDataString(direccionCompleta);
+
+                // URL de Google Maps
+                var mapsUrl = $"https://www.google.com/maps/search/?api=1&query={direccionCodificada}";
+
+                // Abrir en el navegador
+                await Launcher.OpenAsync(new Uri(mapsUrl));
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "❌ Error",
+                    $"No se pudo abrir el mapa: {ex.Message}",
+                    "OK");
+            }
+        }
+
+        /// <summary>
+        /// Construye la dirección completa del cliente
+        /// </summary>
+        private string ConstruirDireccionCompleta()
+        {
+            var partesDireccion = new List<string>();
+
+            if (!string.IsNullOrWhiteSpace(Calle))
+                partesDireccion.Add(Calle);
+
+            if (!string.IsNullOrWhiteSpace(NumeroExterior))
+                partesDireccion.Add(NumeroExterior);
+
+            if (!string.IsNullOrWhiteSpace(Colonia))
+                partesDireccion.Add(Colonia);
+
+            if (!string.IsNullOrWhiteSpace(Municipio))
+                partesDireccion.Add(Municipio);
+
+            if (!string.IsNullOrWhiteSpace(Estado))
+                partesDireccion.Add(Estado);
+
+            if (!string.IsNullOrWhiteSpace(CodigoPostal))
+                partesDireccion.Add(CodigoPostal);
+
+            return string.Join(", ", partesDireccion);
+        }
+
+        /// <summary>
+        /// Limpia un número de teléfono quitando caracteres no numéricos
+        /// </summary>
+        private string LimpiarNumeroTelefono(string telefono)
+        {
+            if (string.IsNullOrWhiteSpace(telefono))
+                return string.Empty;
+
+            // Mantener el + si está al inicio, quitar todo lo demás excepto números
+            var limpio = new string(telefono.Where(c => char.IsDigit(c) || c == '+').ToArray());
+
+            // Asegurar que el + solo esté al inicio
+            if (limpio.Contains('+'))
+            {
+                limpio = "+" + limpio.Replace("+", "");
+            }
+
+            return limpio;
+        }
+
+        #endregion
+
+        #region Métodos Existentes
 
         private async void CargarDatosCliente()
         {

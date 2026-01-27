@@ -19,58 +19,71 @@
                        CornerRadius="15"
                        HasShadow="True">
                     <VerticalStackLayout Spacing="15">
-
-                        <!-- Icono y Título -->
-                        <HorizontalStackLayout Spacing="15">
-                            <VerticalStackLayout Spacing="5">
-                                <Label Text="{Binding Vehiculo.VehiculoCompleto}"
+                        
+                        <Label Text="{Binding Vehiculo.VehiculoCompleto}"
                                        FontSize="22"
                                        FontAttributes="Bold"
                                        TextColor="#1A1A1A"/>
-                                <Label Text="{Binding Vehiculo.Color}"
-                                       FontSize="16"
-                                       TextColor="#666"/>
-                            </VerticalStackLayout>
-                        </HorizontalStackLayout>
+
 
                         <BoxView HeightRequest="2" BackgroundColor="#E9ECEF"/>
 
-                        <!-- VIN -->
-                        <Grid ColumnDefinitions="Auto,*" RowSpacing="10">
-                            <Label Grid.Column="0"
-                                   Text="VIN:"
-                                   FontSize="14"
-                                   FontAttributes="Bold"
-                                   TextColor="#D60000"/>
-                            <Label Grid.Column="1"
-                                   Text="{Binding Vehiculo.VIN}"
-                                   FontSize="14"
-                                   TextColor="#1A1A1A"
-                                   Margin="10,0,0,0"/>
-                        </Grid>
+                        <!-- VIN con acciones -->
+                        <VerticalStackLayout Spacing="5">
+                            <Label Text="VIN (Número de Serie):"
+                                   FontSize="12"
+                                   TextColor="#666"/>
+
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <Label Grid.Column="0"
+                                       Text="{Binding Vehiculo.VIN}"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="#1A1A1A"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CopiarVINCommand}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+
+                                <ImageButton Grid.Column="1"
+                                                 Source="buscar.png"
+                                                 BackgroundColor="Transparent"
+                                                 HeightRequest="35"
+                                                 WidthRequest="35"
+                                                 Command="{Binding ConsultarREPUVEPorVINCommand}"/>
+
+                            </Grid>
+                        </VerticalStackLayout>
 
                         <!-- Placas (Modo Normal) -->
-                        <Grid ColumnDefinitions="Auto,*,Auto"
-                             IsVisible="{Binding MostrarPlacasNormales}"
-                            RowSpacing="10">
-                            <Label Grid.Column="0"
-                                   Text="Placas:"
-                                   FontSize="14"
-                                   FontAttributes="Bold"
-                                   TextColor="#D60000"/>
-                            <Label Grid.Column="1"
-                                   Text="{Binding Vehiculo.Placas}"
-                                   FontSize="14"
-                                   TextColor="#1A1A1A"
-                                   Margin="10,0,0,0"/>
-                            <ImageButton Grid.Column="2"
-                                        Command="{Binding EditarPlacasCommand}"
-                                        Source="editar.png"
-                                        VerticalOptions="Center"
-                                        BackgroundColor="Transparent"
-                                        WidthRequest="30"
-                                        HeightRequest="30"/>
-                        </Grid>
+                        <VerticalStackLayout Spacing="5" IsVisible="{Binding MostrarPlacasNormales}">
+                            <Label Text="Placas:"
+                                   FontSize="12"
+                                   TextColor="#666"/>
+
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="10">
+
+                                <Label Grid.Column="0"
+                                       Text="{Binding Vehiculo.Placas}"
+                                       FontSize="15"
+                                       FontAttributes="Bold"
+                                       TextColor="#1A1A1A"
+                                       VerticalOptions="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CopiarPlacasCommand}"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+
+                                <ImageButton Grid.Column="1"
+                                                 Source="editar.png"
+                                                 BackgroundColor="Transparent"
+                                                 HeightRequest="35"
+                                                 WidthRequest="35"
+                                                 Command="{Binding EditarPlacasCommand}"/>
+
+                            </Grid>
+                        </VerticalStackLayout>
 
                         <!-- Placas (Modo Edición) -->
                         <VerticalStackLayout Spacing="10"
@@ -99,6 +112,7 @@
                                        CornerRadius="8"/>
                             </Grid>
                         </VerticalStackLayout>
+
 
                         <!-- Año y Versión -->
                         <Grid ColumnDefinitions="*,*" ColumnSpacing="20" RowSpacing="10">
@@ -155,52 +169,56 @@
 
                         <BoxView HeightRequest="2" BackgroundColor="#E9ECEF"/>
 
+                        <!-- Tarjeta Cliente con Acciones Rápidas -->
                         <Frame BackgroundColor="#F8F9FA"
                                Padding="15"
                                CornerRadius="10"
-                               HasShadow="False">
+                               HasShadow="False"
+                               BorderColor="#E9ECEF">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding VerClienteCommand}"/>
                             </Frame.GestureRecognizers>
 
-                            <Grid ColumnDefinitions="*,Auto">
-                                <VerticalStackLayout Grid.Column="0" Spacing="8">
-                                    <Label Text="{Binding Cliente.NombreCompleto}"
-                                           FontSize="16"
-                                           FontAttributes="Bold"
-                                           TextColor="#1A1A1A"/>
-                                    <Label FontSize="14"
-                                           TextColor="#666">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="📞 "/>
-                                                <Span Text="{Binding Cliente.TelefonoMovil}"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                    <Label FontSize="14"
-                                           TextColor="#666">
-                                        <Label.FormattedText>
-                                            <FormattedString>
-                                                <Span Text="🆔 "/>
-                                                <Span Text="{Binding Cliente.RFC}"/>
-                                            </FormattedString>
-                                        </Label.FormattedText>
-                                    </Label>
-                                </VerticalStackLayout>
+                            <VerticalStackLayout Spacing="15">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="15">
+                                    <VerticalStackLayout Grid.Column="0" Spacing="10">
+                                        
+                                        <Label Grid.Column="1"
+                                               Text="{Binding Cliente.NombreCompleto}"
+                                                   VerticalOptions="End"
+                                               FontSize="18"
+                                               FontAttributes="Bold"
+                                               TextColor="#1A1A1A"/>
 
-                                <Label Grid.Column="1"
-                                       Text="→"
-                                       FontSize="24"
-                                       TextColor="#D60000"
-                                       VerticalOptions="Center"/>
-                            </Grid>
+                                        <Label FontSize="13" TextColor="#666">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="📞 "/>
+                                                    <Span Text="{Binding Cliente.TelefonoMovil}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <Label FontSize="13" TextColor="#666">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="🆔 "/>
+                                                    <Span Text="{Binding Cliente.RFC}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </VerticalStackLayout>
+
+                                    <Label Grid.Column="1"
+                                           Text="→"
+                                           FontSize="24"
+                                           TextColor="#D60000"
+                                           VerticalOptions="Center"/>
+                                </Grid>
+
+                            </VerticalStackLayout>
                         </Frame>
 
-                        <Label Text="Toca para ver detalles del cliente"
-                               FontSize="12"
-                               TextColor="#999"
-                               HorizontalOptions="Center"/>
                     </VerticalStackLayout>
                 </Frame>
 

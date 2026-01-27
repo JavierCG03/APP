@@ -441,7 +441,6 @@ namespace CarslineApp.ViewModels.ViewModelsHome
 
         private async Task EntregarOrden(int ordenId)
         {
-            // ✅ VALIDACIÓN: Verificar que todos los trabajos estén completados
             try
             {
                 IsLoading = true;

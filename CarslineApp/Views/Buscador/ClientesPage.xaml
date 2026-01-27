@@ -31,7 +31,7 @@
                                        FontSize="14"
                                        TextColor="#666"/>
                             </VerticalStackLayout>
-                            
+
                             <ImageButton Grid.Column="1"
                                         Command="{Binding EditarClienteCommand}"
                                         IsVisible="{Binding MostrarBotonEditar}"
@@ -62,43 +62,119 @@
                                        TextColor="#1A1A1A"/>
                             </VerticalStackLayout>
 
-                            <!-- Teléfono Móvil -->
+                            <!-- Teléfono Móvil con accesos directos -->
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="Teléfono Móvil *"
                                        FontSize="12"
                                        TextColor="#666"/>
+
+                                <!-- Modo Edición -->
                                 <Entry Text="{Binding TelefonoMovil}"
+                                       IsVisible="{Binding ModoEdicion}"
                                        IsEnabled="{Binding ModoEdicion}"
                                        Keyboard="Telephone"
                                        FontSize="14"
                                        BackgroundColor="#F8F9FA"
                                        TextColor="#1A1A1A"/>
+
+                                <!-- Modo Vista con Accesos Directos -->
+                                <Grid ColumnDefinitions="*,Auto,Auto" 
+                                      ColumnSpacing="10"
+                                      IsVisible="{Binding CamposBloqueados}">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding TelefonoMovil}"
+                                           FontSize="16"
+                                           TextColor="#2C3E50"
+                                           VerticalOptions="Center"/>
+                                    <ImageButton Grid.Column="1"
+                                                    Source="whatsapp.png"
+                                                 BackgroundColor="Transparent"
+                                                 HeightRequest="35"
+                                                 WidthRequest="35"
+                                                 Command="{Binding AbrirWhatsAppCommand}" 
+                                                 CommandParameter="{Binding TelefonoMovil}"/>
+                                    
+                                    <ImageButton Grid.Column="2"
+                                                 Source="llamar.png"
+                                                 BackgroundColor="Transparent"
+                                                 HeightRequest="35"
+                                                 WidthRequest="35"
+                                                 Command="{Binding LlamarTelefonoCommand}" 
+                                                 CommandParameter="{Binding TelefonoMovil}"/>
+
+                                </Grid>
                             </VerticalStackLayout>
 
-                            <!-- Teléfono Casa -->
+                            <!-- Teléfono Casa con acceso directo -->
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="Teléfono Casa"
                                        FontSize="12"
                                        TextColor="#666"/>
+
+                                <!-- Modo Edición -->
                                 <Entry Text="{Binding TelefonoCasa}"
+                                       IsVisible="{Binding ModoEdicion}"
                                        IsEnabled="{Binding ModoEdicion}"
                                        Keyboard="Telephone"
                                        FontSize="14"
                                        BackgroundColor="#F8F9FA"
                                        TextColor="#1A1A1A"/>
+
+                                <!-- Modo Vista con Acceso Directo -->
+                                <Grid ColumnDefinitions="*,Auto" 
+                                      ColumnSpacing="10"
+                                      IsVisible="{Binding CamposBloqueados}">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding TelefonoCasa}"
+                                           FontSize="16"
+                                           TextColor="#2C3E50"
+                                           VerticalOptions="Center"/>
+                                    
+                                    <ImageButton Grid.Column="1"
+                                                 Source="llamar.png"
+                                                 BackgroundColor="Transparent"
+                                                 HeightRequest="35"
+                                                 WidthRequest="35"
+                                                 Command="{Binding LlamarTelefonoCommand}" 
+                                                 CommandParameter="{Binding TelefonoCasa}"/>
+
+                                </Grid>
                             </VerticalStackLayout>
 
-                            <!-- Correo Electrónico -->
+                            <!-- Correo Electrónico con acceso directo -->
                             <VerticalStackLayout Spacing="5">
                                 <Label Text="Correo Electrónico"
                                        FontSize="12"
                                        TextColor="#666"/>
+
+                                <!-- Modo Edición -->
                                 <Entry Text="{Binding CorreoElectronico}"
+                                       IsVisible="{Binding ModoEdicion}"
                                        IsEnabled="{Binding ModoEdicion}"
                                        Keyboard="Email"
                                        FontSize="14"
                                        BackgroundColor="#F8F9FA"
                                        TextColor="#1A1A1A"/>
+
+                                <!-- Modo Vista con Acceso Directo -->
+                                <Grid ColumnDefinitions="*,Auto" 
+                                      ColumnSpacing="10"
+                                      IsVisible="{Binding CamposBloqueados}">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding CorreoElectronico}"
+                                           FontSize="16"
+                                           TextColor="#2C3E50"
+                                           VerticalOptions="Center"
+                                           LineBreakMode="TailTruncation"/>
+
+                                    <ImageButton Grid.Column="1"
+                                                 Source="correo.png"
+                                                 BackgroundColor="Transparent"
+                                                 HeightRequest="35"
+                                                 WidthRequest="35"
+                                                 Command="{Binding EnviarEmailCommand}" 
+                                                 CommandParameter="{Binding CorreoElectronico}"/>
+                                </Grid>
                             </VerticalStackLayout>
                         </VerticalStackLayout>
 
@@ -106,10 +182,22 @@
 
                         <!-- DIRECCIÓN -->
                         <VerticalStackLayout Spacing="15">
-                            <Label Text="📍 DIRECCIÓN"
+
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0"
+                                     Text= "📍 DIRECCIÓN"
                                    FontSize="16"
                                    FontAttributes="Bold"
                                    TextColor="#D60000"/>
+
+                                <ImageButton Grid.Column="1"
+                                                 Source="ubicacion.png"
+                                                 BackgroundColor="Transparent"
+                                                 HeightRequest="35"
+                                                 WidthRequest="35"
+                                                 Command="{Binding AbrirMapaCommand}"
+                                                  IsVisible="{Binding CamposBloqueados}"/>
+                            </Grid>
 
                             <!-- Calle y Número -->
                             <Grid ColumnDefinitions="2*,*" ColumnSpacing="10">
@@ -162,7 +250,7 @@
                                 </VerticalStackLayout>
 
                                 <VerticalStackLayout Grid.Column="1" Spacing="5">
-                                    <Label Text="C.P."
+                                    <Label Text="CP"
                                            FontSize="12"
                                            TextColor="#666"/>
                                     <Entry Text="{Binding CodigoPostal}"
@@ -185,6 +273,7 @@
                                        BackgroundColor="#F8F9FA"
                                        TextColor="#1A1A1A"/>
                             </VerticalStackLayout>
+
                         </VerticalStackLayout>
 
                         <!-- Botones de Edición -->

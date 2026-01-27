@@ -24,6 +24,12 @@ namespace CarslineApp.ViewModels
         private bool _formularioExpandido = false;
         private bool _manoObraExpandido = false;
 
+        // Nuevas propiedades para información del trabajo
+        private string _nombreTrabajo = string.Empty;
+        private string _vehiculoCompleto = string.Empty;
+        private string _vin = string.Empty;
+        private bool _infoTrabajoVisible = true;
+
         public RefaccionesTrabajoViewModel(int trabajoId)
         {
             _apiService = new ApiService();
@@ -36,6 +42,7 @@ namespace CarslineApp.ViewModels
             EditarManoObraCommand = new Command(async () => await GuardarManoObra());
             ToggleFormularioCommand = new Command(() => FormularioExpandido = !FormularioExpandido);
             ToggleManoObraCommand = new Command(() => ManoObraExpandido = !ManoObraExpandido);
+            ToggleInfoCommand = new Command(() => InfoTrabajoVisible = !InfoTrabajoVisible);
         }
 
         #region Propiedades
@@ -84,7 +91,6 @@ namespace CarslineApp.ViewModels
             }
         }
 
-
         public bool FormularioExpandido
         {
             get => _formularioExpandido;
@@ -95,6 +101,7 @@ namespace CarslineApp.ViewModels
                 OnPropertyChanged(nameof(IconoFormulario));
             }
         }
+
         public bool ManoObraExpandido
         {
             get => _manoObraExpandido;
@@ -105,8 +112,50 @@ namespace CarslineApp.ViewModels
                 OnPropertyChanged(nameof(IconoManoObra));
             }
         }
+        public bool InfoTrabajoVisible
+        {
+            get => _infoTrabajoVisible;
+            set
+            {
+                _infoTrabajoVisible = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IconoInfo));
+            }
+        }
         public string IconoFormulario => FormularioExpandido ? "▲" : "▼";
         public string IconoManoObra => ManoObraExpandido ? "▲" : "▼";
+        public string IconoInfo => InfoTrabajoVisible ? "▲" : "▼";
+
+        // Nuevas propiedades para información del trabajo
+        public string NombreTrabajo
+        {
+            get => _nombreTrabajo;
+            set
+            {
+                _nombreTrabajo = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string VehiculoCompleto
+        {
+            get => _vehiculoCompleto;
+            set
+            {
+                _vehiculoCompleto = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string VIN
+        {
+            get => _vin;
+            set
+            {
+                _vin = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         // Propiedades calculadas
@@ -171,13 +220,14 @@ namespace CarslineApp.ViewModels
         public ICommand EditarManoObraCommand { get; }
         public ICommand ToggleFormularioCommand { get; }
         public ICommand ToggleManoObraCommand { get; }
-
+        public ICommand ToggleInfoCommand { get; }
         #endregion
 
         #region Métodos Públicos
 
         public async Task InicializarAsync()
         {
+            await CargarInformacionTrabajo();
             await CargarRefacciones();
             await CargarManoObra();
         }
@@ -185,6 +235,40 @@ namespace CarslineApp.ViewModels
         #endregion
 
         #region Métodos Privados
+
+        private async Task CargarInformacionTrabajo()
+        {
+            EstaCargando = true;
+
+            try
+            {
+                var response = await _apiService.ObtenerInfoTrabajo(_trabajoId);
+
+                if (response.Success)
+                {
+                    NombreTrabajo = response.Trabajo;
+                    VehiculoCompleto = response.VehiculoCompleto;
+                    VIN = response.VIN;
+                    InfoTrabajoVisible = true;
+
+                    System.Diagnostics.Debug.WriteLine($"✅ Información del trabajo cargada: {NombreTrabajo}");
+                }
+                else
+                {
+                    InfoTrabajoVisible = false;
+                    System.Diagnostics.Debug.WriteLine($"⚠️ No se pudo cargar información del trabajo: {response.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"❌ Error al cargar información del trabajo: {ex.Message}");
+                InfoTrabajoVisible = false;
+            }
+            finally
+            {
+                EstaCargando = false;
+            }
+        }
 
         private async Task CargarRefacciones()
         {
@@ -227,14 +311,13 @@ namespace CarslineApp.ViewModels
 
             try
             {
-                // Asumiendo que tienes un método en tu API para obtener el precio de mano de obra
                 var response = await _apiService.ObtenerCostoManoObraAsync(_trabajoId);
 
                 if (response.Success)
                 {
                     PrecioManoObra = response.CostoManoObra;
                     _manoObraOriginal = response.CostoManoObra;
-                    PrecioManoObraTexto = "$"+PrecioManoObra.ToString("F2");
+                    PrecioManoObraTexto = "$" + PrecioManoObra.ToString("F2");
 
                     System.Diagnostics.Debug.WriteLine($"✅ Mano de obra cargada: {ManoObraFormateado}");
                 }
@@ -258,22 +341,18 @@ namespace CarslineApp.ViewModels
             }
         }
 
-
-
         private async Task GuardarManoObra()
         {
             EstaCargando = true;
 
             try
             {
-                // Guardar cambios
                 if (!decimal.TryParse(PrecioManoObraTexto, out decimal nuevoPrecio) || nuevoPrecio < 0)
                 {
                     await MostrarAlerta("Campo inválido", "Ingresa un precio válido");
                     return;
                 }
 
-                // Solo guardar si hay cambios
                 if (nuevoPrecio != _manoObraOriginal)
                 {
                     var response = await _apiService.FijarCostoManoObraAsync(_trabajoId, nuevoPrecio);
@@ -283,7 +362,6 @@ namespace CarslineApp.ViewModels
                         PrecioManoObra = nuevoPrecio;
                         _manoObraOriginal = nuevoPrecio;
                         PrecioManoObraTexto = nuevoPrecio.ToString("F2");
-
 
                         await MostrarAlerta("✅ Éxito", "Mano de obra actualizada correctamente");
                     }
@@ -298,7 +376,6 @@ namespace CarslineApp.ViewModels
             {
                 System.Diagnostics.Debug.WriteLine($"❌ Error al guardar mano de obra: {ex.Message}");
                 await MostrarAlerta("Error", "No se pudo actualizar la mano de obra");
-                // Restaurar valor original
                 PrecioManoObraTexto = _manoObraOriginal.ToString("F2");
             }
             finally
@@ -309,7 +386,6 @@ namespace CarslineApp.ViewModels
 
         private async Task AgregarRefaccion()
         {
-            // Validaciones
             if (string.IsNullOrWhiteSpace(NuevaRefaccion))
             {
                 await MostrarAlerta("Campo requerido", "Ingresa el nombre de la refacción");
@@ -349,12 +425,10 @@ namespace CarslineApp.ViewModels
 
                 if (response.Success)
                 {
-                    // Limpiar campos
                     NuevaRefaccion = string.Empty;
                     NuevaCantidad = string.Empty;
                     NuevoPrecioUnitario = string.Empty;
 
-                    // Recargar lista
                     await CargarRefacciones();
 
                     await MostrarAlerta("✅ Éxito", "Refacción agregada correctamente");
