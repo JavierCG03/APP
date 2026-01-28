@@ -244,7 +244,7 @@ namespace CarslineApp.ViewModels.ViewModelsHome
                 IsLoading = false;
             }
         }
-        
+
         private void NotificarCambiosDashboards()
         {
             // Notificar las colecciones principales
@@ -257,7 +257,7 @@ namespace CarslineApp.ViewModels.ViewModelsHome
             OnPropertyChanged(nameof(HayProceso));
             OnPropertyChanged(nameof(HayFinalizadas));
         }
-        
+
         private async Task OnCrearOrden()
         {
             var crearOrdenPage = new CrearOrdenPage(TipoOrdenSeleccionado);

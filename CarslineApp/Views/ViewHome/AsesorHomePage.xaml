@@ -279,13 +279,13 @@
 
     <!-- ================== CONTENIDO PRINCIPAL ================== -->
     <FlyoutPage.Detail>
-        <NavigationPage BarBackgroundColor="#D60000" BarTextColor="White" Shell.NavBarIsVisible="False">
+        <NavigationPage BarBackgroundColor="#D60000" BarTextColor="White" Shell.NavBarIsVisible="False" >
             <x:Arguments>
-                <ContentPage Title="Dashboard">
+                <ContentPage >
                     <Grid RowDefinitions="Auto,*" BackgroundColor="#F5F5F5">
 
                         <!-- ==================== HEADER SIMPLIFICADO ==================== -->
-                        <Frame Grid.Row="0" BackgroundColor="#D60000" Padding="15,10,15,5" Margin="0" CornerRadius="0" HasShadow="True">
+                        <Frame Grid.Row="0" BackgroundColor="#D60000" Padding="15,10,15,5" Margin="0" CornerRadius="0" HasShadow="False" BorderColor="#D60000" >
                             <Grid ColumnDefinitions="Auto,*,Auto">
                                 <!-- BOTÓN HAMBURGUESA PARA WINDOWS -->
                                 <ImageButton Grid.Column="0"
@@ -340,8 +340,8 @@
                                                 <CollectionView.ItemTemplate >
                                                     <DataTemplate >
                                                         <VerticalStackLayout Spacing="0">
-  
-                                                            
+
+
                                                             <Frame Grid.Column="1"
                                                                            BackgroundColor="#D60000"
                                                                            Padding="8,4"
@@ -366,9 +366,9 @@
                                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.VerDetalleOrdenCommand}" 
                                                                     CommandParameter="{Binding Id}" />
                                                                 </Frame.GestureRecognizers>
-                                                                
+
                                                                 <VerticalStackLayout Spacing="5">
-                                                                    
+
                                                                     <Label 
                                                                            Text="{Binding VehiculoCompleto}"
                                                                            HorizontalOptions="Start"
@@ -379,92 +379,92 @@
 
                                                                     <!-- INFO CLIENTE -->
                                                                     <HorizontalStackLayout Spacing="20">
-                                                                    <Grid ColumnDefinitions="18,Auto" ColumnSpacing="5">
-                                                                        <Label Grid.Column="0" 
+                                                                        <Grid ColumnDefinitions="18,Auto" ColumnSpacing="5">
+                                                                            <Label Grid.Column="0" 
                                                                            Text="👤" 
                                                                            FontSize="14"/>
-                                                                        <Label Grid.Column="1"
+                                                                            <Label Grid.Column="1"
                                                                            Text="{Binding ClienteNombre}"
                                                                            FontSize="14"
                                                                            TextColor="#404040"
                                                                            VerticalOptions="Center"/>
-                                                                    </Grid>
-                                                                    
-                                                                    <Grid ColumnDefinitions="19,Auto" ColumnSpacing="5">
-                                                                        <Label Grid.Column="0" 
+                                                                        </Grid>
+
+                                                                        <Grid ColumnDefinitions="19,Auto" ColumnSpacing="5">
+                                                                            <Label Grid.Column="0" 
                                                                            Text="📞" />
-                                                                        <Label Grid.Column="1"
+                                                                            <Label Grid.Column="1"
                                                                            Text="{Binding ClienteTelefono}"
                                                                            FontSize="15"
                                                                            TextColor="#666"
                                                                            VerticalOptions="Center"/>
 
-                                                                    </Grid>
-                                                                </HorizontalStackLayout>
+                                                                        </Grid>
+                                                                    </HorizontalStackLayout>
 
 
                                                                     <HorizontalStackLayout Spacing="10">
-                                                                    <Grid ColumnDefinitions="Auto,*,Auto">
-                                                                        <Label Grid.Column="0"
+                                                                        <Grid ColumnDefinitions="Auto,*,Auto">
+                                                                            <Label Grid.Column="0"
                                                                                    Text="🔧"
                                                                                    FontSize="14"
                                                                                    VerticalOptions="Center"/>
-                                                                        <Label Grid.Column="1"
+                                                                            <Label Grid.Column="1"
                                                                                    FontSize="12"
                                                                                    TextColor="#666"
                                                                                    VerticalOptions="Center"
                                                                                    Margin="5,0,0,0">
-                                                                            <Label.FormattedText>
-                                                                                <FormattedString>
-                                                                                    <Span Text="Trabajos: "
+                                                                                <Label.FormattedText>
+                                                                                    <FormattedString>
+                                                                                        <Span Text="Trabajos: "
                                                                                           FontAttributes="Bold"
                                                                                           FontSize="13"/>
-                                                                                    <Span Text="{Binding ProgresoTexto}" 
+                                                                                        <Span Text="{Binding ProgresoTexto}" 
                                                                                               FontAttributes="Bold"
                                                                                               TextColor="#404040"/>
-                                                                                </FormattedString>
-                                                                            </Label.FormattedText>
-                                                                        </Label>
-                                                                    </Grid>
-                                                                    <Frame BackgroundColor="#FFF" 
+                                                                                    </FormattedString>
+                                                                                </Label.FormattedText>
+                                                                            </Label>
+                                                                        </Grid>
+                                                                        <Frame BackgroundColor="#FFF" 
                                                                        Padding="8"
                                                                        HasShadow="False"
                                                                        BorderColor="RED"
                                                                        WidthRequest="150"
                                                                        CornerRadius="6"
                                                                        IsVisible="{Binding EsServicio}">
-                                                                        <Label Text="{Binding TipoServicio}"
+                                                                            <Label Text="{Binding TipoServicio}"
                                                                            FontSize="12"
                                                                                FontAttributes="Bold"
                                                                            TextColor="Black"
                                                                            HorizontalOptions="Center"/>
-                                                                    </Frame>
-                                                                </HorizontalStackLayout>
-                                                                
+                                                                        </Frame>
+                                                                    </HorizontalStackLayout>
+
                                                                     <!-- FECHA HORA PROMESA -->
                                                                     <HorizontalStackLayout Spacing="5">
-                                                                    <Label Grid.Column="0"
+                                                                        <Label Grid.Column="0"
                                                                            Text="⏱️ "
                                                                            TextColor="Black"
                                                                            FontSize="14"/>
-                                                                    <Label Grid.Column="1"
+                                                                        <Label Grid.Column="1"
                                                                            Text="{Binding FechaPromesa}"
                                                                            FontSize="14"
                                                                            FontAttributes="Bold"
                                                                            TextColor="Black"
                                                                            VerticalOptions="Center"
                                                                            IsVisible="{Binding NoEsServicio}"/>
-                                                                    <Label Grid.Column="2"
+                                                                        <Label Grid.Column="2"
                                                                            Text="{Binding HoraPromesa}"
                                                                            FontSize="14"
                                                                            FontAttributes="Bold"
                                                                            TextColor="#D60000"
                                                                            VerticalOptions="Center"/>
-                                                                </HorizontalStackLayout>
+                                                                    </HorizontalStackLayout>
 
                                                                     <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
-                                                                    <!-- BOTÓN CANCELAR -->
-                                                                    <Button Grid.Column="0"
+                                                                        <!-- BOTÓN CANCELAR -->
+                                                                        <Button Grid.Column="0"
                                                                             Text="✖ CANCELAR ORDEN"
                                                                             Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.CancelarOrdenCommand}"
                                                                             CommandParameter="{Binding Id}"
@@ -474,7 +474,7 @@
                                                                             FontAttributes="Bold"
                                                                             HeightRequest="45"
                                                                             CornerRadius="8"/>
-                                                                    <ImageButton Grid.Column="1"
+                                                                        <ImageButton Grid.Column="1"
                                                                             HeightRequest="35"
                                                                             WidthRequest="35"
                                                                             IsVisible="{Binding NoTieneEvidencia}"
@@ -483,7 +483,7 @@
                                                                             CommandParameter="{Binding Id}" 
                                                                             Source="camara.png"/>
 
-                                                                </Grid>
+                                                                    </Grid>
                                                                 </VerticalStackLayout>
                                                             </Frame>
                                                         </VerticalStackLayout>
@@ -536,15 +536,15 @@
                                                                CornerRadius="12">
 
 
-                                                            <Frame.GestureRecognizers>
-                                                                <TapGestureRecognizer 
+                                                                <Frame.GestureRecognizers>
+                                                                    <TapGestureRecognizer 
                                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.VerDetalleOrdenCommand}" 
                                                                     CommandParameter="{Binding Id}" />
-                                                            </Frame.GestureRecognizers>
+                                                                </Frame.GestureRecognizers>
 
-                                                            <VerticalStackLayout Spacing="12">
+                                                                <VerticalStackLayout Spacing="12">
 
-                                                                <Label Grid.Column="0"
+                                                                    <Label Grid.Column="0"
                                                                            Text="{Binding VehiculoCompleto}"
                                                                            HorizontalOptions="Start"
                                                                            FontSize="18"
@@ -552,113 +552,113 @@
                                                                            TextColor="#1A1A1A"
                                                                            LineBreakMode="TailTruncation"/>
 
-                                                                <!-- INFO CLIENTE -->
-                                                                <HorizontalStackLayout Spacing="20">
-                                                                    <Grid ColumnDefinitions="18,Auto" ColumnSpacing="5">
-                                                                        <Label Grid.Column="0" 
+                                                                    <!-- INFO CLIENTE -->
+                                                                    <HorizontalStackLayout Spacing="20">
+                                                                        <Grid ColumnDefinitions="18,Auto" ColumnSpacing="5">
+                                                                            <Label Grid.Column="0" 
                                                                            Text="👤" 
                                                                            FontSize="14"/>
-                                                                        <Label Grid.Column="1"
+                                                                            <Label Grid.Column="1"
                                                                            Text="{Binding ClienteNombre}"
                                                                            FontSize="14"
                                                                            TextColor="#404040"
                                                                            VerticalOptions="Center"/>
-                                                                    </Grid>
+                                                                        </Grid>
 
-                                                                    <Grid ColumnDefinitions="19,Auto" ColumnSpacing="5">
-                                                                        <Label Grid.Column="0" 
+                                                                        <Grid ColumnDefinitions="19,Auto" ColumnSpacing="5">
+                                                                            <Label Grid.Column="0" 
                                                                            Text="📞" />
-                                                                        <Label Grid.Column="1"
+                                                                            <Label Grid.Column="1"
                                                                            Text="{Binding ClienteTelefono}"
                                                                            FontSize="15"
                                                                            TextColor="#666"
                                                                            VerticalOptions="Center"/>
 
-                                                                    </Grid>
-                                                                </HorizontalStackLayout>
+                                                                        </Grid>
+                                                                    </HorizontalStackLayout>
 
-                                                                <!-- TIPO SERVICIO -->
-                                                                <Frame BackgroundColor="#FFF" 
+                                                                    <!-- TIPO SERVICIO -->
+                                                                    <Frame BackgroundColor="#FFF" 
                                                                        Padding="8"
                                                                        HasShadow="False"
                                                                        BorderColor="#FFA500"
                                                                        CornerRadius="6"
                                                                        IsVisible="{Binding EsServicio}">
-                                                                    <Label Text="{Binding TipoServicio}"
+                                                                        <Label Text="{Binding TipoServicio}"
                                                                            FontSize="12"
                                                                            TextColor="Black"
                                                                            HorizontalOptions="Center"/>
-                                                                </Frame>
+                                                                    </Frame>
 
 
 
-                                                                <!-- FECHA HORA PROMESA -->
-                                                                <HorizontalStackLayout Spacing="5">
-                                                                    <Label Grid.Column="0"
+                                                                    <!-- FECHA HORA PROMESA -->
+                                                                    <HorizontalStackLayout Spacing="5">
+                                                                        <Label Grid.Column="0"
                                                                            Text="⏱️ "
                                                                            TextColor="Black"
                                                                            FontSize="14"/>
-                                                                    <Label Grid.Column="1"
+                                                                        <Label Grid.Column="1"
                                                                            Text="{Binding FechaPromesa}"
                                                                            FontSize="14"
                                                                            FontAttributes="Bold"
                                                                            TextColor="Black"
                                                                            VerticalOptions="Center"
                                                                            IsVisible="{Binding NoEsServicio}"/>
-                                                                    <Label Grid.Column="2"
+                                                                        <Label Grid.Column="2"
                                                                            Text="{Binding HoraPromesa}"
                                                                            FontSize="14"
                                                                            FontAttributes="Bold"
                                                                            TextColor="#D60000"
                                                                            VerticalOptions="Center"/>
-                                                                </HorizontalStackLayout>
+                                                                    </HorizontalStackLayout>
 
-                                                                <!-- PROGRESO DE TRABAJOS -->
-                                                                <Frame BackgroundColor="#FFFBF5"
+                                                                    <!-- PROGRESO DE TRABAJOS -->
+                                                                    <Frame BackgroundColor="#FFFBF5"
                                                                        Padding="12"
                                                                        HasShadow="False"
                                                                        CornerRadius="8"
                                                                        IsVisible="{Binding TieneTrabajos}">
-                                                                    <VerticalStackLayout Spacing="8">
+                                                                        <VerticalStackLayout Spacing="8">
 
-                                                                        <Grid ColumnDefinitions="Auto,*,Auto">
-                                                                            <Label Grid.Column="0"
+                                                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                                                <Label Grid.Column="0"
                                                                                    Text="🔧"
                                                                                    FontSize="14"
                                                                                    VerticalOptions="Center"/>
-                                                                            <Label Grid.Column="1"
+                                                                                <Label Grid.Column="1"
                                                                                    FontSize="12"
                                                                                    TextColor="#666"
                                                                                    VerticalOptions="Center"
                                                                                    Margin="5,0,0,0">
-                                                                                <Label.FormattedText>
-                                                                                    <FormattedString>
-                                                                                        <Span Text="Trabajos: "/>
-                                                                                        <Span Text="{Binding ProgresoTexto}" 
+                                                                                    <Label.FormattedText>
+                                                                                        <FormattedString>
+                                                                                            <Span Text="Trabajos: "/>
+                                                                                            <Span Text="{Binding ProgresoTexto}" 
                                                                                               FontAttributes="Bold"
                                                                                               TextColor="#404040"/>
-                                                                                    </FormattedString>
-                                                                                </Label.FormattedText>
-                                                                            </Label>
-                                                                            <Label Grid.Column="2"
+                                                                                        </FormattedString>
+                                                                                    </Label.FormattedText>
+                                                                                </Label>
+                                                                                <Label Grid.Column="2"
                                                                                    Text="{Binding ProgresoFormateado}"
                                                                                    FontSize="13"
                                                                                    FontAttributes="Bold"
                                                                                    TextColor="{Binding ColorProgreso}"
                                                                                    VerticalOptions="Center"/>
-                                                                        </Grid>
-                                                                        <!-- BARRA PROGRESO CON CONTENEDOR -->
-                                                                        <ProgressBar Progress="{Binding ProgressBar}"
+                                                                            </Grid>
+                                                                            <!-- BARRA PROGRESO CON CONTENEDOR -->
+                                                                            <ProgressBar Progress="{Binding ProgressBar}"
                                                                          ProgressColor="{Binding ColorProgreso}"
                                                                          ScaleY="3"
                                                                          HeightRequest="12"
                                                                          VerticalOptions="Center"
                                                                          HorizontalOptions="FillAndExpand"/>
-                                                                    </VerticalStackLayout>
-                                                                </Frame>
-                                                            </VerticalStackLayout>
+                                                                        </VerticalStackLayout>
+                                                                    </Frame>
+                                                                </VerticalStackLayout>
 
-                                                        </Frame>
+                                                            </Frame>
                                                         </VerticalStackLayout>
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate>
@@ -708,126 +708,126 @@
                                                                BorderColor="#4CAF50"
                                                                CornerRadius="12">
 
-                                                            <Frame.GestureRecognizers>
-                                                                <TapGestureRecognizer 
+                                                                <Frame.GestureRecognizers>
+                                                                    <TapGestureRecognizer 
                                                                     Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.VerDetalleOrdenCommand}" 
                                                                     CommandParameter="{Binding Id}" />
-                                                            </Frame.GestureRecognizers>
+                                                                </Frame.GestureRecognizers>
 
-                                                            <VerticalStackLayout Spacing="12">
+                                                                <VerticalStackLayout Spacing="12">
 
-                                                                <Label Grid.Column="0"
+                                                                    <Label Grid.Column="0"
                                                                            Text="{Binding VehiculoCompleto}"
                                                                            HorizontalOptions="Start"
                                                                            FontSize="18"
                                                                            FontAttributes="Bold"
                                                                            TextColor="#1A1A1A"
                                                                            LineBreakMode="TailTruncation"/>
-                                                                
-                                                                <!-- INFO CLIENTE -->
-                                                                <HorizontalStackLayout Spacing="20">
-                                                                    <Grid ColumnDefinitions="18,Auto" ColumnSpacing="5">
-                                                                        <Label Grid.Column="0" 
+
+                                                                    <!-- INFO CLIENTE -->
+                                                                    <HorizontalStackLayout Spacing="20">
+                                                                        <Grid ColumnDefinitions="18,Auto" ColumnSpacing="5">
+                                                                            <Label Grid.Column="0" 
                                                                            Text="👤" 
                                                                            FontSize="14"/>
-                                                                        <Label Grid.Column="1"
+                                                                            <Label Grid.Column="1"
                                                                            Text="{Binding ClienteNombre}"
                                                                            FontSize="14"
                                                                            TextColor="#404040"
                                                                            VerticalOptions="Center"/>
-                                                                    </Grid>
+                                                                        </Grid>
 
-                                                                    <Grid ColumnDefinitions="19,Auto" ColumnSpacing="5">
-                                                                        <Label Grid.Column="0" 
+                                                                        <Grid ColumnDefinitions="19,Auto" ColumnSpacing="5">
+                                                                            <Label Grid.Column="0" 
                                                                            Text="📞" />
-                                                                        <Label Grid.Column="1"
+                                                                            <Label Grid.Column="1"
                                                                            Text="{Binding ClienteTelefono}"
                                                                            FontSize="15"
                                                                            TextColor="#666"
                                                                            VerticalOptions="Center"/>
 
-                                                                    </Grid>
-                                                                </HorizontalStackLayout>
+                                                                        </Grid>
+                                                                    </HorizontalStackLayout>
 
-                                                                <!-- FECHA HORA PROMESA -->
-                                                                <HorizontalStackLayout Spacing="5">
-                                                                    <Label Grid.Column="0"
+                                                                    <!-- FECHA HORA PROMESA -->
+                                                                    <HorizontalStackLayout Spacing="5">
+                                                                        <Label Grid.Column="0"
                                                                            Text="⏱️ "
                                                                            TextColor="Black"
                                                                            FontSize="14"/>
-                                                                    <Label Grid.Column="1"
+                                                                        <Label Grid.Column="1"
                                                                            Text="{Binding FechaPromesa}"
                                                                            FontSize="14"
                                                                            FontAttributes="Bold"
                                                                            TextColor="Black"
                                                                            VerticalOptions="Center"
                                                                            IsVisible="{Binding NoEsServicio}"/>
-                                                                    <Label Grid.Column="2"
+                                                                        <Label Grid.Column="2"
                                                                            Text="{Binding HoraPromesa}"
                                                                            FontSize="14"
                                                                            FontAttributes="Bold"
                                                                            TextColor="#D60000"
                                                                            VerticalOptions="Center"/>
-                                                                </HorizontalStackLayout>
+                                                                    </HorizontalStackLayout>
 
-                                                                <!-- FECHA HORA FINALIZACION -->
-                                                                <HorizontalStackLayout Spacing="5">
-                                                                    <Label Grid.Column="0" Text=" ✓ " FontSize="14" TextColor="Black"/>
-                                                                    <Label Grid.Column="1"
+                                                                    <!-- FECHA HORA FINALIZACION -->
+                                                                    <HorizontalStackLayout Spacing="5">
+                                                                        <Label Grid.Column="0" Text=" ✓ " FontSize="14" TextColor="Black"/>
+                                                                        <Label Grid.Column="1"
                                                                            Text="{Binding HoraFin}"
                                                                            FontSize="14"
                                                                            FontAttributes="Bold"
                                                                            TextColor="#4CAF50"
                                                                            VerticalOptions="Center"/>
-                                                                </HorizontalStackLayout>
+                                                                    </HorizontalStackLayout>
 
-                                                                <!-- PROGRESO COMPLETADO -->
-                                                                <Frame BackgroundColor="#F9FFF9"
+                                                                    <!-- PROGRESO COMPLETADO -->
+                                                                    <Frame BackgroundColor="#F9FFF9"
                                                                        Padding="12"
                                                                        HasShadow="False"
                                                                        CornerRadius="8"
                                                                        IsVisible="{Binding TieneTrabajos}">
-                                                                    <VerticalStackLayout Spacing="8">
+                                                                        <VerticalStackLayout Spacing="8">
 
-                                                                        <Grid ColumnDefinitions="Auto,*,Auto">
-                                                                            <Label Grid.Column="0"
+                                                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                                                <Label Grid.Column="0"
                                                                                    Text="✅"
                                                                                    FontSize="14"
                                                                                    VerticalOptions="Center"/>
-                                                                            <Label Grid.Column="1"
+                                                                                <Label Grid.Column="1"
                                                                                    FontSize="12"
                                                                                    TextColor="#666"
                                                                                    VerticalOptions="Center"
                                                                                    Margin="5,0,0,0">
-                                                                                <Label.FormattedText>
-                                                                                    <FormattedString>
-                                                                                        <Span Text="Trabajos: "/>
-                                                                                        <Span Text="{Binding ProgresoTexto}" 
+                                                                                    <Label.FormattedText>
+                                                                                        <FormattedString>
+                                                                                            <Span Text="Trabajos: "/>
+                                                                                            <Span Text="{Binding ProgresoTexto}" 
                                                                                               FontAttributes="Bold"
                                                                                               TextColor="#404040"/>
-                                                                                    </FormattedString>
-                                                                                </Label.FormattedText>
-                                                                            </Label>
-                                                                            <Label Grid.Column="2"
+                                                                                        </FormattedString>
+                                                                                    </Label.FormattedText>
+                                                                                </Label>
+                                                                                <Label Grid.Column="2"
                                                                                    Text="{Binding ProgresoFormateado}"
                                                                                    FontSize="13"
                                                                                    FontAttributes="Bold"
                                                                                    TextColor="#4CAF50"
                                                                                    VerticalOptions="Center"/>
-                                                                        </Grid>
+                                                                            </Grid>
 
-                                                                        <!-- BARRA PROGRESO CON CONTENEDOR -->
-                                                                        <ProgressBar Progress="{Binding ProgressBar}"
+                                                                            <!-- BARRA PROGRESO CON CONTENEDOR -->
+                                                                            <ProgressBar Progress="{Binding ProgressBar}"
                                                                          ProgressColor="{Binding ColorProgreso}"
                                                                          ScaleY="3"
                                                                          HeightRequest="12"
                                                                          VerticalOptions="Center"
                                                                          HorizontalOptions="FillAndExpand"/>
-                                                                    </VerticalStackLayout>
-                                                                </Frame>
+                                                                        </VerticalStackLayout>
+                                                                    </Frame>
 
-                                                                <!-- BOTÓN ENTREGAR -->
-                                                                <Button Text="🚗 ENTREGAR VEHÍCULO"
+                                                                    <!-- BOTÓN ENTREGAR -->
+                                                                    <Button Text="🚗 ENTREGAR VEHÍCULO"
                                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EntregarOrdenCommand}"
                                                                         CommandParameter="{Binding Id}"
                                                                         BackgroundColor="#4CAF50"
@@ -836,8 +836,8 @@
                                                                         FontAttributes="Bold"
                                                                         HeightRequest="45"
                                                                         CornerRadius="8"/>
-                                                            </VerticalStackLayout>
-                                                        </Frame>
+                                                                </VerticalStackLayout>
+                                                            </Frame>
                                                         </VerticalStackLayout>
                                                     </DataTemplate>
                                                 </CollectionView.ItemTemplate>

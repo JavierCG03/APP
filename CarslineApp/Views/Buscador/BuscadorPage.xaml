@@ -14,7 +14,7 @@
         <!-- HEADER CON BARRA DE BÚSQUEDA FLOTANTE -->
         <!-- ============================================ -->
         <Frame Grid.Row="0"
-               BackgroundColor="Black"
+               BackgroundColor="#D60000"
                CornerRadius="0"
                HasShadow="True"
                Padding="20,15,20,20"

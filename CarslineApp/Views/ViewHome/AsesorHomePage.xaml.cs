@@ -12,43 +12,43 @@ namespace CarslineApp.Views
             _viewModel = new AsesorMainViewModel();
             BindingContext = _viewModel;
 
-            // Configurar el comportamiento del flyout según la plataforma
+            // Configurar el comportamiento del flyout seg?n la plataforma
             ConfigurarFlyout();
         }
 
         private void ConfigurarFlyout()
         {
-        #if WINDOWS
-            // En Windows, el menú inicia cerrado
+#if WINDOWS
+            // En Windows, el men? inicia cerrado
             IsPresented = false;
             
-            // Permitir que el menú se pueda cerrar haciendo clic fuera de él
+            // Permitir que el men? se pueda cerrar haciendo clic fuera de ?l
             FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
-         #elif ANDROID
-            // En Android, el menú se puede deslizar
+#elif ANDROID
+            // En Android, el men? se puede deslizar
             FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
-        #else
+#else
             // Otros dispositivos
             FlyoutLayoutBehavior = FlyoutLayoutBehavior.Popover;
-        #endif
+#endif
         }
 
-        // Manejador del evento del botón hamburguesa
+        // Manejador del evento del bot?n hamburguesa
         private void OnMenuButtonClicked(object sender, EventArgs e)
         {
-            // Alternar la visibilidad del menú
+            // Alternar la visibilidad del men?
             IsPresented = !IsPresented;
         }
 
-        // Inicializar datos y configurar cierre automático del menú
+        // Inicializar datos y configurar cierre autom?tico del men?
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            // Cargar órdenes cuando aparece la página
+            // Cargar ?rdenes cuando aparece la p?gina
             await _viewModel.InicializarAsync();
 
-            // Cerrar el menú cuando se ejecute algún comando de navegación
+            // Cerrar el men? cuando se ejecute alg?n comando de navegaci?n
             _viewModel.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(_viewModel.TituloSeccion))

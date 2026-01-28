@@ -316,7 +316,7 @@ namespace CarslineApp.ViewModels.ViewModelsHome
                     await Application.Current.MainPage.DisplayAlert(
                         "Sin técnicos",
                         "No hay técnicos disponibles para asignar",
-                        "OK");
+                        "OK"); 
                     return;
                 }
 

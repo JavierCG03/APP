@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CarslineApp.Services;
+using Microsoft.Extensions.Logging;
 
 namespace CarslineApp
 {
@@ -17,6 +18,7 @@ namespace CarslineApp
 
 #if DEBUG
     		builder.Logging.AddDebug();
+            builder.Services.AddSingleton<PdfGeneratorService>();
 #endif
 
             return builder.Build();

@@ -429,7 +429,14 @@
                                     FontAttributes="Bold"
                                     HeightRequest="50"
                                     CornerRadius="10"/>
-                                            </VerticalStackLayout>
+
+                            <Button Text="📄 Generar PDF"
+        Command="{Binding GenerarPdfCommand}"
+        BackgroundColor="#e74c3c"
+        TextColor="White"
+        IsEnabled="{Binding TieneOrden}"/>
+
+                        </VerticalStackLayout>
                     </Frame>
                             <!-- ==================== BOTONES DE ACCIÓN ==================== -->
                     <Grid ColumnDefinitions="*,*"

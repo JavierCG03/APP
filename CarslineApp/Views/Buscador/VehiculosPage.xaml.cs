@@ -10,5 +10,20 @@ public partial class VehiculosPage : ContentPage
             InitializeComponent();
             BindingContext = new VehiculoDetalleViewModel(vehiculoId);
         }
+        ConfigurarBarraNavegacion();
+    }
+    private void ConfigurarBarraNavegacion()
+    {
+
+        Shell.SetBackgroundColor(this, Color.FromArgb("#D60000"));
+        Shell.SetForegroundColor(this, Colors.White);
+
+
+        if (Application.Current?.MainPage is NavigationPage navigationPage)
+        {
+            navigationPage.BarBackgroundColor = Color.FromArgb("#D60000");
+            navigationPage.BarTextColor = Colors.White;
+        }
     }
 }
+
