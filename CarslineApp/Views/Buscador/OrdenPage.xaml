@@ -431,10 +431,10 @@
                                     CornerRadius="10"/>
 
                             <Button Text="📄 Generar PDF"
-        Command="{Binding GenerarPdfCommand}"
-        BackgroundColor="#e74c3c"
-        TextColor="White"
-        IsEnabled="{Binding TieneOrden}"/>
+                                Command="{Binding GenerarPdfCommand}"
+                                BackgroundColor="#e74c3c"
+                                TextColor="White"
+                                IsEnabled="{Binding TieneOrden}"/>
 
                         </VerticalStackLayout>
                     </Frame>

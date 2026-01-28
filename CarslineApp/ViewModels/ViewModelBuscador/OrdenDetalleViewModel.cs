@@ -33,6 +33,7 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
             EntregarOrdenCommand = new Command(async () => await EntregarOrden());
             RefreshCommand = new Command(async () => await CargarDatosOrden());
             VerEvidenciasTrabajoCommand = new Command(async () => await VerEvidenciasTrabajo());
+            GenerarPdfCommand = new Command(async () => await OnVerReporte());
             _ = CargarDatosOrden();
         }
 
@@ -139,6 +140,25 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
 
         #region MetodosPDF
 
+        private async Task OnVerReporte()
+        {
+            try
+            {
+                IsLoading = true;
+                await Application.Current.MainPage.Navigation.PushAsync(new VerReportePage());
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert(
+                    "Error",
+                    $"No se pudo abrir el inventario: {ex.Message}",
+                    "OK");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
 
         private async Task AbrirPdf(string filePath)
         {

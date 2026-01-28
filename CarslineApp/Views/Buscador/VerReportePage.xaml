@@ -3,10 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CarslineApp.Views.Buscador.VerReportePage"
              Title="VerReportePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand"
+          Margin="10">
+
+        <WebView x:Name="pdfview" VerticalOptions="FillAndExpand"
+                 HorizontalOptions="FillAndExpand" />
+    </Grid>
+
 </ContentPage>
