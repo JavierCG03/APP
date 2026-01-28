@@ -58,8 +58,6 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.3" />
-		<PackageReference Include="itext7" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
 	</ItemGroup>
@@ -82,6 +80,9 @@
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\Buscador\VehiculosPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\Buscador\VerReportePage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="Views\ChecksList\CheckListDiagnostico.xaml">

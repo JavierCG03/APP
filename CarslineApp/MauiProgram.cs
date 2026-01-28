@@ -18,7 +18,6 @@ namespace CarslineApp
 
 #if DEBUG
     		builder.Logging.AddDebug();
-            builder.Services.AddSingleton<PdfGeneratorService>();
 #endif
 
             return builder.Build();
