@@ -17,7 +17,7 @@
                 <VerticalStackLayout Padding="0" Spacing="0">
 
                     <!-- HEADER DEL MENÚ -->
-                    <Frame BackgroundColor="#D60000" Padding="20,30,20,25" Margin="0" CornerRadius="0" HasShadow="False">
+                    <Frame BackgroundColor="#D60000" Padding="20,30,20,25" Margin="0" CornerRadius="0" HasShadow="False" BorderColor="#D60000">
                         <VerticalStackLayout Spacing="8">
                             <Image Source="asesor.png"
                                HeightRequest="70"

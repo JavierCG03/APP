@@ -111,7 +111,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="Bieletas"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -123,7 +123,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="Bieletas"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -139,7 +139,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="Terminales"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -151,7 +151,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="Terminales"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -167,7 +167,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="CajaDireccion"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -179,7 +179,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="CajaDireccion"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -195,7 +195,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="Volante"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -207,7 +207,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="Volante"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -293,7 +293,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="AmortiguadoresDelanteros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -305,7 +305,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="AmortiguadoresDelanteros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -321,7 +321,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="AmortiguadoresTraseros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -333,7 +333,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="AmortiguadoresTraseros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -349,7 +349,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="BarraEstabilizadora"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -361,7 +361,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="BarraEstabilizadora"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -377,7 +377,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="Horquillas"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -389,7 +389,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="Horquillas"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -473,7 +473,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="DiscosTamboresDelanteros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -485,7 +485,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="DiscosTamboresDelanteros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -501,7 +501,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="DiscosTamboresTraseros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -513,7 +513,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="DiscosTamboresTraseros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -910,7 +910,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="NeumaticosDelanteros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -922,7 +922,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="NeumaticosDelanteros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -938,7 +938,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="NeumaticosTraseros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -950,7 +950,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="NeumaticosTraseros"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -966,7 +966,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="Balanceo"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -978,7 +978,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="Balanceo"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -994,7 +994,7 @@
                                VerticalOptions="Center"/>
 
                             <RadioButton Grid.Column="1"
-                                 Value="Bueno"
+                                 Value="Buen Estado"
                                  GroupName="Alineacion"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>
@@ -1006,7 +1006,7 @@
                                  HorizontalOptions="Center"/>
 
                             <RadioButton Grid.Column="3"
-                                 Value="Malo"
+                                 Value="Mal Estado"
                                  GroupName="Alineacion"
                                  CheckedChanged="Radio_CheckedChanged"
                                  HorizontalOptions="Center"/>

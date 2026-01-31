@@ -430,9 +430,9 @@
                                     HeightRequest="50"
                                     CornerRadius="10"/>
 
-                            <Button Text="📄 Generar PDF"
+                            <Button Text="📄 Generar Reporte PDF"
                                 Command="{Binding GenerarPdfCommand}"
-                                BackgroundColor="#e74c3c"
+                                BackgroundColor="#800020"
                                 TextColor="White"
                                 IsEnabled="{Binding TieneOrden}"/>
 
