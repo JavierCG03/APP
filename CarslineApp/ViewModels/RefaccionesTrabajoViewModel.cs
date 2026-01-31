@@ -317,7 +317,7 @@ namespace CarslineApp.ViewModels
                 {
                     PrecioManoObra = response.CostoManoObra;
                     _manoObraOriginal = response.CostoManoObra;
-                    PrecioManoObraTexto = "$" + PrecioManoObra.ToString("F2");
+                    PrecioManoObraTexto =  PrecioManoObra.ToString("F2");
 
                     System.Diagnostics.Debug.WriteLine($"✅ Mano de obra cargada: {ManoObraFormateado}");
                 }

@@ -355,6 +355,16 @@
                                                                TextColor="White"/>
                                                     </Frame>
                                                 </Grid>
+                                                <HorizontalStackLayout Spacing="10">
+                                                    <Label Text="⏰ "
+                                                           FontAttributes="Bold"
+                                                           FontSize="18"
+                                                           TextColor="{Binding TextOrden}"/>
+                                                    <Label Text="{Binding Promesa}"
+                                                           FontAttributes="Bold"
+                                                            FontSize="18"
+                                                            TextColor="{Binding TextOrden}"/>
+                                                </HorizontalStackLayout>
 
                                                 <!-- PROGRESO (solo en proceso y finalizadas) -->
                                                 <Frame BackgroundColor="{Binding ProgresoBackground}"

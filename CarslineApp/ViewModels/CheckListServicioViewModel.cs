@@ -497,7 +497,7 @@ namespace CarslineApp.ViewModels
         public void ValidarMostrarEvidenciaBalatasDelanteras(string valorBalatasDelanteras)
         {
             MostrarEvidenciaBalatasDelanteras =
-                valorBalatasDelanteras == "1mm-2mm" ||  valorBalatasDelanteras == "3mm-4mm";
+                valorBalatasDelanteras == "1mm" ||  valorBalatasDelanteras == "2mm-3mm";
 
         }
 
@@ -505,7 +505,7 @@ namespace CarslineApp.ViewModels
         { 
 
             MostrarEvidenciaBalatasTraseras =
-                valorBalatasTraseras == "1mm-2mm" ||  valorBalatasTraseras == "3mm-4mm";
+                valorBalatasTraseras == "1mm" ||  valorBalatasTraseras == "2mm-3mm";
         }
 
         private string ConstruirComentarios()
@@ -519,6 +519,23 @@ namespace CarslineApp.ViewModels
                     sb.AppendLine($"- {titulo}:");
                     sb.AppendLine(contenido.Trim());
                 }
+            }
+
+            Agregar( CheckList.Trabajo , "Realizado con Exito");
+
+            if (MostrarEvidenciaBalatasDelanteras && MostrarEvidenciaBalatasTraseras)
+            {
+                Agregar("Balatas", $"El vehiculo necesita Remplazo de balatas Generales, vida util de balatas (Delanteras: {CheckList.BalatasDelanteras},Traseras:{CheckList.BalatasTraseras})");
+
+            }
+            else if (MostrarEvidenciaBalatasDelanteras)
+            {
+                Agregar("Balatas", $"El vehiculo necesita Remplazo de balatas Delanteras, vida util de balatas Delanteras: {CheckList.BalatasDelanteras}");
+
+            }
+            else if (MostrarEvidenciaBalatasTraseras)
+            {
+                Agregar("Balatas", $"El vehiculo necesita Remplazo de balatas Traseras, vida util de balatas Traseras: {CheckList.BalatasTraseras}");
             }
 
             Agregar("Sistema de Direccion", ComentariosDireccion);
@@ -592,16 +609,16 @@ namespace CarslineApp.ViewModels
                 {
                     if(MostrarEvidenciaBalatasDelanteras && MostrarEvidenciaBalatasTraseras)
                     {
-                        CheckList.ComentariosTecnico = $"{CheckList.Trabajo} Realizado con Exito, el vehiculo necesita Remplazo de balatas Generales";
+                        CheckList.ComentariosTecnico = $"{CheckList.Trabajo} Realizado con Exito, el vehiculo necesita Remplazo de balatas Generales, vida util de balatas (Delanteras: {CheckList.BalatasDelanteras},Traseras:{CheckList.BalatasTraseras})";
 
                     }
                     else if (MostrarEvidenciaBalatasDelanteras)
                     {
-                        CheckList.ComentariosTecnico = $"{CheckList.Trabajo} Realizado con Exito, el vehiculo necesita Remplazo de balatas Delanteras";
+                        CheckList.ComentariosTecnico = $"{CheckList.Trabajo} Realizado con Exito, el vehiculo necesita Remplazo de balatas Delanteras, vida util de balatas Delanteras: {CheckList.BalatasDelanteras}";
                     }
                     else if (MostrarEvidenciaBalatasTraseras)
                     {
-                        CheckList.ComentariosTecnico = $"{CheckList.Trabajo} Realizado con Exito, el vehiculo necesita Remplazo de balatas Traseras";
+                        CheckList.ComentariosTecnico = $"{CheckList.Trabajo} Realizado con Exito, el vehiculo necesita Remplazo de balatas Traseras, vida util de balatas Traseras: {CheckList.BalatasTraseras}";
                     }
                     else
                         CheckList.ComentariosTecnico = $"{CheckList.Trabajo} Realizado con Exito, el vehiculo no presenta fallas";
@@ -691,7 +708,7 @@ namespace CarslineApp.ViewModels
                         {
                             Descripcion = ev.Descripcion,
                             ImagenBytes = ev.ImagenBytes,
-                            NombreArchivo = ev.NombreArchivo ?? "aceite_motor.jpg"
+                            NombreArchivo = ev.NombreArchivo ?? "Aceite_motor.jpg"
                         });
                     }
                 }
@@ -705,7 +722,7 @@ namespace CarslineApp.ViewModels
                         {
                             Descripcion = ev.Descripcion,
                             ImagenBytes = ev.ImagenBytes,
-                            NombreArchivo = ev.NombreArchivo ?? "filtro_aceite.jpg"
+                            NombreArchivo = ev.NombreArchivo ?? "Filtro_aceite.jpg"
                         });
                     }
                 }
@@ -719,7 +736,7 @@ namespace CarslineApp.ViewModels
                         {
                             Descripcion = ev.Descripcion,
                             ImagenBytes = ev.ImagenBytes,
-                            NombreArchivo = ev.NombreArchivo ?? "filtro_aire_motor.jpg"
+                            NombreArchivo = ev.NombreArchivo ?? "Filtro_aire_motor.jpg"
                         });
                     }
                 }
@@ -733,7 +750,7 @@ namespace CarslineApp.ViewModels
                         {
                             Descripcion = ev.Descripcion,
                             ImagenBytes = ev.ImagenBytes,
-                            NombreArchivo = ev.NombreArchivo ?? "filtro_aire_polen.jpg"
+                            NombreArchivo = ev.NombreArchivo ?? "Filtro_aire_polen.jpg"
                         });
                     }
                 }

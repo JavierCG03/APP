@@ -374,9 +374,12 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
 
                 if (response.Success)
                 {
-                    Vehiculo.Placas = NuevasPlacas;
+          
                     ModoEdicionPlacas = false;
+                    Vehiculo.Placas = NuevasPlacas;
+                    OnPropertyChanged(nameof(Vehiculo));
                     OnPropertyChanged(nameof(TienePlacas));
+                    
 
                     await Application.Current.MainPage.DisplayAlert(
                         "✅ Éxito",

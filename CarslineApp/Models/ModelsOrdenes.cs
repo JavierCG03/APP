@@ -118,6 +118,7 @@ namespace CarslineApp.Models
         public string ProgresoBackground { get; set; }
         public string ProgresoColor { get; set; }
         public string TrabajosHeaderColor { get; set; }
+        public string Promesa => FechaHoraPromesaEntrega.ToString("dd/MMM h:mm tt");
         public bool MostrarProgreso { get; set; }
         public bool MostrarBarraProgreso { get; set; }
         public double ProgressBar
@@ -459,6 +460,7 @@ namespace CarslineApp.Models
         }
 
     }
+
     public class FijarManoObraRequest
     {
         [Required(ErrorMessage = "El costo de mano de obra es requerido")]

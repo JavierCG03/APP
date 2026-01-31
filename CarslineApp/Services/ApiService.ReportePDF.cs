@@ -44,49 +44,11 @@ namespace CarslineApp.Services
             }
         }
 
-        /// <summary>
-        /// Guardar PDF de una orden en el servidor
-        /// </summary>
-        /// 
-        /*
-        public async Task<GuardarPdfResponse> GuardarPdfOrdenAsync(int ordenId)
-        {
-            try
-            {
-                var response = await _httpClient.PostAsync($"{BaseUrl}/Pdf/orden/{ordenId}/guardar", null);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = await response.Content.ReadFromJsonAsync<GuardarPdfResponse>();
-                    return result ?? new GuardarPdfResponse
-                    {
-                        Success = false,
-                        Message = "Error al procesar la respuesta"
-                    };
-                }
-
-                return new GuardarPdfResponse
-                {
-                    Success = false,
-                    Message = $"Error al guardar PDF: {response.StatusCode}"
-                };
-            }
-            catch (Exception ex)
-            {
-                return new GuardarPdfResponse
-                {
-                    Success = false,
-                    Message = $"Error: {ex.Message}"
-                };
-            }
-        }
-        */
-
         public async Task<PdfPreviewResponse> ObtenerVistaPreviaPdfAsync(int ordenId)
         {
             try
             {
-                var response = await _httpClient.PostAsync($"{BaseUrl}/Pdf/orden/{ordenId}/guardar", null);
+                var response = await _httpClient.PostAsync($"{BaseUrl}/Pdf/orden/{ordenId}/preview", null);
 
                 if (response.IsSuccessStatusCode)
                 {

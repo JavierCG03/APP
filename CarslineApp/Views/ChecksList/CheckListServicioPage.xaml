@@ -537,21 +537,21 @@
                                FontSize="12"/>
                         
                             <Label Grid.Column="2"
-                               Text="(5mm-7mm)"
+                               Text="(4mm-7mm)"
                                FontAttributes="Bold"
                                TextColor="#FFA000"
                                HorizontalTextAlignment="Center"
                                FontSize="12"/>
 
                             <Label Grid.Column="3"
-                               Text="(3mm-4mm)"
+                               Text="(2mm-3mm)"
                                FontAttributes="Bold"
                                TextColor="#FFA000"
                                HorizontalTextAlignment="Center"
                                FontSize="12"/>
 
                             <Label Grid.Column="4"
-                               Text="(1mm-2mm)"
+                               Text="(1mm)"
                                FontAttributes="Bold"
                                TextColor="Red"
                                HorizontalTextAlignment="Center"
@@ -571,17 +571,17 @@
                                          CheckedChanged="BalatasDelanteras_CheckedChanged"
                                          HorizontalOptions="Center"/>
                             <RadioButton Grid.Column="2"
-                                         Value="5mm-7mm"
+                                         Value="4mm-7mm"
                                          GroupName="BalatasDelanteras"
                                          CheckedChanged="BalatasDelanteras_CheckedChanged"
                                          HorizontalOptions="Center"/>
                             <RadioButton Grid.Column="3"
-                                         Value="3mm-4mm"
+                                         Value="2mm-3mm"
                                          GroupName="BalatasDelanteras"
                                          CheckedChanged="BalatasDelanteras_CheckedChanged"
                                          HorizontalOptions="Center"/>
                             <RadioButton Grid.Column="4"
-                                         Value="1mm-2mm"
+                                         Value="1mm"
                                          GroupName="BalatasDelanteras"
                                          CheckedChanged="BalatasDelanteras_CheckedChanged"
                                          HorizontalOptions="Center"/>
@@ -687,21 +687,21 @@
                                FontSize="12"/>
 
                             <Label Grid.Column="2"
-                               Text="(5mm-7mm)"
+                               Text="(4mm-7mm)"
                                FontAttributes="Bold"
                                TextColor="#FFA000"
                                HorizontalTextAlignment="Center"
                                FontSize="12"/>
 
                             <Label Grid.Column="3"
-                               Text="(3mm-4mm)"
+                               Text="(2mm-3mm)"
                                FontAttributes="Bold"
                                TextColor="#FFA000"
                                HorizontalTextAlignment="Center"
                                FontSize="12"/>
 
                             <Label Grid.Column="4"
-                               Text="(1mm-2mm)"
+                               Text="(1mm)"
                                FontAttributes="Bold"
                                TextColor="Red"
                                HorizontalTextAlignment="Center"
@@ -722,17 +722,17 @@
                                          CheckedChanged="BalatasTraseras_CheckedChanged"
                                          HorizontalOptions="Center"/>
                             <RadioButton Grid.Column="2"
-                                         Value="5mm-7mm"
+                                         Value="4mm-7mm"
                                          GroupName="BalatasTraseras"
                                          CheckedChanged="BalatasTraseras_CheckedChanged"
                                          HorizontalOptions="Center"/>
                             <RadioButton Grid.Column="3"
-                                         Value="3mm-4mm"
+                                         Value="2mm-3mm"
                                          GroupName="BalatasTraseras"
                                          CheckedChanged="BalatasTraseras_CheckedChanged"
                                          HorizontalOptions="Center"/>
                             <RadioButton Grid.Column="4"
-                                         Value="1mm-2mm"
+                                         Value="1mm"
                                          GroupName="BalatasTraseras"
                                          CheckedChanged="BalatasTraseras_CheckedChanged"
                                          HorizontalOptions="Center"/>

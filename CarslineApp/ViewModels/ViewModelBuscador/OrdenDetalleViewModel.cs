@@ -138,20 +138,32 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
 
         #endregion
 
-        #region MetodosPDF
 
         private async Task OnVerReporte()
         {
             try
             {
                 IsLoading = true;
-                await Application.Current.MainPage.Navigation.PushAsync(new VerReportePage());
+
+                // Validar que tengas un OrdenId válido
+                if (_ordenId <= 0)
+                {
+                    await Application.Current.MainPage.DisplayAlert(
+                        "Error",
+                        "No hay una orden seleccionada para generar el reporte",
+                        "OK");
+                    return;
+                }
+
+                // Navegar a la página de reporte pasando el OrdenId y el ApiService
+                await Application.Current.MainPage.Navigation.PushAsync(
+                    new VerReportePage(_ordenId));
             }
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert(
                     "Error",
-                    $"No se pudo abrir el inventario: {ex.Message}",
+                    $"No se pudo abrir el reporte: {ex.Message}",
                     "OK");
             }
             finally
@@ -160,37 +172,6 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
             }
         }
 
-        private async Task AbrirPdf(string filePath)
-        {
-            try
-            {
-                await Launcher.OpenAsync(new OpenFileRequest
-                {
-                    File = new ReadOnlyFile(filePath)
-                });
-            }
-            catch (Exception ex)
-            {
-                await MostrarAlerta("Error", $"No se pudo abrir el PDF: {ex.Message}");
-            }
-        }
-
-        private async Task CompartirPdf(string filePath)
-        {
-            try
-            {
-                await Share.RequestAsync(new ShareFileRequest
-                {
-                    Title = $"Orden de Trabajo {Orden.NumeroOrden}",
-                    File = new ShareFile(filePath)
-                });
-            }
-            catch (Exception ex)
-            {
-                await MostrarAlerta("Error", $"No se pudo compartir el PDF: {ex.Message}");
-            }
-        }
-        #endregion
 
         #region Métodos
         private async Task VerEvidenciasTrabajo()
@@ -239,7 +220,7 @@ namespace CarslineApp.ViewModels.ViewModelBuscador
                 {
                     System.Diagnostics.Debug.WriteLine($"✅ Orden cargada: {ordenCompleta.NumeroOrden}");
                     Orden = ordenCompleta;
-                    // ... resto del código
+
                 }
                 else
                 {
