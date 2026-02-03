@@ -104,10 +104,10 @@ namespace CarslineApp.ViewModels.ViewModelsHome
 
         public string TituloSeccion => TipoOrdenSeleccionado switch
         {
-            1 => "SERVICIO",
-            2 => "DIAGNÓSTICO",
-            3 => "REPARACIÓN",
-            4 => "GARANTÍA",
+            1 => "SERVICIOS",
+            2 => "DIAGNÓSTICOS",
+            3 => "REPARACIÓNES",
+            4 => "GARANTÍAS",
             _ => "ÓRDENES"
         };
 

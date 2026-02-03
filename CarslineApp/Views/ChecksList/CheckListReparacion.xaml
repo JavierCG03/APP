@@ -29,10 +29,10 @@
             </Grid>
         </Frame>
         <ScrollView Grid.Row="1">
-            
+
             <VerticalStackLayout Padding="20" Spacing="15">
                 <BoxView HeightRequest="1" BackgroundColor="#333" Margin="0,0"/>
-                
+
                 <Grid ColumnDefinitions="Auto,*">
                     <Label Grid.Column="0"
                            Text="Vehiculo: "
@@ -55,7 +55,7 @@
                            FontAttributes="Bold"
                            FontSize="17"/>
                 </Grid>
-                
+
                 <BoxView HeightRequest="1" BackgroundColor="#333" Margin="0,5"/>
 
                 <Label x:Name="lblTrabajo"
@@ -95,7 +95,7 @@
                         </Border>
                     </VerticalStackLayout>
                 </Frame>
-                
+
                 <Frame
                              BackgroundColor="#E8F5E9"
                              Padding="8"
@@ -124,7 +124,7 @@
 
 
                 <BoxView HeightRequest="2" BackgroundColor="#333" Margin="20,10"/>
-                
+
                 <Grid ColumnDefinitions="140,*">
 
                     <!-- Botón Pausar -->

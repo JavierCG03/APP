@@ -15,7 +15,7 @@ public partial class CheckListReparacion : ContentPage
 
 
 
-    public CheckListReparacion(int trabajoId, int ordenId,string orden, string trabajo, string vehiculo, string indicacionestrabajo, string VIN)
+    public CheckListReparacion(int trabajoId, int ordenId, string orden, string trabajo, string vehiculo, string indicacionestrabajo, string VIN)
     {
         InitializeComponent();
 
@@ -25,7 +25,7 @@ public partial class CheckListReparacion : ContentPage
 
         // Datos para mostrar en la vista
         lblVIN.Text = VIN;
-        lblOrden.Text =orden;
+        lblOrden.Text = orden;
         lblTrabajo.Text = trabajo;
         lblVehiculo.Text = vehiculo;
         lblindicacionesTrabajo.Text = indicacionestrabajo;
@@ -118,7 +118,7 @@ public partial class CheckListReparacion : ContentPage
             );
 
             if (response.Success)
-            {               
+            {
                 _trabajoFinalizado = true; // Marcar como finalizado
                 await DisplayAlert("Éxito", response.Message, "OK");
                 await Navigation.PopAsync();
